@@ -1,0 +1,26 @@
+import { describe, it, expect } from "bun:test";
+import { expectEncode } from "./utils.test";
+
+import * as st from "../index";
+
+describe("st.object", () => {
+    const test = st.object({
+        a: st.u8(),
+        b: st.u8(),
+    });
+
+    it("encodes correctly", () => {
+        st.serialize(test, { b: 2, a: 1 });
+    });
+
+    it("encode in correct order", () => {
+        const data = st.serialize(test, { b: 2, a: 1 });
+        const arr = new Uint8Array(data);
+        expect(arr[0]).toBe(1);
+        expect(arr[1]).toBe(2);
+    });
+
+    it("encodes empty", () => {
+        expectEncode(st.object({}), {});
+    });
+});
