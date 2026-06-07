@@ -1,4 +1,4 @@
-import { Infer, Serializer } from "../types";
+import { Infer, Serializer } from "../../types";
 
 type InferObject<T> =
     T extends Record<string, Serializer<any>> ? { [Key in keyof T]: Infer<T[Key]> } : never;
@@ -9,15 +9,15 @@ export function object<T extends Record<string, Serializer<any>>>(
     const entries = Object.entries(definition);
 
     return {
-        serialize: (ctx, value) => {
+        write: (ctx, value) => {
             for (const [key, serializer] of entries) {
-                serializer.serialize(ctx, value[key]);
+                serializer.write(ctx, value[key]);
             }
         },
-        deserialize: (ctx) => {
+        read: (ctx) => {
             const obj: Record<string, unknown> = {};
             for (const [key, serializer] of entries) {
-                obj[key] = serializer.deserialize(ctx);
+                obj[key] = serializer.read(ctx);
             }
             return obj as InferObject<T>;
         },

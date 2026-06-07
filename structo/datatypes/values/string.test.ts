@@ -1,7 +1,7 @@
 import { describe, it, expect } from "bun:test";
-import { expectEncode, expectError, randint } from "./utils.test";
+import { expectEncode, expectError, randint } from "../utils.test";
 
-import * as st from "../index";
+import * as st from "../../index";
 
 describe("st.string", () => {
     const string_u8 = st.string({ length: st.u8() });
@@ -12,5 +12,10 @@ describe("st.string", () => {
     });
     it("works on empty strings", () => {
         expectEncode(string_u32, "");
+    });
+    it("errors on too long strings", () => {
+        expectError(() => {
+            st.write(string_u8, "A".repeat(256));
+        });
     });
 });

@@ -1,5 +1,11 @@
 import { describe, it, expect } from "bun:test";
-import { expectEncode, expectError, randbigint, randint } from "../utils.test";
+import {
+    expectEncode,
+    expectEncodeSnapshot,
+    expectError,
+    randbigint,
+    randint,
+} from "../utils.test";
 
 import * as st from "../../index";
 
@@ -25,13 +31,13 @@ function test_bigint(options: {
         });
 
         it("outside bounds", () => {
-            expectError(() => st.serialize(serializer, start - 1n));
-            expectError(() => st.serialize(serializer, end + 1n));
+            expectError(() => st.write(serializer, start - 1n));
+            expectError(() => st.write(serializer, end + 1n));
         });
-        
+
         it(`is right size`, () => {
             const expectValueSize = (value: bigint) => {
-                const data = st.serialize(serializer, value);
+                const data = st.write(serializer, value);
                 expect(data.byteLength).toBe(size);
             };
             for (let i = 0; i < 100; i++) {
@@ -39,6 +45,14 @@ function test_bigint(options: {
             }
             expectValueSize(start);
             expectValueSize(end);
+        });
+
+        it(`matches snapshots`, () => {
+            expectEncodeSnapshot(serializer, 0n);
+            expectEncodeSnapshot(serializer, start);
+            expectEncodeSnapshot(serializer, start + 10n);
+            expectEncodeSnapshot(serializer, end - 10n);
+            expectEncodeSnapshot(serializer, end);
         });
     });
 }

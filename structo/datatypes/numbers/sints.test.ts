@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import { expectEncode, expectError, randint } from "../utils.test";
+import { expectEncode, expectEncodeSnapshot, expectError, randint } from "../utils.test";
 
 import * as st from "../../index";
 
@@ -26,17 +26,17 @@ function test_sint(options: {
         });
 
         it(`errors outside bounds`, () => {
-            expectError(() => st.serialize(serializer, start - 1));
-            expectError(() => st.serialize(serializer, end + 1));
+            expectError(() => st.write(serializer, start - 1));
+            expectError(() => st.write(serializer, end + 1));
         });
 
         it(`errors on decimal`, () => {
-            expectError(() => st.serialize(serializer, 0.1));
+            expectError(() => st.write(serializer, 0.1));
         });
 
         it(`is right size`, () => {
             const expectValueSize = (value: number) => {
-                const data = st.serialize(serializer, value);
+                const data = st.write(serializer, value);
                 expect(data.byteLength).toBe(size);
             };
             for (let i = 0; i < 100; i++) {
@@ -44,6 +44,14 @@ function test_sint(options: {
             }
             expectValueSize(start);
             expectValueSize(end);
+        });
+
+        it(`matches snapshots`, () => {
+            expectEncodeSnapshot(serializer, 0);
+            expectEncodeSnapshot(serializer, start);
+            expectEncodeSnapshot(serializer, start + 10);
+            expectEncodeSnapshot(serializer, end - 10);
+            expectEncodeSnapshot(serializer, end);
         });
     });
 }
@@ -80,4 +88,3 @@ test_sint({
     range: [-2_147_483_648, 2_147_483_647],
     size: 4,
 });
-

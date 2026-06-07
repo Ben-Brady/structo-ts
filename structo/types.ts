@@ -1,19 +1,19 @@
 export type Serializer<T> = SerializerOnly<T> & DeserializerOnly<T>;
 
-export type SerializerOnly<T> = {
-    serialize: (ctx: SerializationContext, value: T) => void;
+type SerializerOnly<T> = {
+    write: (ctx: WriterContext, value: T) => void;
 };
-export type DeserializerOnly<T> = {
-    deserialize: (ctx: DeserializationContext) => T;
+type DeserializerOnly<T> = {
+    read: (ctx: ReaderContext) => T;
 };
 
-export type SerializationContext = {
+export type WriterContext = {
     buffer: ArrayBuffer;
     view: DataView;
     offset: number;
     requestSpace: (length: number) => void;
 };
-export type DeserializationContext = {
+export type ReaderContext = {
     buffer: ArrayBuffer;
     view: DataView;
     offset: number;

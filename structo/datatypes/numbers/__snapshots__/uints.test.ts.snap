@@ -1,0 +1,191 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`st.u8 matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+]
+`;
+
+exports[`st.u8 matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+]
+`;
+
+exports[`st.u8 matches snapshots 3`] = `
+ArrayBuffer [
+  10,
+]
+`;
+
+exports[`st.u8 matches snapshots 4`] = `
+ArrayBuffer [
+  245,
+]
+`;
+
+exports[`st.u8 matches snapshots 5`] = `
+ArrayBuffer [
+  255,
+]
+`;
+
+exports[`st.u16(little) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+]
+`;
+
+exports[`st.u16(little) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+]
+`;
+
+exports[`st.u16(little) matches snapshots 3`] = `
+ArrayBuffer [
+  10,
+  0,
+]
+`;
+
+exports[`st.u16(little) matches snapshots 4`] = `
+ArrayBuffer [
+  245,
+  255,
+]
+`;
+
+exports[`st.u16(little) matches snapshots 5`] = `
+ArrayBuffer [
+  255,
+  255,
+]
+`;
+
+exports[`st.u16(big) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+]
+`;
+
+exports[`st.u16(big) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+]
+`;
+
+exports[`st.u16(big) matches snapshots 3`] = `
+ArrayBuffer [
+  0,
+  10,
+]
+`;
+
+exports[`st.u16(big) matches snapshots 4`] = `
+ArrayBuffer [
+  255,
+  245,
+]
+`;
+
+exports[`st.u16(big) matches snapshots 5`] = `
+ArrayBuffer [
+  255,
+  255,
+]
+`;
+
+exports[`st.u32(little) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u32(little) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u32(little) matches snapshots 3`] = `
+ArrayBuffer [
+  10,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u32(little) matches snapshots 4`] = `
+ArrayBuffer [
+  245,
+  255,
+  255,
+  255,
+]
+`;
+
+exports[`st.u32(little) matches snapshots 5`] = `
+ArrayBuffer [
+  255,
+  255,
+  255,
+  255,
+]
+`;
+
+exports[`st.u32(big) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u32(big) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u32(big) matches snapshots 3`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  10,
+]
+`;
+
+exports[`st.u32(big) matches snapshots 4`] = `
+ArrayBuffer [
+  255,
+  255,
+  255,
+  245,
+]
+`;
+
+exports[`st.u32(big) matches snapshots 5`] = `
+ArrayBuffer [
+  255,
+  255,
+  255,
+  255,
+]
+`;

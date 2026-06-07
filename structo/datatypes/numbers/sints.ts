@@ -12,14 +12,14 @@ const checkValue = (value: number, start: number, end: number) => {
 
 export function s8(): Serializer<number> {
     return {
-        serialize(ctx, value) {
+        write(ctx, value) {
             checkValue(value, -(2 ** 7), 2 ** 7);
 
             ctx.requestSpace(1);
             ctx.view.setInt8(ctx.offset, value);
             ctx.offset += 1;
         },
-        deserialize(ctx) {
+        read(ctx) {
             const value = ctx.view.getInt8(ctx.offset);
             ctx.offset += 1;
             return value;
@@ -29,14 +29,14 @@ export function s8(): Serializer<number> {
 
 export function s16(endian: "little" | "big" = "little"): Serializer<number> {
     return {
-        serialize(ctx, value) {
+        write(ctx, value) {
             checkValue(value, -(2 ** 15), 2 ** 15);
 
             ctx.requestSpace(2);
             ctx.view.setInt16(ctx.offset, value, endian === "little");
             ctx.offset += 2;
         },
-        deserialize(ctx) {
+        read(ctx) {
             const value = ctx.view.getInt16(ctx.offset, endian === "little");
             ctx.offset += 2;
             return value;
@@ -46,14 +46,14 @@ export function s16(endian: "little" | "big" = "little"): Serializer<number> {
 
 export function s32(endian: "little" | "big" = "little"): Serializer<number> {
     return {
-        serialize(ctx, value) {
+        write(ctx, value) {
             checkValue(value, -(2 ** 31), 2 ** 31);
 
             ctx.requestSpace(4);
             ctx.view.setInt32(ctx.offset, value, endian === "little");
             ctx.offset += 4;
         },
-        deserialize(ctx) {
+        read(ctx) {
             const value = ctx.view.getInt32(ctx.offset, endian === "little");
             ctx.offset += 4;
             return value;

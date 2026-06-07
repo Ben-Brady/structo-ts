@@ -1,11 +1,9 @@
 export type {
     Infer,
-    DeserializationContext,
-    SerializationContext,
+    ReaderContext as DeserializationContext,
+    WriterContext as SerializationContext,
     Serializer,
-    DeserializerOnly,
-    SerializerOnly,
 } from "./types";
 export * from "./datatypes";
-export { serialize } from "./serialize";
-export { deserialize } from "./deserialize";
+export { write, createdWriterContext } from "./write";
+export { read, createReaderContext } from "./read";

@@ -14,9 +14,14 @@ export const randbigint = (start: bigint, end: bigint) => {
 };
 
 export const expectEncode = <T>(serializer: st.Serializer<T>, value: T) => {
-    const data = st.serialize(serializer, value);
-    const newValue = st.deserialize(serializer, data);
+    const data = st.write(serializer, value);
+    const newValue = st.read(serializer, data);
     expect(value).toEqual(newValue);
+};
+
+export const expectEncodeSnapshot = <T>(serializer: st.Serializer<T>, value: T) => {
+    const data = st.write(serializer, value);
+    expect(data).toMatchSnapshot();
 };
 
 export const expectError = (callback: () => void) => {
@@ -26,4 +31,8 @@ export const expectError = (callback: () => void) => {
         return;
     }
     throw new Error("Expected Error");
+};
+
+export const bytes = (bytes: number[]) => {
+    return new Uint8Array(bytes).buffer;
 };
