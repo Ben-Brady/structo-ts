@@ -1,10 +1,7 @@
 import { Serializer } from "../../types";
 
-export function transform<T>(
-    callback: (value: T) => T,
-    type: Serializer<T>, //
-): Serializer<T> {
-    return {
+export function transform<T>(callback: (value: T) => T) {
+    return (type: Serializer<T>): Serializer<T> => ({
         read(ctx) {
             const value = type.read(ctx);
             return callback(value);
@@ -13,5 +10,5 @@ export function transform<T>(
             value = callback(value);
             type.write(ctx, value);
         },
-    };
+    });
 }

@@ -5,11 +5,11 @@ export function list<T>(options: {
     length: Serializer<number>;
 }): Serializer<T[]> {
     return {
-        write: (ctx, value) => {
+        write(ctx, value) {
             options.length.write(ctx, value.length);
             value.forEach((v) => options.type.write(ctx, v));
         },
-        read: (ctx) => {
+        read(ctx) {
             const length = options.length.read(ctx);
             return Array.from(
                 { length }, //

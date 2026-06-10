@@ -24,6 +24,23 @@ describe("st.buffer", () => {
         data.set([3, 4], 2000);
         expectEncode(spec, data.buffer);
     });
+    it("large data writes work", () => {
+        const size = 1024 * 1024 * 8; // 8MB
+        const spec = st.object({
+            before: st.u8(),
+            data: st.buffer(size),
+            after: st.u8(),
+        });
+
+        const data = new Uint8Array(size);
+        data.set([3, 4], 1000);
+        data.set([3, 4], 2000);
+        expectEncode(spec, {
+            before: 1,
+            data: data.buffer,
+            after: 2,
+        });
+    });
 
     it("errors on invalid length", () => {
         const spec = st.buffer(5);

@@ -8,10 +8,11 @@ const RiffFile = st.object({
     filetype: st.byteLiteral([0x52, 0x49, 0x46, 0x46]),
     size: st.u32(),
     format: st.byteLiteral([0x57, 0x41, 0x56, 0x45]),
-    data: st.sizedbuffer({
-        length: st.offset(
-            -8,
-            st.transform((v) => v - 16, st.u32()),
+    data: st.sizedBuffer({
+        length: st.pipe(
+            st.u32(),
+            st.readOffsetBy(-8),
+            st.transform((v: number) => v - 16),
         ),
     }),
 });
@@ -20,8 +21,8 @@ type RiffChunk = st.Infer<typeof RiffChunk>;
 const RiffChunk = st.object({
     format: st.buffer(4),
     size: st.u32("little"),
-    data: st.sizedbuffer({
-        length: st.offset(-4, st.u32()),
+    data: st.sizedBuffer({
+        length: st.pipe(st.u32(), st.readOffsetBy(-4)),
     }),
 });
 
@@ -58,4 +59,3 @@ function readRiffFile(buffer: ArrayBuffer) {
 
 const file = readRiffFile(data);
 console.log(file);
-

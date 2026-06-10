@@ -8,14 +8,15 @@ export function write<T>(serializer: Serializer<T>, value: T): ArrayBuffer {
 
 export function createdWriterContext(): WriterContext {
     let buffer = new ArrayBuffer(64);
+
     return {
         offset: 0,
         buffer,
         view: new DataView(buffer),
         requestSpace(length) {
-            // TODO: Reduce alllocations for large objects
             while (this.offset + length >= this.buffer.byteLength) {
                 this.buffer = this.buffer.transferToFixedLength(this.buffer.byteLength * 2);
+                this.view = new DataView(this.buffer);
             }
         },
     };

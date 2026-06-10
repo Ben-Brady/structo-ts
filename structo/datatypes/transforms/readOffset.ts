@@ -1,7 +1,7 @@
 import { Serializer } from "../../types";
 
-export function offset<T>(delta: number, type: Serializer<T>): Serializer<T> {
-    return {
+export function readOffsetBy<T>(delta: number) {
+    return (type: Serializer<T>): Serializer<T> => ({
         read(ctx) {
             let start = ctx.offset;
             ctx.offset += delta;
@@ -15,5 +15,5 @@ export function offset<T>(delta: number, type: Serializer<T>): Serializer<T> {
             type.write(ctx, value);
             ctx.offset = start;
         },
-    };
+    });
 }

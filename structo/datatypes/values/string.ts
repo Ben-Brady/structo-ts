@@ -5,19 +5,19 @@ export function string(options: { length: Serializer<number> }): Serializer<stri
     const decoder = new TextDecoder();
 
     return {
-        write: (ctx, value) => {
+        write(ctx, value) {
             const data = encoder.encode(value);
             options.length.write(ctx, data.byteLength);
 
             ctx.requestSpace(data.byteLength);
-            const arr = new Uint8Array(ctx.buffer);
+            const arr = new Uint8Array(ctx.view.buffer);
             arr.set(data, ctx.offset);
 
             ctx.offset += data.byteLength;
         },
-        read: (ctx) => {
+        read(ctx) {
             const length = options.length.read(ctx);
-            const section = ctx.view.buffer.slice(ctx.offset, ctx.offset + length);
+            const section = ctx.buffer.slice(ctx.offset, ctx.offset + length);
             ctx.offset += length;
             return decoder.decode(section);
         },

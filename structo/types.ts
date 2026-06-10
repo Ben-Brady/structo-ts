@@ -7,16 +7,16 @@ type DeserializerOnly<T> = {
     read: (ctx: ReaderContext) => T;
 };
 
-export type WriterContext = {
+export interface WriterContext {
     buffer: ArrayBuffer;
     view: DataView;
     offset: number;
     requestSpace: (length: number) => void;
-};
-export type ReaderContext = {
+}
+export interface ReaderContext {
     buffer: ArrayBuffer;
     view: DataView;
     offset: number;
-};
+}
 
 export type Infer<T> = T extends SerializerOnly<infer V> ? V : never;
