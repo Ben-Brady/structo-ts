@@ -1,18 +1,18 @@
 import type { Serializer } from "../../types";
 
-export function array<T>(options: { type: Serializer<T>; size: number }): Serializer<T[]> {
+export function array<T>(size: number, type: Serializer<T>): Serializer<T[]> {
     return {
         write(ctx, value) {
-            if (value.length !== options.size) {
+            if (value.length !== size) {
                 throw new Error("Invalid Size");
             }
 
-            value.forEach((v) => options.type.write(ctx, v));
+            value.forEach((v) => type.write(ctx, v));
         },
         read(ctx) {
             return Array.from(
-                { length: options.size }, //
-                () => options.type.read(ctx),
+                { length: size }, //
+                () => type.read(ctx),
             );
         },
     };

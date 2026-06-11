@@ -1,14 +1,14 @@
 import { Serializer } from "../../types";
 
-export function packedBits<T extends Record<string, number>>(options: {
-    size: number;
-    definition: T;
-}): Serializer<T> {
-    const entries = Object.entries(options.definition) as [string, number][];
+export function packedBits<T extends Record<string, number>>(
+    size: number,
+    definition: T,
+): Serializer<T> {
+    const entries = Object.entries(definition) as [string, number][];
 
     return {
         write(ctx, value) {
-            let output = new Uint8Array(options.size);
+            let output = new Uint8Array(size);
 
             let total = 0n;
             let cursor = 0;
@@ -17,7 +17,7 @@ export function packedBits<T extends Record<string, number>>(options: {
                     throw new Error(`key "${key}" was too large`);
                 }
                 cursor += bits;
-                const shift = BigInt(options.size * 8 - cursor);
+                const shift = BigInt(size * 8 - cursor);
                 const entry = BigInt(value[key]);
 
                 total += entry << shift;
@@ -28,12 +28,12 @@ export function packedBits<T extends Record<string, number>>(options: {
             }
 
             new Uint8Array(ctx.buffer).set(output, ctx.offset);
-            ctx.offset += options.size;
+            ctx.offset += size;
         },
         read(ctx) {
             const slice = ctx.buffer.slice(ctx.offset, ctx.offset + options.size);
             const data = new Uint8Array(slice).toReversed();
-            ctx.offset += options.size;
+            ctx.offset += size;
 
             let total = 0n;
             for (let i = 0; i < data.length; i++) {
@@ -44,7 +44,7 @@ export function packedBits<T extends Record<string, number>>(options: {
             const obj: Record<string, number> = {};
             let cursor = 0;
             for (const [key, bits] of entries) {
-                const shift = BigInt(2 ** options.size - cursor);
+                const shift = BigInt(2 ** size - cursor);
                 const mask = BigInt(2 ** bits - 1);
                 const entry = Number((total >> shift) & mask);
                 obj[key] = entry;

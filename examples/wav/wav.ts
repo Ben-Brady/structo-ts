@@ -1,7 +1,14 @@
 import * as st from "../../structo";
 import { readFileSync } from "node:fs";
 
-const data = readFileSync("./town.wav").buffer;
+const path = import.meta.resolve("./town.wav").replace("file:///", "");
+const data = readFileSync(path).buffer;
+
+const Foo = st.pipe(
+    st.u32(),
+    st.positionOffset<number>(-8),
+    st.transform((v: number) => new Date(v - 16)),
+);
 
 type RiffFile = st.Infer<typeof RiffFile>;
 const RiffFile = st.object({
@@ -11,8 +18,8 @@ const RiffFile = st.object({
     data: st.sizedBuffer({
         length: st.pipe(
             st.u32(),
-            st.readOffsetBy(-8),
-            st.transform((v: number) => v - 16),
+            st.positionOffset<number>(-8),
+            st.transform((v: number) => new Date(v - 16)),
         ),
     }),
 });
@@ -22,7 +29,7 @@ const RiffChunk = st.object({
     format: st.buffer(4),
     size: st.u32("little"),
     data: st.sizedBuffer({
-        length: st.pipe(st.u32(), st.readOffsetBy(-4)),
+        length: st.pipe(st.u32(), st.positionOffset(-4)),
     }),
 });
 
