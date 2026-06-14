@@ -1,3 +1,4 @@
+//@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
 import { expectEncode, expectEncodeSnapshot, expectError, randint } from "../utils.test";
 
@@ -8,12 +9,14 @@ function test_uint(options: {
     serializer: st.Serializer<number>;
     range: [number, number];
     size: number;
+    disableMaxCheck?: boolean;
 }) {
     const {
         name,
         range: [start, end],
         serializer,
         size,
+        disableMaxCheck,
     } = options;
 
     describe(name, () => {
@@ -27,7 +30,9 @@ function test_uint(options: {
 
         it(`errors outside bounds`, () => {
             expectError(() => st.write(serializer, start - 1));
-            expectError(() => st.write(serializer, end + 1));
+            if (!disableMaxCheck) {
+                expectError(() => st.write(serializer, end + 1));
+            }
         });
 
         it(`errors on decimal`, () => {
@@ -87,4 +92,19 @@ test_uint({
     serializer: st.u32("big"),
     range: [0, 4_294_967_295],
     size: 4,
+});
+
+test_uint({
+    name: "st.u64(little)",
+    serializer: st.u64("little"),
+    range: [0, 2 ** 63],
+    size: 8,
+    disableMaxCheck: true,
+});
+test_uint({
+    name: "st.u64(big)",
+    serializer: st.u64("big"),
+    range: [0, 2 ** 63],
+    size: 8,
+    disableMaxCheck: true,
 });

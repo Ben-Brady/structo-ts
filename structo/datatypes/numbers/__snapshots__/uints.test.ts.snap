@@ -1,4 +1,4 @@
-// Bun Snapshot v1, https://goo.gl/fbAQLP
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
 exports[`st.u8 matches snapshots 1`] = `
 ArrayBuffer [
@@ -187,5 +187,135 @@ ArrayBuffer [
   255,
   255,
   255,
+]
+`;
+
+exports[`st.u64(little) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(little) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(little) matches snapshots 3`] = `
+ArrayBuffer [
+  10,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(little) matches snapshots 4`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  128,
+]
+`;
+
+exports[`st.u64(little) matches snapshots 5`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  128,
+]
+`;
+
+exports[`st.u64(big) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(big) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(big) matches snapshots 3`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  10,
+]
+`;
+
+exports[`st.u64(big) matches snapshots 4`] = `
+ArrayBuffer [
+  128,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(big) matches snapshots 5`] = `
+ArrayBuffer [
+  128,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
 ]
 `;

@@ -1,11 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import {
-    expectEncode,
-    expectEncodeSnapshot,
-    expectError,
-    randbigint,
-    randint,
-} from "../utils.test";
+import { expectEncode, expectEncodeSnapshot, expectError, randbigint } from "../utils.test";
 
 import * as st from "../../index";
 
@@ -59,26 +53,26 @@ function test_bigint(options: {
 
 test_bigint({
     name: "st.u64(little)",
-    serializer: st.u64("little"),
+    serializer: st.u64Bigint("little"),
     range: [0n, 18_446_744_073_709_551_615n],
     size: 8,
 });
 test_bigint({
     name: "st.u64(big)",
-    serializer: st.u64("big"),
+    serializer: st.u64Bigint("big"),
     range: [0n, 18_446_744_073_709_551_615n],
     size: 8,
 });
 
 test_bigint({
     name: "st.s64(little)",
-    serializer: st.s64("little"),
+    serializer: st.s64Bigint("little"),
     range: [-9_223_372_036_854_775_808n, 9_223_372_036_854_775_807n],
     size: 8,
 });
 test_bigint({
     name: "st.s64(big)",
-    serializer: st.s64("big"),
+    serializer: st.s64Bigint("big"),
     range: [-9_223_372_036_854_775_808n, 9_223_372_036_854_775_807n],
     size: 8,
 });

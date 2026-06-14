@@ -1,22 +1,25 @@
 import type { Serializer } from "../../types";
 
-export function string(options: { length: Serializer<number> }): Serializer<string> {
+export function string(length: Serializer<number>): Serializer<string> {
+    const { read: readLength, write: writeLength } = length;
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
     return {
-        write(ctx, value) {
-            const data = encoder.encode(value);
-            options.length.write(ctx, data.byteLength);
+        write: (ctx, value) => {
+            const bytes = encoder.encode(value);
 
-            ctx.requestSpace(data.byteLength);
+            writeLength(ctx, bytes.byteLength);
+
+            ctx.alloc(bytes.byteLength);
+
             const arr = new Uint8Array(ctx.view.buffer);
-            arr.set(data, ctx.offset);
+            arr.set(bytes, ctx.offset);
 
-            ctx.offset += data.byteLength;
+            ctx.offset += bytes.byteLength;
         },
-        read(ctx) {
-            const length = options.length.read(ctx);
+        read: (ctx) => {
+            const length = readLength(ctx);
             const section = ctx.buffer.slice(ctx.offset, ctx.offset + length);
             ctx.offset += length;
             return decoder.decode(section);

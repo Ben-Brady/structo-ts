@@ -1,5 +1,5 @@
-import { describe, it, expect } from "bun:test";
-import { expectEncode, expectEncodeSnapshot, expectError, randint } from "../utils.test";
+import { describe, it } from "bun:test";
+import { expectEncode, expectEncodeSnapshot, expectError } from "../utils.test";
 
 import * as st from "../../index";
 
@@ -34,7 +34,7 @@ describe("st.list", () => {
     it(`matches snapshots`, () => {
         expectEncodeSnapshot(
             st.list({
-                type: st.string({ length: st.u16() }),
+                type: st.string(st.u16()),
                 length: st.s32(),
             }),
             ["foo", "bar", "baz"],

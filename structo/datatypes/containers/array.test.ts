@@ -1,5 +1,5 @@
-import { describe, it, expect } from "bun:test";
-import { expectEncode, expectError, randint } from "../utils.test";
+import { describe, it } from "bun:test";
+import { expectEncode, expectError } from "../utils.test";
 
 import * as st from "../../index";
 

@@ -1,5 +1,4 @@
 import * as st from "../../structo";
-import { readFileSync } from "node:fs";
 
 const Entity = st.object({
     rotation: st.f64(),

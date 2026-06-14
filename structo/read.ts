@@ -1,4 +1,4 @@
-import type { Serializer, ReaderContext } from "./types";
+import type { Serializer } from "./types";
 
 export function read<T>(serializer: Serializer<T>, buffer: ArrayBuffer): T {
     return serializer.read(createReaderContext(buffer));

@@ -1,25 +1,40 @@
-import { Infer, Serializer } from "../../types";
+import type { InferInput, InferOutput, Serializer } from "../../types";
 
-type InferObject<T> =
-    T extends Record<string, Serializer<any>> ? { [Key in keyof T]: Infer<T[Key]> } : never;
+type InferObjectInfer<T> =
+    T extends Record<string, Serializer<any>> ? { [Key in keyof T]: InferInput<T[Key]> } : never;
+
+type InferObjectOutput<T> =
+    T extends Record<string, Serializer<any>> ? { [Key in keyof T]: InferOutput<T[Key]> } : never;
 
 export function object<T extends Record<string, Serializer<any>>>(
     definition: T,
-): Serializer<InferObject<T>> {
-    const entries = Object.entries(definition);
+): Serializer<InferObjectInfer<T>, InferObjectOutput<T>> {
+    const entires = Object.entries(definition);
+
+    // Use the fact: number + undefined = NaN
+    // Check for NaN afterwards
+    let computedSize = Object.values(definition).reduce(
+        (total, v) => total + (v.size as number),
+        0,
+    );
+    const size = isNaN(computedSize) ? undefined : computedSize;
 
     return {
-        write(ctx, value) {
-            for (const [key, serializer] of entries) {
-                serializer.write(ctx, value[key]);
+        size,
+        write: (ctx, value) => {
+            if (size) ctx.alloc(size);
+
+            for (let i = 0; i < entires.length; i++) {
+                entires[i][1].write(ctx, value[entires[i][0]]);
             }
         },
-        read(ctx) {
-            const obj: Record<string, unknown> = {};
-            for (const [key, serializer] of entries) {
-                obj[key] = serializer.read(ctx);
+        read: (ctx) => {
+            const output: [string, unknown][] = new Array(entires.length);
+            for (let i = 0; i < entires.length; i++) {
+                output[i] = [entires[i][0], entires[i][1].read(ctx)];
             }
-            return obj as InferObject<T>;
+
+            return Object.fromEntries(output) as InferObjectOutput<T>;
         },
     };
 }

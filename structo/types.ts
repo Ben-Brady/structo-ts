@@ -1,22 +1,21 @@
-export type Serializer<T> = SerializerOnly<T> & DeserializerOnly<T>;
-
-type SerializerOnly<T> = {
-    write: (ctx: WriterContext, value: T) => void;
-};
-type DeserializerOnly<T> = {
-    read: (ctx: ReaderContext) => T;
+export type Serializer<TIn, TOut = TIn> = {
+    size?: number | undefined;
+    write: (ctx: WriterContext, value: TIn) => void;
+    read: (ctx: ReaderContext) => TOut;
 };
 
 export interface WriterContext {
     buffer: ArrayBuffer;
     view: DataView;
     offset: number;
-    requestSpace: (length: number) => void;
+    alloc: (length: number) => void;
 }
+
 export interface ReaderContext {
     buffer: ArrayBuffer;
     view: DataView;
     offset: number;
 }
 
-export type Infer<T> = T extends SerializerOnly<infer V> ? V : never;
+export type InferInput<T> = T extends Serializer<infer V> ? V : never;
+export type InferOutput<T> = T extends Serializer<any, infer V> ? V : never;

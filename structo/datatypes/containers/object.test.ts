@@ -1,3 +1,4 @@
+//@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
 import { bytes, expectEncode, expectEncodeSnapshot } from "../utils.test";
 
@@ -28,7 +29,7 @@ describe("st.object", () => {
         expectEncodeSnapshot(
             st.object({
                 number: st.u32(),
-                puppy: st.string({ length: st.s32() }),
+                puppy: st.string(st.s32()),
                 buffer: st.buffer(4),
             }),
             {

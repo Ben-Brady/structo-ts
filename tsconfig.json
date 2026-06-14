@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "target": "esnext",
+        "outDir": "dist",
+        "rootDir": "structo",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "skipLibCheck": true,
+
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "verbatimModuleSyntax": true,
+        "moduleDetection": "force",
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "removeComments": false,
+
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "erasableSyntaxOnly": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedSideEffectImports": true,
+        "types": ["bun", "node"]
+    },
+    "include": ["./structo/**/*.ts"],
+    "files": ["./structo/index.ts"]
+}

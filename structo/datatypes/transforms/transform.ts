@@ -1,14 +1,15 @@
-import { Serializer } from "../../types";
+import type { Serializer } from "../../types";
 
-export function transform<T, TOut = T>(callback: (value: T) => TOut) {
-    return (type: Serializer<T>): Serializer<TOut> => ({
-        read(ctx) {
+export function transform<T>(callback: (value: T) => T) {
+    return (type: Serializer<T>): Serializer<T> => ({
+        size: type.size,
+        read: (ctx) => {
             const value = type.read(ctx);
             return callback(value);
         },
-        write(ctx, value) {
-            value = callback(value);
-            type.write(ctx, value);
+        write: (ctx, value) => {
+            let outValue = callback(value);
+            type.write(ctx, outValue);
         },
     });
 }

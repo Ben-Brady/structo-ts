@@ -1,3 +1,4 @@
+//@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
 import * as st from "../index";
 

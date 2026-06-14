@@ -1,19 +1,25 @@
 import type { Serializer } from "../../types";
 
 export function array<T>(size: number, type: Serializer<T>): Serializer<T[]> {
-    return {
-        write(ctx, value) {
-            if (value.length !== size) {
-                throw new Error("Invalid Size");
-            }
+    const { read: readType, write: writeType, size: typeSize } = type;
 
-            value.forEach((v) => type.write(ctx, v));
+    return {
+        size: type.size ? size * type.size : undefined,
+        write: (ctx, value) => {
+            if (value.length !== size) throw new Error("Invalid Size");
+
+            if (typeSize) ctx.alloc(size * typeSize);
+            for (let i = 0; i < size; i++) {
+                writeType(ctx, value[i]);
+            }
         },
-        read(ctx) {
-            return Array.from(
-                { length: size }, //
-                () => type.read(ctx),
-            );
+        read: (ctx) => {
+            const arr = new Array(size);
+
+            for (let i = 0; i < size; i++) {
+                arr[i] = readType(ctx);
+            }
+            return arr;
         },
     };
 }

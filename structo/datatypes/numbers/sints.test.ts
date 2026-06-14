@@ -1,3 +1,4 @@
+//@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
 import { expectEncode, expectEncodeSnapshot, expectError, randint } from "../utils.test";
 
@@ -8,12 +9,14 @@ function test_sint(options: {
     serializer: st.Serializer<number>;
     range: [number, number];
     size: number;
+    disableRangeCheck?: boolean;
 }) {
     const {
         name,
         range: [start, end],
         serializer,
         size,
+        disableRangeCheck,
     } = options;
 
     describe(name, () => {
@@ -25,10 +28,12 @@ function test_sint(options: {
             expectEncode(serializer, end);
         });
 
-        it(`errors outside bounds`, () => {
-            expectError(() => st.write(serializer, start - 1));
-            expectError(() => st.write(serializer, end + 1));
-        });
+        if (!disableRangeCheck) {
+            it(`errors outside bounds`, () => {
+                expectError(() => st.write(serializer, start - 1));
+                expectError(() => st.write(serializer, end + 1));
+            });
+        }
 
         it(`errors on decimal`, () => {
             expectError(() => st.write(serializer, 0.1));
@@ -87,4 +92,18 @@ test_sint({
     serializer: st.s32("big"),
     range: [-2_147_483_648, 2_147_483_647],
     size: 4,
+});
+test_sint({
+    name: "st.s64(little)",
+    serializer: st.s64("little"),
+    range: [-(2 ** 62), 2 ** 62],
+    size: 8,
+    disableRangeCheck: true,
+});
+test_sint({
+    name: "st.s64(big)",
+    serializer: st.s64("big"),
+    range: [-(2 ** 62), 2 ** 62],
+    size: 8,
+    disableRangeCheck: true,
 });
