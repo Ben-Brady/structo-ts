@@ -1,13 +1,11 @@
 import * as st from "../../structo";
-import { createRememberedValue } from "../foo";
 
 //@ts-ignore TODO
 import { readFileSync } from "node:fs";
 const path = import.meta.resolve("./town.wav").replace("file://", "");
 const data = readFileSync(path).buffer;
 
-
-const fileSize = createRememberedValue<number>();
+const fileSize = st.createRememberedValue<number>();
 type RiffFile = st.Infer<typeof RiffFile>;
 const RiffFile = st.object({
     filetype: st.byteLiteral([0x52, 0x49, 0x46, 0x46]),
@@ -21,7 +19,7 @@ const RiffFile = st.object({
     ),
 });
 
-const chunkSize = createRememberedValue<number>();
+const chunkSize = st.createRememberedValue<number>();
 type RiffChunk = st.Infer<typeof RiffChunk>;
 const RiffChunk = st.object({
     format: st.buffer(4),
