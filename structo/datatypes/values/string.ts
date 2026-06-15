@@ -1,7 +1,7 @@
 import type { Serializer } from "../../types";
 
 export function string(length: Serializer<number>): Serializer<string> {
-    const { read: readLength, write: writeLength } = length;
+    const { read: readLength, write: writeLength, size: lengthSize = 0 } = length;
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
@@ -9,14 +9,13 @@ export function string(length: Serializer<number>): Serializer<string> {
         write: (ctx, value) => {
             const bytes = encoder.encode(value);
 
-            writeLength(ctx, bytes.byteLength);
+            const length = bytes.byteLength;
+            ctx.alloc(length + lengthSize);
 
-            ctx.alloc(bytes.byteLength);
-
-            const arr = new Uint8Array(ctx.view.buffer);
-            arr.set(bytes, ctx.offset);
-
-            ctx.offset += bytes.byteLength;
+            writeLength(ctx, length);
+            const arr = new Uint8Array(ctx.buffer, ctx.offset);
+            arr.set(bytes);
+            ctx.offset += length;
         },
         read: (ctx) => {
             const length = readLength(ctx);
