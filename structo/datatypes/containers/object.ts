@@ -6,6 +6,17 @@ type InferObjectInfer<T> =
 type InferObjectOutput<T> =
     T extends Record<string, Serializer<any>> ? { [Key in keyof T]: InferOutput<T[Key]> } : never;
 
+/**
+ * `object` is equivelent to a C struct, values are stored in the order defined
+ *
+ * ```ts
+ * st.object({
+ *     name: st.string(st.u32()),
+ *     age: st.u8(),
+ *     createdAt: st.f64(),
+ * })
+ * ```
+ */
 export function object<T extends Record<string, Serializer<any>>>(
     definition: T,
 ): Serializer<InferObjectInfer<T>, InferObjectOutput<T>> {

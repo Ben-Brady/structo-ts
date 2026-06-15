@@ -5,6 +5,19 @@ type InferObject<T> =
 
 const definitionSymbol = Symbol();
 
+/**
+ * `fastObject` is equivelent to object but it uses eval to improve performance
+ *
+ * This means that is should be avoided in scenarios where CSP is required (so can't be the default), but should be fine for all other cases
+ *
+ * ```ts
+ * st.fastObject({
+ *     name: st.string(st.u32()),
+ *     age: st.u8(),
+ *     createdAt: st.f64(),
+ * })
+ * ```
+ */
 export function fastObject<T extends Record<string, Serializer<any>>>(
     definition: T,
 ): Serializer<InferObject<T>> {

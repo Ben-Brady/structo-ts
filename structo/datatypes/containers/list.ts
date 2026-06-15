@@ -1,5 +1,6 @@
 import type { Serializer } from "../../types";
 
+
 export function list<T>(options: {
     type: Serializer<T>;
     length: Serializer<number>;
