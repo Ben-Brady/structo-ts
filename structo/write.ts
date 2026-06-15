@@ -31,7 +31,6 @@ export function createdWriterContext(type: Serializer<any>): WriterContext {
             view,
             alloc(length) {
                 if (length < 0) return;
-
                 while (this.offset + length >= bufferLength) {
                     bufferLength = this.buffer.byteLength * 2;
                     this.buffer = this.buffer.transfer(bufferLength);
