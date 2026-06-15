@@ -3,22 +3,25 @@
 Define binary objects in zod style schemas
 
 ```ts
-import * as st from "../../structo";
+import * as st from "@nnilky/structo";
 
-const Entity = st.object({
-    rotation: st.f64(),
-    y: st.f64(),
-    z: st.f64(),
-});
-
+type Vec3 = st.InferOutput<typeof Vec3>
 const Vec3 = st.object({
     x: st.f64(),
     y: st.f64(),
     z: st.f64(),
 });
+
+type Entity = st.InferOutput<typeof Entity>
+const Entity = st.object({
+    id: st.u64(),
+    position: Vec3,
+});
+
 ```
 
-- Incredibly lightweight, base size is <1KB and each datatype is a few hundred bytes
+- Lightweight, base size is <1KB and each datatype is a few hundred bytes
+- Fast, from [benchmarks](./benchmark) only 2-
 - Supports Web/Node.js compatible
 - Easily implemented
 
@@ -29,7 +32,7 @@ Each serializer is completely seperate from the base library, meaning you only p
 Implementing your own serializer is incredibly simple, heres the `f64` serializer for example
 
 ```ts
-export function f64(endian: "little" | "big" = "little"): Serializer<number> {
+export function f64(endian: "little" | "big" = "little"): st.Serializer<number> {
     return {
         size: 8,
         write: (ctx, value) => {
@@ -60,9 +63,9 @@ Here is the list serializer
 
 ```ts
 export function list<T>(options: {
-    type: Serializer<T>;
-    length: Serializer<number>;
-}): Serializer<T[]> {
+    type: st.Serializer<T>;
+    length: st.Serializer<number>;
+}): st.Serializer<T[]> {
     const lengthType = options.length;
     const valueType = options.type;
 
@@ -103,7 +106,7 @@ Here is the `transform` transformation function, a `transform` just a function t
 
 ```ts
 export function transform<T>(callback: (value: T) => T) {
-    return (type: Serializer<T>): Serializer<T> => ({
+    return (type: st.Serializer<T>): st.Serializer<T> => ({
         size: type.size,
         read: (ctx) => {
             const value = type.read(ctx);
@@ -116,3 +119,13 @@ export function transform<T>(callback: (value: T) => T) {
     });
 }
 ```
+
+## FaQ
+
+- Why do I have to do `import * as st from "@nnilky/structo"`?
+  - By using an `* as` import, bundles can erase the names as runtime without having to worry about runtime effects
+  - additionally, by putting it under a namespace it reduces con
+- Will data streaming be implemented?
+  - Sadly this library isn't built for data streaming, the exposed API for serializers need the full array to be accessible
+  - If you want data streaming, your going to have to fork this and re-implement the standard types
+- What's the difference`
