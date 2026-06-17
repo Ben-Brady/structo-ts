@@ -16,8 +16,8 @@ export const RotationPacket = st.object({
 export type AttackPacket = st.InferOutput<typeof AttackPacket>;
 export const AttackPacket = st.object({});
 
-export type ClientPacket = st.InferOutput<typeof ClientPacket>;
-export const ClientPacket = st.taggedUnion(st.u32(), {
+export type Packet = st.InferOutput<typeof Packet>;
+export const Packet = st.taggedUnion(st.u32(), {
     0: MovementPacket,
     1: RotationPacket,
     2: AttackPacket,

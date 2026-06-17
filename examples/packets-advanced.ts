@@ -39,15 +39,15 @@ export const AttackPacket = st.object({
     type: literal(TypeString, "attack"),
 });
 
-export type ClientPacketBody = MovementPacket | RotationPacket | AttackPacket;
-export type ClientPacketType = ClientPacketBody["type"];
+export type PacketBody = MovementPacket | RotationPacket | AttackPacket;
+export type PacketType = PacketBody["type"];
 
-export type ClientPacket = st.InferOutput<typeof ClientPacket>;
-export const ClientPacket = st.taggedUnion(
+export type Packet = st.InferOutput<typeof Packet>;
+export const Packet = st.taggedUnion(
     st.pipe(TypeString, st.noAdvance()), // we use noAdvance to read the type without consuming it
     {
         movement: MovementPacket,
         rotation: RotationPacket,
         attack: AttackPacket,
-    } satisfies Record<ClientPacketType, any>,
+    } satisfies Record<PacketType, any>,
 );
