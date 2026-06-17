@@ -1,0 +1,38 @@
+import * as st from "../../structo";
+
+const toAscii = st.encode<ArrayBuffer, string>(
+    (v) =>
+        Array.from(new Uint8Array(v))
+            .map((v) => String.fromCharCode(v))
+            .join(""), //
+    (v) => new Uint8Array(Array.from(v).map((char) => char.charCodeAt(0))).buffer,
+);
+
+const length = st.createRememberedValue<number>();
+const GenericChunk = st.object({
+    length: length.save(st.u32("big")),
+    type: st.pipe(st.bytes(4), toAscii),
+    data: st.sizedBytes(length.load()),
+    crc: st.u32(),
+});
+
+const PngFile = st.object({
+    header: st.bytesLiteral([137, 80, 78, 71, 13, 10, 26, 10]),
+    chunks: st.exhuastiveArray(GenericChunk),
+});
+
+function loadPngChunks(data: ArrayBuffer) {
+    const start = performance.now();
+    const file = st.read(PngFile, data);
+
+    for (const chunk of file.chunks) {
+        console.log(chunk.type, chunk.length);
+    }
+    console.log(`Loaded in ${(performance.now() - start).toFixed()}ms`);
+}
+
+//@ts-ignore TODO
+import { readFileSync } from "node:fs";
+const path = import.meta.resolve("./image.png").replace("file://", "");
+const data = readFileSync(path).buffer;
+loadPngChunks(data);
