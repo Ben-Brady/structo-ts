@@ -7,7 +7,7 @@ const User = st.fastObject({
     name: st.string(st.u32()),
     createdAt: st.pipe(
         st.f64(),
-        st.transform((v) => new Date(v)),
+        st.modify((v) => new Date(v)),
     ),
 });
 
@@ -73,11 +73,11 @@ export function run() {
         library: serializeUsingLibrary,
         optimal: serializeUsingOptimal,
         runs: [
-            { name: "10 Users", data: () => generateData(1), times: 2_000_000 },
-            { name: "1k Users", data: () => generateData(1000), times: 5000 },
-            { name: "25k Users", data: () => generateData(25_000), times: 250 },
-            { name: "100k Users", data: () => generateData(100_000), times: 50 },
-            { name: "1M Users", data: () => generateData(1_000_000), times: 1 },
+            { name: "10 Users", data: () => generateData(1), times: 5_000_000 },
+            { name: "1k Users", data: () => generateData(1_000), times: 25_000 },
+            { name: "25k Users", data: () => generateData(25_000), times: 1000 },
+            { name: "100k Users", data: () => generateData(100_000), times: 500 },
+            { name: "1M Users", data: () => generateData(1_000_000), times: 25},
         ],
     });
 }

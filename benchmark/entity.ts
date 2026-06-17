@@ -64,22 +64,18 @@ function serializeUsingOptimal(entities: Entity[]) {
         const entity = entities[i];
 
         view.setUint32(offset, entity.id, true);
-        offset += 4;
-        view.setUint16(offset, entity.type, true);
-        offset += 2;
-        view.setUint16(offset, entity.health, true);
-        offset += 2;
+        view.setUint16(offset + 4, entity.type, true);
+        view.setUint16(offset + 6, entity.health, true);
 
-        view.setFloat64(offset, entity.position.x, true);
-        view.setFloat64(offset + 8, entity.position.y, true);
-        view.setFloat64(offset + 16, entity.position.z, true);
-        offset += 24;
+        view.setFloat64(offset + 8, entity.position.x, true);
+        view.setFloat64(offset + 16, entity.position.y, true);
+        view.setFloat64(offset + 24, entity.position.z, true);
 
-        view.setFloat32(offset, entity.rotation.w, true);
-        view.setFloat32(offset + 4, entity.rotation.x, true);
-        view.setFloat32(offset + 8, entity.rotation.y, true);
-        view.setFloat32(offset + 12, entity.rotation.z, true);
-        offset += 16;
+        view.setFloat32(offset + 32, entity.rotation.w, true);
+        view.setFloat32(offset + 36, entity.rotation.x, true);
+        view.setFloat32(offset + 40, entity.rotation.y, true);
+        view.setFloat32(offset + 44, entity.rotation.z, true);
+        offset += 48;
     }
 
     return data;
@@ -91,9 +87,9 @@ export function run() {
         optimal: serializeUsingOptimal,
         runs: [
             { name: "10 Entities", data: () => generateData(1), times: 10_000_000 },
-            { name: "1k Entities", data: () => generateData(1000), times: 10_000 },
-            { name: "25k Entities", data: () => generateData(25_000), times: 500 },
-            { name: "100k Entities", data: () => generateData(100_000), times: 100 },
+            { name: "1k Entities", data: () => generateData(1000), times: 25_000 },
+            { name: "25k Entities", data: () => generateData(25_000), times: 1_250 },
+            { name: "100k Entities", data: () => generateData(100_000), times: 500 },
             { name: "1M Entities", data: () => generateData(1_000_000), times: 50 },
         ],
     });

@@ -48,12 +48,22 @@ export function benchmark<T>(options: {
     for (const { name, data: generateData, times } of runs) {
         const data = generateData();
 
-        console.log(`${name}:`);
-        const optimalMs = bench(times, () => optimal(data));
-        console.log(`    Optimal=${optimalMs.toFixed(2)}ms`);
-        const libraryMs = bench(times, () => library(data));
-        console.log(`    Library=${libraryMs.toFixed(2)}ms`);
+        const formatTime = (ms: number) => {
+            if (ms > 0.01) {
+                return `${ms.toFixed(2)}ms`;
+            } else {
+                return `${(ms * 1000).toFixed(2)}μs`;
+            }
+        };
 
-        console.log(`    ${((optimalMs / libraryMs) * 100).toFixed(2)}% as Fast`);
+        const duration = measure(() => {
+            console.log(`${name}:`);
+            const optimalMs = bench(times, () => optimal(data));
+            console.log(`    Optimal: ${formatTime(optimalMs)}`);
+            const libraryMs = bench(times, () => library(data));
+            console.log(`    Library: ${formatTime(libraryMs)}`);
+            console.log(`    ${((optimalMs / libraryMs) * 100).toFixed(2)}% as Fast`);
+        });
+        console.log(`    Test Took ${(duration / 1000).toFixed()}s`);
     }
 }
