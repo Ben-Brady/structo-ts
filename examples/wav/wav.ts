@@ -8,13 +8,13 @@ const data = readFileSync(path).buffer;
 const fileSize = st.createRememberedValue<number>();
 type RiffFile = st.Infer<typeof RiffFile>;
 const RiffFile = st.object({
-    filetype: st.byteLiteral([0x52, 0x49, 0x46, 0x46]),
+    filetype: st.bytesLiteral([0x52, 0x49, 0x46, 0x46]),
     size: fileSize.save(st.u32()),
-    format: st.byteLiteral([0x57, 0x41, 0x56, 0x45]),
-    data: st.sizedBuffer(
+    format: st.bytesLiteral([0x57, 0x41, 0x56, 0x45]),
+    data: st.sizedBytes(
         st.pipe(
             fileSize.load(),
-            st.transform((v: number) => v - 16),
+            st.modify((v: number) => v - 16),
         ),
     ),
 });
@@ -22,9 +22,9 @@ const RiffFile = st.object({
 const chunkSize = st.createRememberedValue<number>();
 type RiffChunk = st.Infer<typeof RiffChunk>;
 const RiffChunk = st.object({
-    format: st.buffer(4),
+    format: st.bytes(4),
     size: chunkSize.save(st.u32("little")),
-    data: st.sizedBuffer(chunkSize.load()),
+    data: st.sizedBytes(chunkSize.load()),
 });
 
 type FormatData = st.Infer<typeof FormatData>;
