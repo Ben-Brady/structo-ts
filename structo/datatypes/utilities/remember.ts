@@ -1,9 +1,19 @@
 import type { Serializer } from "../../types";
 
+/**
+ * ```
+ * const length = st.createRememberedValue<number>()
+ * st.object({
+ *   length: length.save(st.u32()),
+ *   type: st.u8(),
+ *   data: st.sizedBytes(length.load())
+ * })
+ * ```
+ */
 export function createRememberedValue<T>() {
     const stack: T[] = [];
 
-    function store(serializer: Serializer<T>): Serializer<T> {
+    function save(serializer: Serializer<T>): Serializer<T> {
         return {
             size: serializer.size,
             read: (ctx) => {
@@ -19,13 +29,13 @@ export function createRememberedValue<T>() {
         };
     }
 
-    function load(): Serializer<T> {
+    function load(serializer?: Serializer<T>): Serializer<T> {
         return {
-            size: 0,
+            size: serializer?.size ?? 0,
             read: () => stack.pop()!,
-            write: () => {},
+            write: (ctx) => serializer && serializer.write(ctx, stack.pop()!),
         };
     }
 
-    return { save: store, load: load };
+    return { save: save, load: load };
 }

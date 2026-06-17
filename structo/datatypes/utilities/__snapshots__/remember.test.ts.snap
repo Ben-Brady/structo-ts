@@ -1,0 +1,23 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`st.remember snapshots are correct 1`] = `
+ArrayBuffer [
+  3,
+  0,
+  0,
+  0,
+  1,
+  3,
+  4,
+]
+`;
+
+exports[`st.remember snapshots are correct 2`] = `
+ArrayBuffer [
+  3,
+  0,
+  0,
+  0,
+  3,
+]
+`;
