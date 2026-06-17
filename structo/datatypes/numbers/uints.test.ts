@@ -6,7 +6,7 @@ import {
     expectError,
     randint,
     encodeFailTest,
-} from "../utils.test";
+} from "../../utils.test";
 
 import * as st from "../../index";
 

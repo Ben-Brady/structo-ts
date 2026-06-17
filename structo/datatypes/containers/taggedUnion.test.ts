@@ -1,5 +1,5 @@
 import { describe, expectTypeOf, it } from "bun:test";
-import { encodeTest, expectEncodeSize, encodeSnapshotTest, encodeFailTest } from "../utils.test";
+import { encodeTest, expectEncodeSize, encodeSnapshotTest, encodeFailTest } from "../../utils.test";
 
 import * as st from "../../index";
 

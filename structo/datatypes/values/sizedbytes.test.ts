@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { bytes, encodeFailTest, encodeTest, expectError } from "../utils.test";
+import { bytes, encodeFailTest, encodeTest } from "../../utils.test";
 
 import * as st from "../../index";
 

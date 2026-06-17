@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import * as st from "../index";
-import { encodeTest, encodeFailTest } from "../datatypes/utils.test";
+import { encodeTest, encodeFailTest } from "../utils.test";
 
 describe("st.literal", () => {
     it("encode correctly", () => {

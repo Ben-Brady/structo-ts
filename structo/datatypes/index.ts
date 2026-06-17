@@ -7,10 +7,9 @@ export { array } from "./containers/array";
 export { fastObject } from "./containers/fastObject";
 export { object } from "./containers/object";
 export { list } from "./containers/list";
-export { sizedBytes } from "./containers/sizedbytes";
 export { taggedUnion } from "./containers/taggedUnion";
 export { exhuastiveArray } from "./containers/exhuastiveArray";
-export { string } from "./containers/string";
 
 export { bytes } from "./values/bytes";
-export { createRememberedValue } from "./utilities/remember";
+export { sizedBytes } from "./values/sizedbytes";
+export { string } from "./values/string";

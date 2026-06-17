@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../datatypes/utils.test";
+import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../utils.test";
 
 import * as st from "../index";
 

@@ -1,11 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import {
-    encodeTest,
-    encodeSnapshotTest,
-    expectError,
-    randbigint,
-    encodeFailTest,
-} from "../utils.test";
+import { encodeTest, encodeSnapshotTest, randbigint, encodeFailTest } from "../../utils.test";
 
 import * as st from "../../index";
 

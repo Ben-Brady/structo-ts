@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { encodeTest, encodeSnapshotTest } from "../utils.test";
 
-import * as st from "../../index";
+import * as st from "../index";
 
 describe("st.remember", () => {
     const v = st.createRememberedValue<number>();

@@ -11,3 +11,4 @@ export { write, createdWriterContext } from "./write";
 
 export * from "./datatypes/index";
 export * from "./transforms/index";
+export * from "./utilities/index";

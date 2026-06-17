@@ -1,6 +1,8 @@
 import type { Serializer } from "../../types";
 
 /**
+ * createRememberedValue lets you save and recall a value when serializing
+ *
  * ```
  * const length = st.createRememberedValue<number>()
  * st.object({

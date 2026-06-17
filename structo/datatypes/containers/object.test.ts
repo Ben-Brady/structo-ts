@@ -1,6 +1,6 @@
 //@ts-ignore TODO
 import { describe, it, expect, expectTypeOf } from "bun:test";
-import { bytes, encodeTest, encodeSnapshotTest, expectError } from "../utils.test";
+import { bytes, encodeTest, encodeSnapshotTest } from "../../utils.test";
 
 import * as st from "../../index";
 
