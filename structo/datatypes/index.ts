@@ -19,5 +19,6 @@ export { type Transform as Pipeline, pipe } from "./transforms/pipe";
 export { fixedOffset } from "./transforms/fixedOffset";
 export { modify } from "./transforms/modify";
 export { encode } from "./transforms/encode";
+export { noAdvance } from "./transforms/noAdvance";
 
 export { createRememberedValue } from "./utilities/remember";
