@@ -12,7 +12,6 @@ import type { InferInput, InferOutput, Serializer } from "../../types";
  *     2: MouseMovePacket,
  * })
  * ```
- *
  */
 export function taggedUnion<
     Tag extends PropertyKey, //
@@ -30,34 +29,21 @@ export function taggedUnion<
 > {
     return {
         write: (ctx, value) => {
-            if (!(value.type in variants)) throw new Error(`Unknown type ${value.type}`);
+            if (!(value.type in variants)) throw new Error(`Unknown type ${String(value.type)}`);
 
+            //@ts-expect-error
             tag.write(ctx, value.type);
             const variant = variants[value.type];
+            //@ts-expect-error
             variant.write(ctx, value.value);
         },
         read: (ctx) => {
             const type = tag.read(ctx);
             if (!(type in variants)) throw new Error(`Unknown type ${tag}`);
             const variant = variants[type];
+            //@ts-expect-error
             const value = variant.read(ctx);
             return { type, value };
         },
     };
 }
-
-type UnionInput<
-    TVariants extends { [K in string]: Serializer<any> },
-    TType extends keyof TVariants,
-> = {
-    type: TType;
-    value: InferInput<TVariants[TType]>;
-};
-
-type UnionOutput<
-    TVariants extends { [K in string]: Serializer<any> },
-    TType extends keyof TVariants,
-> = {
-    type: TType;
-    value: InferOutput<TVariants[TType]>;
-};
