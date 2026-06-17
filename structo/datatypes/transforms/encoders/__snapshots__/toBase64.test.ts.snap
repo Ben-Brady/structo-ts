@@ -1,0 +1,20 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`st.toBase64 snapshots 1`] = `
+ArrayBuffer [
+  175,
+  31,
+  74,
+]
+`;
+
+exports[`st.toBase64 snapshots 2`] = `
+ArrayBuffer [
+  125,
+  31,
+  74,
+  34,
+  63,
+  21,
+]
+`;

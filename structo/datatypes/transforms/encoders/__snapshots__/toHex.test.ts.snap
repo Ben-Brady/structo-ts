@@ -1,0 +1,19 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`st.toHex snapshots 1`] = `
+ArrayBuffer [
+  255,
+  171,
+  1,
+]
+`;
+
+exports[`st.toHex snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;

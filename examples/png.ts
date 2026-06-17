@@ -5,18 +5,10 @@ import { readFileSync } from "node:fs";
 const path = import.meta.resolve("./data/image.png").replace("file://", "");
 const data = readFileSync(path).buffer;
 
-const toAscii = st.encode<ArrayBuffer, string>(
-    (v) =>
-        Array.from(new Uint8Array(v))
-            .map((v) => String.fromCharCode(v))
-            .join(""), //
-    (v) => new Uint8Array(Array.from(v).map((char) => char.charCodeAt(0))).buffer,
-);
-
 const length = st.createRememberedValue<number>();
 const GenericChunk = st.object({
     length: length.save(st.u32("big")),
-    type: st.pipe(st.bytes(4), toAscii),
+    type: st.pipe(st.bytes(4), st.toBytes()),
     data: st.sizedBytes(length.load()),
     crc: st.u32(),
 });
