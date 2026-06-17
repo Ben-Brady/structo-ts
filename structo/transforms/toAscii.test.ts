@@ -1,7 +1,7 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeErrorTest } from "../../utils.test";
+import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../datatypes/utils.test";
 
-import * as st from "../../../index";
+import * as st from "../index";
 
 describe("st.toAscii", () => {
     it("encode correctly", () => {
@@ -16,14 +16,14 @@ describe("st.toAscii", () => {
     });
 
     it("invalid length throws error", () => {
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(4), st.toAscii()), //
             "asd",
         );
     });
 
     it("invalid character throws error", () => {
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(4), st.toAscii()), //
             "asdé",
         );

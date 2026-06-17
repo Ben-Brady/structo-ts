@@ -1,7 +1,7 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, expectError } from "../../utils.test";
+import { encodeTest, encodeSnapshotTest, expectError } from "../datatypes/utils.test";
 
-import * as st from "../../../index";
+import * as st from "../index";
 
 describe("st.toArrayBuffer", () => {
     it("encode correctly", () => {

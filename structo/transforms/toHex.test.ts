@@ -1,7 +1,7 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeErrorTest } from "../../utils.test";
+import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../datatypes/utils.test";
 
-import * as st from "../../../index";
+import * as st from "../index";
 
 describe("st.toHex", () => {
     it("encode correctly", () => {
@@ -12,14 +12,14 @@ describe("st.toHex", () => {
     });
 
     it("invalid digits error", () => {
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(3), st.toHex()), //
             "00000G",
         );
     });
 
     it("invalid length error", () => {
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(3), st.toHex()), //
             "0000",
         );

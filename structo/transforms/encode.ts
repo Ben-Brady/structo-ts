@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../types";
 import type { Transform } from "./pipe";
 
 export function encode<TIn, TOut>(

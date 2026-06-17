@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../types";
 
 export type Transform<T = any, TNext = T> = (type: Serializer<TNext>) => Serializer<T>;
 

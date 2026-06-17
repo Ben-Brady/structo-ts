@@ -1,8 +1,7 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeErrorTest } from "../../utils.test";
+import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../datatypes/utils.test";
 
-import * as st from "../../../index";
-
+import * as st from "../index";
 
 describe("st.toBase64", () => {
     it("encode correctly", () => {
@@ -21,14 +20,14 @@ describe("st.toBase64", () => {
     });
 
     it("invalid character error", () => {
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(3), st.toBase64()), //
             "rx9-",
         );
     });
 
     it("invalid length error", () => {
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(4), st.toBase64()), //
             "rx9L",
         );

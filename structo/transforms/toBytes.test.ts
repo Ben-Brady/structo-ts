@@ -1,7 +1,7 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeErrorTest } from "../../utils.test";
+import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../datatypes/utils.test";
 
-import * as st from "../../../index";
+import * as st from "../index";
 
 describe("st.toBytes", () => {
     it("encode correctly", () => {
@@ -16,18 +16,18 @@ describe("st.toBytes", () => {
     });
 
     it("invalid length throws error", () => {
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(3), st.toBytes()), //
             [0, 1],
         );
     });
 
     it("invalid values throws error", () => {
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(3), st.toBytes()), //
             [256, 1, 1],
         );
-        encodeErrorTest(
+        encodeFailTest(
             st.pipe(st.bytes(3), st.toBytes()), //
             [-1, 1, 1],
         );
