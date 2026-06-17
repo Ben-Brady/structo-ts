@@ -47,6 +47,7 @@ describe("st.taggedUnion", () => {
             foo: st.string(st.u8()),
         });
         expectError(() => {
+            //@ts-expect-error
             st.write(spec, { type: "foo", value: 0 });
         });
     });

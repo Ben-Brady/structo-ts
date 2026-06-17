@@ -3,9 +3,6 @@ import { describe, it, expect } from "bun:test";
 import {
     expectEncode,
     expectEncodeSize,
-    expectEncodeSnapshot,
-    expectError,
-    randint,
 } from "../utils.test";
 
 import * as st from "../../index";
