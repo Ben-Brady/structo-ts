@@ -10,10 +10,9 @@ import * as st from "../..";
 export function exhuastiveArray<T>(type: st.Serializer<T>): st.Serializer<T[]> {
     return {
         read(ctx) {
-            const endPoint = ctx.offset + ctx.view.byteLength;
 
             let arr: T[] = [];
-            while (ctx.offset < endPoint) {
+            while (ctx.offset < ctx.view.byteLength) {
                 arr.push(type.read(ctx));
             }
             return arr;
