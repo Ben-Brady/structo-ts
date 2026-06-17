@@ -14,10 +14,20 @@ import type { InferInput, InferOutput, Serializer } from "../../types";
  * ```
  *
  */
-export function taggedUnion<TTag extends string | number, TType extends Serializer<any>>(
-    tag: Serializer<TTag>,
-    variants: Record<TTag, TType>,
-): Serializer<{ type: TTag; value: InferInput<TType> }, { type: TTag; value: InferOutput<TType> }> {
+export function taggedUnion<
+    Tag extends PropertyKey, //
+    Variants extends Record<Tag, Serializer<any>>,
+>(
+    tag: Serializer<Tag>,
+    variants: Variants & Record<Exclude<keyof Variants, Tag>, never>, // Prevents extra keys not assignable to Tag
+): Serializer<
+    {
+        [K in keyof Variants]: { type: K; value: InferInput<Variants[K]> };
+    }[keyof Variants],
+    {
+        [K in keyof Variants]: { type: K; value: InferOutput<Variants[K]> };
+    }[keyof Variants]
+> {
     return {
         write: (ctx, value) => {
             if (!(value.type in variants)) throw new Error(`Unknown type ${value.type}`);
@@ -35,3 +45,19 @@ export function taggedUnion<TTag extends string | number, TType extends Serializ
         },
     };
 }
+
+type UnionInput<
+    TVariants extends { [K in string]: Serializer<any> },
+    TType extends keyof TVariants,
+> = {
+    type: TType;
+    value: InferInput<TVariants[TType]>;
+};
+
+type UnionOutput<
+    TVariants extends { [K in string]: Serializer<any> },
+    TType extends keyof TVariants,
+> = {
+    type: TType;
+    value: InferOutput<TVariants[TType]>;
+};
