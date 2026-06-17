@@ -13,6 +13,7 @@ export const RotationPacket = st.object({
     pitch: st.f16(),
     roll: st.f16(),
 });
+
 export type AttackPacket = st.InferOutput<typeof AttackPacket>;
 export const AttackPacket = st.object({});
 
