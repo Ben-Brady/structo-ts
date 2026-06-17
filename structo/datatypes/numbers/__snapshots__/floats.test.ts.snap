@@ -189,3 +189,293 @@ ArrayBuffer [
   255,
 ]
 `;
+
+exports[`st.f16(little) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+]
+`;
+
+exports[`st.f16(little) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  60,
+]
+`;
+
+exports[`st.f16(little) matches snapshots 3`] = `
+ArrayBuffer [
+  0,
+  62,
+]
+`;
+
+exports[`st.f16(little) matches snapshots 4`] = `
+ArrayBuffer [
+  102,
+  174,
+]
+`;
+
+exports[`st.f16(little) matches snapshots 5`] = `
+ArrayBuffer [
+  0,
+  124,
+]
+`;
+
+exports[`st.f16(big) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+]
+`;
+
+exports[`st.f16(big) matches snapshots 2`] = `
+ArrayBuffer [
+  60,
+  0,
+]
+`;
+
+exports[`st.f16(big) matches snapshots 3`] = `
+ArrayBuffer [
+  62,
+  0,
+]
+`;
+
+exports[`st.f16(big) matches snapshots 4`] = `
+ArrayBuffer [
+  174,
+  102,
+]
+`;
+
+exports[`st.f16(big) matches snapshots 5`] = `
+ArrayBuffer [
+  124,
+  0,
+]
+`;
+
+exports[`st.f32(little) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.f32(little) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  128,
+  63,
+]
+`;
+
+exports[`st.f32(little) matches snapshots 3`] = `
+ArrayBuffer [
+  0,
+  0,
+  192,
+  63,
+]
+`;
+
+exports[`st.f32(little) matches snapshots 4`] = `
+ArrayBuffer [
+  205,
+  204,
+  204,
+  189,
+]
+`;
+
+exports[`st.f32(little) matches snapshots 5`] = `
+ArrayBuffer [
+  0,
+  0,
+  128,
+  127,
+]
+`;
+
+exports[`st.f32(big) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.f32(big) matches snapshots 2`] = `
+ArrayBuffer [
+  63,
+  128,
+  0,
+  0,
+]
+`;
+
+exports[`st.f32(big) matches snapshots 3`] = `
+ArrayBuffer [
+  63,
+  192,
+  0,
+  0,
+]
+`;
+
+exports[`st.f32(big) matches snapshots 4`] = `
+ArrayBuffer [
+  189,
+  204,
+  204,
+  205,
+]
+`;
+
+exports[`st.f32(big) matches snapshots 5`] = `
+ArrayBuffer [
+  127,
+  128,
+  0,
+  0,
+]
+`;
+
+exports[`st.f64(little) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.f64(little) matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  240,
+  63,
+]
+`;
+
+exports[`st.f64(little) matches snapshots 3`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  248,
+  63,
+]
+`;
+
+exports[`st.f64(little) matches snapshots 4`] = `
+ArrayBuffer [
+  154,
+  153,
+  153,
+  153,
+  153,
+  153,
+  185,
+  191,
+]
+`;
+
+exports[`st.f64(little) matches snapshots 5`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  240,
+  127,
+]
+`;
+
+exports[`st.f64(big) matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.f64(big) matches snapshots 2`] = `
+ArrayBuffer [
+  63,
+  240,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.f64(big) matches snapshots 3`] = `
+ArrayBuffer [
+  63,
+  248,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.f64(big) matches snapshots 4`] = `
+ArrayBuffer [
+  191,
+  185,
+  153,
+  153,
+  153,
+  153,
+  153,
+  154,
+]
+`;
+
+exports[`st.f64(big) matches snapshots 5`] = `
+ArrayBuffer [
+  127,
+  240,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;

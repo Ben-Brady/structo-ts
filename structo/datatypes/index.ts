@@ -1,5 +1,5 @@
 export { u64Bigint, s64Bigint } from "./numbers/bigints";
-export { f32, f64 } from "./numbers/floats";
+export { f16, f32, f64 } from "./numbers/floats";
 export { s8, s16, s32, s64 } from "./numbers/sints";
 export { u8, u16, u32, u64 } from "./numbers/uints";
 
