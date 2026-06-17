@@ -5,17 +5,17 @@ import * as st from "../../index";
 
 describe("st.list", () => {
     it("encode correctly", () => {
-        const spec = st.list({ type: st.u16(), length: st.u8() });
+        const spec = st.list(st.u8(), st.u32());
         expectEncode(spec, [1, 2, 3, 4]);
     });
 
     it("works on empty lists", () => {
-        const spec = st.list({ type: st.u16(), length: st.u8() });
+        const spec = st.list(st.u8(), st.u32());
         expectEncode(spec, []);
     });
 
     it("throws error on too large array", () => {
-        const spec = st.list({ type: st.u16(), length: st.u8() });
+        const spec = st.list(st.u8(), st.u32());
         expectError(() => {
             st.write(
                 spec,
@@ -25,7 +25,7 @@ describe("st.list", () => {
     });
 
     it("throws error on invalid value", () => {
-        const spec = st.list({ type: st.u16(), length: st.u8() });
+        const spec = st.list(st.u8(), st.u16());
         expectError(() => {
             st.write(spec, [-1]);
         });
@@ -33,10 +33,7 @@ describe("st.list", () => {
 
     it(`matches snapshots`, () => {
         expectEncodeSnapshot(
-            st.list({
-                type: st.string(st.u16()),
-                length: st.s32(),
-            }),
+            st.list(st.s32(), st.string(st.u16())), //
             ["foo", "bar", "baz"],
         );
     });

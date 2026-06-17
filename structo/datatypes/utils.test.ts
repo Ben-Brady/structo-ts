@@ -14,10 +14,22 @@ export const randbigint = (start: bigint, end: bigint) => {
     return start + offset;
 };
 
-export const expectEncode = <T>(serializer: st.Serializer<T>, value: T) => {
+export const expectEncode = <TIn, TOut>(
+    serializer: st.Serializer<TIn, TOut>,
+    value: TIn,
+    expected?: TOut,
+) => {
     const data = st.write(serializer, value);
     const newValue = st.read(serializer, data);
-    expect(value).toEqual(newValue);
+    expect(newValue).toEqual((expected ?? value) as unknown as TOut);
+};
+export const expectEncodeSize = <TIn, TOut>(
+    serializer: st.Serializer<TIn, TOut>,
+    size: number,
+    value: TIn,
+) => {
+    const data = st.write(serializer, value);
+    expect(data.byteLength).toEqual(size);
 };
 
 export const expectEncodeSnapshot = <T>(serializer: st.Serializer<T>, value: T) => {

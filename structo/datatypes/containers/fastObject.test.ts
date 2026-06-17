@@ -4,8 +4,8 @@ import { bytes, expectEncode, expectEncodeSnapshot } from "../utils.test";
 
 import * as st from "../../index";
 
-describe("st.object", () => {
-    const test = st.object({
+describe("st.fastObject", () => {
+    const test = st.fastObject({
         a: st.u8(),
         b: st.u8(),
     });
@@ -22,12 +22,12 @@ describe("st.object", () => {
     });
 
     it("encodes empty", () => {
-        expectEncode(st.object({}), {});
+        expectEncode(st.fastObject({}), {});
     });
 
     it(`matches snapshots`, () => {
         expectEncodeSnapshot(
-            st.object({
+            st.fastObject({
                 number: st.u32(),
                 puppy: st.string(st.s32()),
                 buffer: st.bytes(4),
