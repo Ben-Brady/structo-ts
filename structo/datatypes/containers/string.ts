@@ -1,26 +1,27 @@
 import type { Serializer } from "../../types";
 
 export function string(length: Serializer<number>): Serializer<string> {
-    const { read: readLength, write: writeLength, size: lengthSize = 0 } = length;
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
+    const lengthSize = length.size ?? 0;
     return {
         write: (ctx, value) => {
+            if (typeof value !== "string") throw new Error("Expected String to encoder");
             const bytes = encoder.encode(value);
 
-            const length = bytes.byteLength;
-            ctx.alloc(length + lengthSize);
+            const size = bytes.byteLength;
+            ctx.alloc(size + lengthSize);
 
-            writeLength(ctx, length);
+            length.write(ctx, size);
             const arr = new Uint8Array(ctx.buffer, ctx.offset);
             arr.set(bytes);
-            ctx.offset += length;
+            ctx.offset += size;
         },
         read: (ctx) => {
-            const length = readLength(ctx);
-            const section = ctx.buffer.slice(ctx.offset, ctx.offset + length);
-            ctx.offset += length;
+            const size = length.read(ctx);
+            const section = ctx.buffer.slice(ctx.offset, ctx.offset + size);
+            ctx.offset += size;
             return decoder.decode(section);
         },
     };
