@@ -79,6 +79,18 @@ export function pipe<TStart, T1, T2, T3, T4, T5, T6, T7, T8, T9>(
     p8: Transform<T8, T9>,
 ): Serializer<T9>;
 
+/**
+ * Pipe lets you chain modification functions together
+ * ```
+ * st.object({
+ *   age: st.u32(),
+ *   ageInMonths: st.pipe(
+ *     st.u32(),
+ *     st.modify(v => v * 12),
+ *     st.offset(-8),
+ *   )})
+ * ```
+ */
 export function pipe<T, TPipeline extends Transform[]>(
     type: Serializer<T>,
     ...pipeline: TPipeline[]

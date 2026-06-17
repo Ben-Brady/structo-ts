@@ -1,6 +1,13 @@
 import type { Serializer } from "../../types";
 
-export function buffer(size: number): Serializer<ArrayBuffer> {
+/**
+ * Fixed length bytes
+ *
+ * ```
+ * st.bytes(4)
+ * ```
+ */
+export function bytes(size: number): Serializer<ArrayBuffer> {
     return {
         size,
         write: (ctx, value) => {

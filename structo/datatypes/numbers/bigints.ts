@@ -1,4 +1,3 @@
-//@ts-ignore TODO
 import type { Serializer } from "../../types";
 
 const checkValue = (value: number | bigint, start: bigint, end: bigint) => {
@@ -7,6 +6,11 @@ const checkValue = (value: number | bigint, start: bigint, end: bigint) => {
     }
 };
 
+/**
+ * 64bit unsigned interger
+ *
+ * This version uses bigints to ensure accuracy is not lost
+ */
 export function u64Bigint(
     endian: "little" | "big" = "little",
 ): Serializer<number | bigint, bigint> {
@@ -26,7 +30,11 @@ export function u64Bigint(
         },
     };
 }
-
+/**
+ * 64bit signed interger
+ *
+ * This version uses bigints to ensure accuracy is not lost
+ */
 export function s64Bigint(
     endian: "little" | "big" = "little",
 ): Serializer<number | bigint, bigint> {

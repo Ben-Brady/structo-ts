@@ -10,6 +10,7 @@ const checkValue = (value: number, start: number, end: number) => {
     }
 };
 
+/** 8bit signed integer */
 export function s8(): Serializer<number> {
     return {
         size: 1,
@@ -28,6 +29,7 @@ export function s8(): Serializer<number> {
     };
 }
 
+/** 16bit signed integer */
 export function s16(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 2,
@@ -46,6 +48,7 @@ export function s16(endian: "little" | "big" = "little"): Serializer<number> {
     };
 }
 
+/** 32bit signed integer */
 export function s32(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 4,
@@ -64,6 +67,7 @@ export function s32(endian: "little" | "big" = "little"): Serializer<number> {
     };
 }
 
+/** 64bit signed integer */
 export function s64(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 8,

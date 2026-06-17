@@ -1,5 +1,7 @@
 import type { Serializer } from "../../types";
 
+
+/** 8bit unsigned integer */
 export function u8(): Serializer<number> {
     return {
         size: 1,
@@ -19,6 +21,7 @@ export function u8(): Serializer<number> {
     };
 }
 
+/** 16bit unsigned integer */
 export function u16(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 2,
@@ -38,6 +41,7 @@ export function u16(endian: "little" | "big" = "little"): Serializer<number> {
     };
 }
 
+/** 32bit unsigned integer */
 export function u32(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 4,
@@ -57,6 +61,7 @@ export function u32(endian: "little" | "big" = "little"): Serializer<number> {
     };
 }
 
+/** 64bit unsigned integer */
 export function u64(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 8,

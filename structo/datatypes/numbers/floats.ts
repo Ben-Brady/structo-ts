@@ -1,5 +1,7 @@
 import type { Serializer } from "../../types";
 
+
+/** 32bit float */
 export function f32(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 4,
@@ -16,6 +18,7 @@ export function f32(endian: "little" | "big" = "little"): Serializer<number> {
     };
 }
 
+/** 64bit float */
 export function f64(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 8,

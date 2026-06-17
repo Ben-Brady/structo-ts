@@ -3,21 +3,21 @@ import { bytes, expectEncode, expectError } from "../utils.test";
 
 import * as st from "../../index";
 
-describe("st.buffer", () => {
-    const buffer = st.buffer(2);
+describe("st.bytes", () => {
+    const buffer = st.bytes(2);
 
     it("encode correctly", () => {
         expectEncode(buffer, bytes([1, 2]));
     });
 
     it("encodes empty correctly", () => {
-        const spec = st.buffer(0);
+        const spec = st.bytes(0);
         expectEncode(spec, bytes([]));
     });
 
     it("holds large data", () => {
         const size = 1024 * 1024 * 8; // 8MB
-        const spec = st.buffer(size);
+        const spec = st.bytes(size);
 
         const data = new Uint8Array(size);
         data.set([3, 4], 1000);
@@ -28,7 +28,7 @@ describe("st.buffer", () => {
         const size = 1024 * 1024 * 8; // 8MB
         const spec = st.object({
             before: st.u8(),
-            data: st.buffer(size),
+            data: st.bytes(size),
             after: st.u8(),
         });
 
@@ -43,7 +43,7 @@ describe("st.buffer", () => {
     });
 
     it("errors on invalid length", () => {
-        const spec = st.buffer(5);
+        const spec = st.bytes(5);
         expectError(() => {
             st.write(spec, bytes([1, 2, 3, 4]));
         });

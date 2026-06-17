@@ -1,5 +1,13 @@
 import type { Serializer } from "../../types";
 
+/**
+ * `st.array` is a fixed length array, akin to a C array.
+ *
+ * ```
+ * st.array(16, st.f64())
+ * ```
+ *
+ */
 export function array<T>(size: number, type: Serializer<T>): Serializer<T[]> {
     const { read: readType, write: writeType, size: typeSize } = type;
 

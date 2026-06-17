@@ -1,28 +1,31 @@
 import type { Serializer } from "../../types";
 
-
-export function list<T>(options: {
-    type: Serializer<T>;
-    length: Serializer<number>;
-}): Serializer<T[]> {
-    const { read: readLength, write: writeLength } = options.length;
-    const { read: readType, write: writeType, size: sizeType } = options.type;
-
+/**
+ * `st.list` is a dynamically sized array
+ *
+ * Note: Length is read/writen first, then the values in order
+ *
+ * ```
+ * st.list(st.u32(), User)
+ * ```
+ *
+ */
+export function list<T>(length: Serializer<number>, type: Serializer<T>): Serializer<T[]> {
     return {
         write: (ctx, value) => {
-            writeLength(ctx, value.length);
+            length.write(ctx, value.length);
 
-            if (sizeType) ctx.alloc(value.length * sizeType);
+            if (type.size) ctx.alloc(value.length * type.size);
             for (const v of value) {
-                writeType(ctx, v);
+                type.write(ctx, v);
             }
         },
         read: (ctx) => {
-            const size = readLength(ctx);
+            const size = length.read(ctx);
 
             const arr = new Array(size);
             for (let i = 0; i < size; i++) {
-                arr[i] = readType(ctx);
+                arr[i] = type.read(ctx);
             }
             return arr;
         },

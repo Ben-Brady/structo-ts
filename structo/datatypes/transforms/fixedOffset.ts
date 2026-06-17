@@ -1,6 +1,6 @@
 import type { Serializer } from "../../types";
 
-export function positionOffset<T>(delta: number) {
+export function fixedOffset<T>(delta: number) {
     return (type: Serializer<T>): Serializer<T> => ({
         size: type.size,
         read: (ctx) => {

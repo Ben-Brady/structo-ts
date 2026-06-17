@@ -1,6 +1,6 @@
 import type { Serializer } from "../../types";
 
-export function byteLiteral(bytes: number[]): Serializer<number[]> {
+export function bytesLiteral(bytes: number[]): Serializer<number[]> {
     const length = bytes.length;
 
     return {
