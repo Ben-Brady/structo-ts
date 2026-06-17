@@ -7,13 +7,15 @@ export { array } from "./containers/array";
 export { fastObject } from "./containers/fastObject";
 export { object } from "./containers/object";
 export { list } from "./containers/list";
-export { sizedBuffer } from "./containers/sizedbuffer";
+export { sizedBytes } from "./containers/sizedbytes";
+export { taggedUnion } from "./containers/taggedUnion";
 
-export { string } from "./values/string";
-export { buffer } from "./values/buffer";
-export { byteLiteral } from "./values/byteliteral";
+export { string } from "./containers/string";
+export { bytes } from "./values/bytes";
+export { bytesLiteral } from "./values/byteliteral";
+
+export { type Transform as Pipeline, pipe } from "./transforms/pipe";
+export { fixedOffset as positionOffset } from "./transforms/fixedOffset";
+export { modify as transform } from "./transforms/modify";
 
 export { createRememberedValue } from "./utilities/remember";
-export { type Transform as Pipeline, pipe } from "./transforms/pipe";
-export { positionOffset } from "./transforms/readOffset";
-export { transform } from "./transforms/transform";
