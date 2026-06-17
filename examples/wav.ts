@@ -1,8 +1,8 @@
-import * as st from "../../structo";
+import * as st from "../structo";
 
 //@ts-ignore TODO
 import { readFileSync } from "node:fs";
-const path = import.meta.resolve("./town.wav").replace("file://", "");
+const path = import.meta.resolve("./data/town.wav").replace("file://", "");
 const data = readFileSync(path).buffer;
 
 const fileSize = st.createRememberedValue<number>();

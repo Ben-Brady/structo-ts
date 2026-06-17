@@ -1,4 +1,9 @@
-import * as st from "../../structo";
+import * as st from "../structo";
+
+//@ts-ignore TODO
+import { readFileSync } from "node:fs";
+const path = import.meta.resolve("./data/image.png").replace("file://", "");
+const data = readFileSync(path).buffer;
 
 const toAscii = st.encode<ArrayBuffer, string>(
     (v) =>
@@ -21,18 +26,10 @@ const PngFile = st.object({
     chunks: st.exhuastiveArray(GenericChunk),
 });
 
-function loadPngChunks(data: ArrayBuffer) {
-    const start = performance.now();
-    const file = st.read(PngFile, data);
+const start = performance.now();
+const file = st.read(PngFile, data);
 
-    for (const chunk of file.chunks) {
-        console.log(chunk.type, chunk.length);
-    }
-    console.log(`Loaded in ${(performance.now() - start).toFixed()}ms`);
+for (const chunk of file.chunks) {
+    console.log(chunk.type, chunk.length);
 }
-
-//@ts-ignore TODO
-import { readFileSync } from "node:fs";
-const path = import.meta.resolve("./image.png").replace("file://", "");
-const data = readFileSync(path).buffer;
-loadPngChunks(data);
+console.log(`Loaded in ${(performance.now() - start).toFixed()}ms`);
