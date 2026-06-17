@@ -5,12 +5,19 @@ import { readFileSync } from "node:fs";
 const path = import.meta.resolve("./data/town.wav").replace("file://", "");
 const data = readFileSync(path).buffer;
 
+const hexLiteral = (value: string) =>
+    st.pipe(
+        st.bytes(value.length / 2), //
+        st.toHex(),
+        st.literal(value.toUpperCase()),
+    );
+
 const fileSize = st.createRememberedValue<number>();
 type RiffFile = st.Infer<typeof RiffFile>;
 const RiffFile = st.object({
-    filetype: st.bytesLiteral([0x52, 0x49, 0x46, 0x46]),
+    filetype: hexLiteral("52494646"),
     size: fileSize.save(st.u32()),
-    format: st.bytesLiteral([0x57, 0x41, 0x56, 0x45]),
+    format: hexLiteral("57415645"),
     data: st.sizedBytes(
         st.pipe(
             fileSize.load(),

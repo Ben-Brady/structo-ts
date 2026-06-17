@@ -1,32 +1,45 @@
 //@ts-ignore TODO
-import { describe, it, expect } from "bun:test";
-import { bytes, expectEncode, expectEncodeSnapshot } from "../utils.test";
+import { describe, it, expect, expectTypeOf } from "bun:test";
+import { bytes, encodeTest, encodeSnapshotTest, expectError } from "../utils.test";
 
 import * as st from "../../index";
 
 describe("st.object", () => {
-    const test = st.object({
-        a: st.u8(),
-        b: st.u8(),
-    });
-
     it("encodes correctly", () => {
-        st.write(test, { b: 2, a: 1 });
+        encodeTest(
+            st.object({ a: st.u8(), b: st.u8() }), //
+            { b: 2, a: 1 },
+        );
+    });
+    it("encodes nested correctly", () => {
+        encodeTest(
+            st.object({
+                a: st.object({ a: st.u8() }),
+                b: st.u8(),
+            }), //
+            { a: { a: 2 }, b: 1 },
+        );
     });
 
     it("encode in correct order", () => {
-        const data = st.write(test, { b: 2, a: 1 });
+        const data = st.write(
+            st.object({
+                a: st.u8(),
+                b: st.u8(),
+            }),
+            { b: 2, a: 1 },
+        );
         const arr = new Uint8Array(data);
         expect(arr[0]).toBe(1);
         expect(arr[1]).toBe(2);
     });
 
     it("encodes empty", () => {
-        expectEncode(st.object({}), {});
+        encodeTest(st.object({}), {});
     });
 
     it(`matches snapshots`, () => {
-        expectEncodeSnapshot(
+        encodeSnapshotTest(
             st.object({
                 number: st.u32(),
                 puppy: st.string(st.s32()),
@@ -39,4 +52,17 @@ describe("st.object", () => {
             },
         );
     });
+
+    // Type Tests
+    expectTypeOf(
+        st.object({
+            number: st.u32(),
+            string: st.string(st.u32()),
+        }),
+    ).toEqualTypeOf<
+        st.Serializer<{
+            number: number;
+            string: string;
+        }>
+    >();
 });

@@ -1,22 +1,22 @@
 import { describe, it } from "bun:test";
-import { expectEncode, expectEncodeSnapshot, expectError } from "../utils.test";
+import { encodeTest, encodeSnapshotTest, expectError, encodeFailTest } from "../utils.test";
 
 import * as st from "../../index";
 
 describe("st.exhuastiveArray", () => {
     it("encode correctly", () => {
         const spec = st.exhuastiveArray(st.u32());
-        expectEncode(spec, [1, 2, 3, 4]);
+        encodeTest(spec, [1, 2, 3, 4]);
     });
 
     it("works on empty arrays", () => {
         const spec = st.exhuastiveArray(st.u32());
-        expectEncode(spec, []);
+        encodeTest(spec, []);
     });
 
     it("accepts large array", () => {
         const spec = st.exhuastiveArray(st.u32());
-        expectEncode(
+        encodeTest(
             spec,
             Array.from({ length: 10000 }, (_, i) => i),
         );
@@ -28,29 +28,26 @@ describe("st.exhuastiveArray", () => {
             b: st.u8(),
             c: st.exhuastiveArray(st.u32()),
         });
-        expectEncode(spec, { a: 1, b: 2, c: [3, 4, 5, 6, 7] });
+        encodeTest(spec, { a: 1, b: 2, c: [3, 4, 5, 6, 7] });
     });
 
     it("throws error on invalid value", () => {
-        const spec = st.exhuastiveArray(st.u16());
-        expectError(() => {
-            st.write(spec, [-1]);
-        });
+        encodeFailTest(st.exhuastiveArray(st.u16()), [-1]);
     });
 
     it("nested arrays encode correctly", () => {
-        expectEncode(
+        encodeTest(
             st.exhuastiveArray(st.exhuastiveArray(st.u16())), //
             [[1, 2]],
         );
     });
 
     it(`matches snapshots`, () => {
-        expectEncodeSnapshot(
+        encodeSnapshotTest(
             st.exhuastiveArray(st.string(st.u16())), //
             ["foo", "bar", "baz"],
         );
-        expectEncodeSnapshot(
+        encodeSnapshotTest(
             st.exhuastiveArray(st.u8()), //
             [0, 1, 2, 3],
         );

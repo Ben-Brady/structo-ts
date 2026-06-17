@@ -1,9 +1,6 @@
 //@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
-import {
-    expectEncode,
-    expectEncodeSize,
-} from "../utils.test";
+import { encodeTest, expectEncodeSize } from "../utils.test";
 
 import * as st from "../../index";
 
@@ -16,8 +13,8 @@ function test_float(options: { name: string; serializer: st.Serializer<number>; 
 
         if (isNaN(value) && isNaN(newValue)) return;
         if (value === newValue) return;
-        if (Math.abs(value - newValue) < 0.000001) return
-        expect(false, "Failed comparsion tests")
+        if (Math.abs(value - newValue) < 0.000001) return;
+        expect(false, "Failed comparsion tests");
     };
 
     describe(name, () => {
@@ -27,17 +24,17 @@ function test_float(options: { name: string; serializer: st.Serializer<number>; 
             }
         });
         it(`works on Infinty`, () => {
-            expectEncode(serializer, Infinity);
-            expectEncode(serializer, -Infinity);
+            encodeTest(serializer, Infinity);
+            encodeTest(serializer, -Infinity);
         });
         it(`works on NaN`, () => {
-            expectEncode(serializer, NaN);
+            encodeTest(serializer, NaN);
         });
         it(`works on 0`, () => {
-            expectEncode(serializer, 0);
+            encodeTest(serializer, 0);
         });
         it(`works on -0`, () => {
-            expectEncode(serializer, -0);
+            encodeTest(serializer, -0);
         });
 
         it(`is right size`, () => {

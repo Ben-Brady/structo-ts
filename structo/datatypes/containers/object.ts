@@ -36,7 +36,12 @@ export function object<T extends Record<string, Serializer<any>>>(
             if (size) ctx.alloc(size);
 
             for (let i = 0; i < entires.length; i++) {
-                entires[i][1].write(ctx, value[entires[i][0]]);
+                const key = entires[i][0];
+                try {
+                    entires[i][1].write(ctx, value[key]);
+                } catch (e) {
+                    throw new Error(`Failed to encode key '${key}'`, { cause: e });
+                }
             }
         },
         read: (ctx) => {

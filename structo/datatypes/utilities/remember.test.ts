@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { expectEncode, expectEncodeSnapshot } from "../utils.test";
+import { encodeTest, encodeSnapshotTest } from "../utils.test";
 
 import * as st from "../../index";
 
@@ -11,7 +11,7 @@ describe("st.remember", () => {
             a: v.save(st.u32()),
             b: st.list(v.load(), st.u8()),
         });
-        expectEncode(spec, {
+        encodeTest(spec, {
             a: 3,
             b: [1, 3, 4],
         });
@@ -31,11 +31,11 @@ describe("st.remember", () => {
             a: v.save(st.u32()),
             b: v.load(st.u8()),
         });
-        expectEncode(spec, { a: 3, b: 0 }, { a: 3, b: 3 });
+        encodeTest(spec, { a: 3, b: 0 }, { a: 3, b: 3 });
     });
 
     it("snapshots are correct", () => {
-        expectEncodeSnapshot(
+        encodeSnapshotTest(
             st.object({
                 a: v.save(st.u32()),
                 b: st.list(v.load(), st.u8()),
@@ -45,7 +45,7 @@ describe("st.remember", () => {
                 b: [1, 3, 4],
             },
         );
-        expectEncodeSnapshot(
+        encodeSnapshotTest(
             st.object({
                 a: v.save(st.u32()),
                 b: v.load(st.u8()),

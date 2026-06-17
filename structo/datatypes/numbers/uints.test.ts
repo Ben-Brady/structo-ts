@@ -1,6 +1,12 @@
 //@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
-import { expectEncode, expectEncodeSnapshot, expectError, randint } from "../utils.test";
+import {
+    encodeTest,
+    encodeSnapshotTest,
+    expectError,
+    randint,
+    encodeFailTest,
+} from "../utils.test";
 
 import * as st from "../../index";
 
@@ -21,17 +27,17 @@ function test_uint(options: {
 
     describe(name, () => {
         it(`works in bounds`, () => {
-            expectEncode(serializer, start);
+            encodeTest(serializer, start);
             for (let i = 0; i < 100; i++) {
-                expectEncode(serializer, randint(start, end));
+                encodeTest(serializer, randint(start, end));
             }
-            expectEncode(serializer, end);
+            encodeTest(serializer, end);
         });
 
         it(`errors outside bounds`, () => {
-            expectError(() => st.write(serializer, start - 1));
+            encodeFailTest(serializer, start - 1);
             if (!disableMaxCheck) {
-                expectError(() => st.write(serializer, end + 1));
+                encodeFailTest(serializer, end + 1);
             }
         });
 
@@ -52,11 +58,11 @@ function test_uint(options: {
         });
 
         it(`matches snapshots`, () => {
-            expectEncodeSnapshot(serializer, 0);
-            expectEncodeSnapshot(serializer, start);
-            expectEncodeSnapshot(serializer, start + 10);
-            expectEncodeSnapshot(serializer, end - 10);
-            expectEncodeSnapshot(serializer, end);
+            encodeSnapshotTest(serializer, 0);
+            encodeSnapshotTest(serializer, start);
+            encodeSnapshotTest(serializer, start + 10);
+            encodeSnapshotTest(serializer, end - 10);
+            encodeSnapshotTest(serializer, end);
         });
     });
 }

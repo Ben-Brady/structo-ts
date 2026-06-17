@@ -1,5 +1,11 @@
 import { describe, it, expect } from "bun:test";
-import { expectEncode, expectEncodeSnapshot, expectError, randbigint } from "../utils.test";
+import {
+    encodeTest,
+    encodeSnapshotTest,
+    expectError,
+    randbigint,
+    encodeFailTest,
+} from "../utils.test";
 
 import * as st from "../../index";
 
@@ -17,16 +23,16 @@ function test_bigint(options: {
     } = options;
     describe(name, () => {
         it("works in bounds", () => {
-            expectEncode(serializer, start);
+            encodeTest(serializer, start);
             for (let i = 0; i < 100; i++) {
-                expectEncode(serializer, randbigint(start, end));
+                encodeTest(serializer, randbigint(start, end));
             }
-            expectEncode(serializer, end);
+            encodeTest(serializer, end);
         });
 
         it("outside bounds", () => {
-            expectError(() => st.write(serializer, start - 1n));
-            expectError(() => st.write(serializer, end + 1n));
+            encodeFailTest(serializer, start - 1n);
+            encodeFailTest(serializer, end + 1n);
         });
 
         it(`is right size`, () => {
@@ -42,11 +48,11 @@ function test_bigint(options: {
         });
 
         it(`matches snapshots`, () => {
-            expectEncodeSnapshot(serializer, 0n);
-            expectEncodeSnapshot(serializer, start);
-            expectEncodeSnapshot(serializer, start + 10n);
-            expectEncodeSnapshot(serializer, end - 10n);
-            expectEncodeSnapshot(serializer, end);
+            encodeSnapshotTest(serializer, 0n);
+            encodeSnapshotTest(serializer, start);
+            encodeSnapshotTest(serializer, start + 10n);
+            encodeSnapshotTest(serializer, end - 10n);
+            encodeSnapshotTest(serializer, end);
         });
     });
 }

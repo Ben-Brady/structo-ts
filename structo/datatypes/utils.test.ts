@@ -14,7 +14,7 @@ export const randbigint = (start: bigint, end: bigint) => {
     return start + offset;
 };
 
-export const expectEncode = <TIn, TOut>(
+export const encodeTest = <TIn, TOut>(
     serializer: st.Serializer<TIn, TOut>,
     value: TIn,
     expected?: TOut,
@@ -23,6 +23,13 @@ export const expectEncode = <TIn, TOut>(
     const newValue = st.read(serializer, data);
     expect(newValue).toEqual((expected ?? value) as unknown as TOut);
 };
+
+export const encodeFailTest = <TIn, TOut>(serializer: st.Serializer<TIn, TOut>, value: TIn) => {
+    expectError(() => {
+        st.write(serializer, value);
+    });
+};
+
 export const expectEncodeSize = <TIn, TOut>(
     serializer: st.Serializer<TIn, TOut>,
     size: number,
@@ -32,7 +39,7 @@ export const expectEncodeSize = <TIn, TOut>(
     expect(data.byteLength).toEqual(size);
 };
 
-export const expectEncodeSnapshot = <T>(serializer: st.Serializer<T>, value: T) => {
+export const encodeSnapshotTest = <T>(serializer: st.Serializer<T>, value: T) => {
     const data = st.write(serializer, value);
     expect(data).toMatchSnapshot();
 };
