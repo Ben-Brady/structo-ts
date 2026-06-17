@@ -1,6 +1,6 @@
 import type { Serializer } from "./types";
 
-export function read<T>(serializer: Serializer<T>, buffer: ArrayBuffer): T {
+export function read<TIn, TOut>(serializer: Serializer<TIn, TOut>, buffer: ArrayBuffer): TOut {
     return serializer.read(createReaderContext(buffer));
 }
 
