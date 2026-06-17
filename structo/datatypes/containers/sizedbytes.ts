@@ -1,6 +1,6 @@
 import type { Serializer } from "../../types";
 
-export function sizedBuffer(length: Serializer<number>): Serializer<ArrayBuffer> {
+export function sizedBytes(length: Serializer<number>): Serializer<ArrayBuffer> {
     return {
         write: (ctx, value) => {
             length.write(ctx, value.byteLength);
