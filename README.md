@@ -94,7 +94,7 @@ export function list<T>(options: {
 ```ts
 const Bits = st.pipe(
     st.u32()
-    st.transform(v => v * 8)
+    st.modify(v => v * 8)
 )
 ```
 

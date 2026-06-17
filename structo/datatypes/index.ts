@@ -15,7 +15,8 @@ export { bytes } from "./values/bytes";
 export { bytesLiteral } from "./values/byteliteral";
 
 export { type Transform as Pipeline, pipe } from "./transforms/pipe";
-export { fixedOffset as positionOffset } from "./transforms/fixedOffset";
-export { modify as transform } from "./transforms/modify";
+export { fixedOffset } from "./transforms/fixedOffset";
+export { modify } from "./transforms/modify";
+export { encode } from "./transforms/encode";
 
 export { createRememberedValue } from "./utilities/remember";
