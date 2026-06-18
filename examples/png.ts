@@ -1,4 +1,4 @@
-import * as st from "../structo";
+import * as st from "../src";
 
 //@ts-ignore TODO
 import { readFileSync } from "node:fs";
@@ -12,7 +12,7 @@ const hexLiteral = (value: string) =>
         st.literal(value.toUpperCase()),
     );
 
-const PngFile = lazy(() =>
+const PngFile = st.lazy(() =>
     st.object({
         header: hexLiteral("89504E470D0A1A0A"),
         chunks: st.exhuastiveArray(GenericChunk),
@@ -27,12 +27,10 @@ const GenericChunk = st.object({
     crc: st.u32(),
 });
 
-
 const start = performance.now();
 const file = st.read(PngFile, data);
 
 for (const chunk of file.chunks) {
     console.log(`${chunk.type} - ${chunk.length} bytes`);
-    console.log(chunk.foo, chunk.length)
 }
 console.log(`Loaded in ${(performance.now() - start).toFixed()}ms`);

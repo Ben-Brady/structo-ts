@@ -3,7 +3,7 @@
         "declaration": true,
         "target": "esnext",
         "outDir": "dist",
-        "rootDir": "structo",
+        "rootDir": "src",
         "useDefineForClassFields": true,
         "module": "ESNext",
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
@@ -26,6 +26,6 @@
         "noUncheckedSideEffectImports": true,
         "types": ["bun", "node"]
     },
-    "include": ["./structo/**/*.ts"],
-    "files": ["./structo/index.ts"]
+    "include": ["src/**/*.ts"],
+    "files": ["src/index.ts"]
 }
