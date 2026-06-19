@@ -1,4 +1,3 @@
-import { write } from "node:fs";
 import type { Serializer } from "../types";
 
 /**

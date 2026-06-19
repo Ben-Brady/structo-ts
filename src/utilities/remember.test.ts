@@ -42,7 +42,7 @@ describe("st.remember", () => {
         const v = st.createRememberedValue<number>();
         const spec = st.object({
             a: v.save(st.u32()),
-            b: v.load(st.u8()),
+            b: v.load(),
         });
         encodeTest(spec, { a: 3, b: 0 }, { a: 3, b: 3 });
     });
