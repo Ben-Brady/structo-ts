@@ -1,6 +1,5 @@
 import type { Serializer } from "../../types";
 
-
 /** 8bit unsigned integer */
 export function u8(): Serializer<number> {
     return {

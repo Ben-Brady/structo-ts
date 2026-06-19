@@ -15,7 +15,10 @@ export function list<T>(length: Serializer<number>, type: Serializer<T>): Serial
         write: (ctx, value) => {
             length.write(ctx, value.length);
 
-            if (type.size) ctx.alloc(value.length * type.size);
+            if (type.size) {
+                ctx.alloc(value.length * type.size);
+            }
+
             for (const v of value) {
                 type.write(ctx, v);
             }
