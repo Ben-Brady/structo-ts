@@ -1,4 +1,4 @@
-import * as st from "../structo";
+import * as st from "../src";
 import { benchmark } from "./utils";
 
 type User = st.Infer<typeof User>;
@@ -7,7 +7,10 @@ const User = st.fastObject({
     name: st.string(st.u32()),
     createdAt: st.pipe(
         st.f64(),
-        st.modify((v) => new Date(v)),
+        st.encode({
+            encode: (v: Date) => v.getTime(),
+            decode: (v: number) => new Date(v),
+        }),
     ),
 });
 
@@ -77,7 +80,7 @@ export function run() {
             { name: "1k Users", data: () => generateData(1_000), times: 25_000 },
             { name: "25k Users", data: () => generateData(25_000), times: 1000 },
             { name: "100k Users", data: () => generateData(100_000), times: 500 },
-            { name: "1M Users", data: () => generateData(1_000_000), times: 25},
+            { name: "1M Users", data: () => generateData(1_000_000), times: 25 },
         ],
     });
 }

@@ -1,4 +1,4 @@
-import * as st from "../structo";
+import * as st from "../src";
 import { benchmark } from "./utils";
 
 const generateData = (size: number): Entity[] => {

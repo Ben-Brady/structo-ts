@@ -1,6 +1,3 @@
-// Prevent garbage collection slowdowns from test data
-let garbage: any[] = [];
-
 type Run<T> = {
     name: string;
     times: number;
@@ -22,7 +19,6 @@ export function benchmark<T>(options: {
         const aBytes = new Uint8Array(a);
         const bBytes = new Uint8Array(b);
         for (let i = 0; i < a.byteLength; i++) {
-            // console.log(aBytes[i], bBytes[i]);
             if (aBytes[i] !== bBytes[i]) {
                 throw new Error("Did not match");
             }
