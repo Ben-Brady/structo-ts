@@ -4,11 +4,11 @@ export function lazy<TIn, TOut = TIn>(type: () => Serializer<TIn, TOut>): Serial
     let _size: number | undefined;
 
     let resolve = () => {
-        const t = type();
-        _size = t.size ?? undefined;
-        serializer.read = t.read;
-        serializer.write = t.write;
         resolve = () => {};
+        const { size, write, read } = type();
+        _size = size ?? undefined;
+        serializer.read = read;
+        serializer.write = write;
     };
 
     const serializer: Serializer<TIn, TOut> = {
