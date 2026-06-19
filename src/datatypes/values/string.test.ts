@@ -17,6 +17,10 @@ describe("st.string", () => {
         encodeFailTest(st.string(st.u8()), 8);
     });
 
+    it("works on long strings", () => {
+        encodeTest(st.string(st.u32()), "A".repeat(2 ** 24));
+    });
+
     it("errors on too long strings", () => {
         encodeFailTest(st.string(st.u8()), "A".repeat(256));
     });

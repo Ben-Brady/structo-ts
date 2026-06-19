@@ -36,17 +36,21 @@ export function object<T extends Record<string, Serializer<any>>>(
             if (size) ctx.alloc(size);
 
             for (let i = 0; i < entires.length; i++) {
-                const key = entires[i][0];
-                const serializer = entires[i][1];
+                const [key, serializer] = entires[i];
+
+                ctx.stack.push(`.${key}`);
                 serializer.write(ctx, value[key]);
+                ctx.stack.pop();
             }
         },
         read: (ctx) => {
             const output: [string, unknown][] = new Array(entires.length);
             for (let i = 0; i < entires.length; i++) {
-                const key = entires[i][0];
-                const serializer = entires[i][1];
+                const [key, serializer] = entires[i];
+
+                ctx.stack.push(`.${key}`);
                 output[i] = [key, serializer.read(ctx)];
+                ctx.stack.pop();
             }
 
             return Object.fromEntries(output) as InferObjectOutput<T>;

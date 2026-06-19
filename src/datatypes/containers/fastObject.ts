@@ -6,7 +6,7 @@ type InferObject<T> =
 const definitionSymbol = Symbol();
 
 /**
- * `fastObject` is equivelent to object but it uses eval to improve performance
+ * `fastObject` is equivelent to object but it uses eval to improve performance, additionally it omits error reporting
  *
  * This means that is should be avoided in scenarios where CSP is required (so can't be the default), but should be fine for all other cases
  *
@@ -18,7 +18,7 @@ const definitionSymbol = Symbol();
  * })
  * ```
  *
- * Note: Using st.lazy affects the performance of fastObject as it prevents discovery of subobjects, avoid when performance is a requirement
+ * Note: Using `st.lazy` affects the performance of fastObject as it prevents discovery of subobjects, avoid when performance is a requirement
  */
 export function fastObject<T extends Record<string, Serializer<any>>>(
     definition: T,

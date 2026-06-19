@@ -4,7 +4,10 @@ export type Serializer<TIn, TOut = TIn> = {
     read: (ctx: ReaderContext) => TOut;
 };
 
+export type SerializationContext = WriterContext | ReaderContext;
+
 export interface WriterContext {
+    stack: string[];
     buffer: ArrayBuffer;
     view: DataView;
     offset: number;
@@ -12,6 +15,7 @@ export interface WriterContext {
 }
 
 export interface ReaderContext {
+    stack: string[];
     buffer: ArrayBuffer;
     view: DataView;
     offset: number;
