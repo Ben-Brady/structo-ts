@@ -31,11 +31,11 @@ export function createRememberedValue<T>() {
         };
     }
 
-    function load(serializer?: Serializer<T>): Serializer<T> {
+    function load(): Serializer<T> {
         return {
-            size: serializer?.size ?? 0,
+            size: 0,
             read: () => stack.pop()!,
-            write: (ctx) => serializer && serializer.write(ctx, stack.pop()!),
+            write: () => {},
         };
     }
 

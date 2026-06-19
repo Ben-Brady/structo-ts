@@ -81,12 +81,5 @@ describe("st.remember", () => {
                 b: [1, 3, 4],
             },
         );
-        encodeSnapshotTest(
-            st.object({
-                a: v.save(st.u32()),
-                b: v.load(st.u8()),
-            }),
-            { a: 3, b: 0 },
-        );
     });
 });
