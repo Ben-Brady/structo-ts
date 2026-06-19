@@ -5,8 +5,7 @@ export { modify } from "./modify";
 export { literal } from "./literal";
 export { enum } from "./enum";
 
-export { fixedOffset } from "./fixedOffset";
-export { noAdvance } from "./noAdvance";
+export { offset } from "./offset";
 
 export { toAscii } from "./toAscii";
 export { toBytes } from "./toBytes";
