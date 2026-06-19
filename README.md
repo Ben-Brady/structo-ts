@@ -21,9 +21,9 @@ const Entity = st.object({
 ```
 
 - Lightweight, base size is <1KB and each datatype is a few hundred bytes
-- Fast, from [benchmarks](./benchmark) only 2-
-- Supports Web/Node.js compatible
-- Easily implemented
+- Fast![benchmarks](./benchmark) show only 1.5-5x slower than ideal implementaiton
+- Designed for both Web/Node.js compatible
+- Easily implement your own serializers
 
 Each serializer is completely seperate from the base library, meaning you only pay for what you use.
 
