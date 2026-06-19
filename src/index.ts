@@ -1,5 +1,5 @@
 export type {
-    InferInput as Infer,
+    InferOutput as Infer,
     InferInput,
     InferOutput,
     ReaderContext,
