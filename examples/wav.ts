@@ -12,15 +12,15 @@ const hexLiteral = (value: string) =>
         st.literal(value.toUpperCase()),
     );
 
-const fileSize = st.createRememberedValue<number>();
+const fileSize = st.createReference<number>();
 type RiffFile = st.Infer<typeof RiffFile>;
 const RiffFile = st.object({
     filetype: hexLiteral("52494646"),
-    size: fileSize.save(st.u32()),
+    size: fileSize.pointer(st.u32()),
     format: hexLiteral("57415645"),
     data: st.sizedBytes(
         st.pipe(
-            fileSize.load(),
+            fileSize.deref(),
             st.encode({
                 encode: (v) => v + 16,
                 decode: (v) => v - 16,
@@ -29,12 +29,12 @@ const RiffFile = st.object({
     ),
 });
 
-const chunkSize = st.createRememberedValue<number>();
+const chunkSize = st.createReference<number>();
 type RiffChunk = st.Infer<typeof RiffChunk>;
 const RiffChunk = st.object({
-    format: st.bytes(4),
-    size: chunkSize.save(st.u32("little")),
-    data: st.sizedBytes(chunkSize.load()),
+    format: st.pipe(st.bytes(4), st.toAscii()),
+    size: chunkSize.pointer(st.u32("little")),
+    data: st.sizedBytes(chunkSize.deref()),
 });
 
 type FormatData = st.Infer<typeof FormatData>;
@@ -47,9 +47,6 @@ const FormatData = st.object({
     bitsPerSample: st.u16(),
 });
 
-const compareBytes = (buffer: ArrayBuffer, value: number[]) =>
-    JSON.stringify(Array.from(new Uint8Array(buffer))) == JSON.stringify(value);
-
 function readRiffFile(buffer: ArrayBuffer) {
     const file = st.read(RiffFile, buffer);
 
@@ -59,10 +56,10 @@ function readRiffFile(buffer: ArrayBuffer) {
         chunks.push(RiffChunk.read(ctx));
     }
 
-    const fmtchunk = chunks.find((v) => compareBytes(v.format, [0x66, 0x6d, 0x74, 0x20]))!;
-    const format = st.read(FormatData, fmtchunk.data);
+    const fmtchunk = chunks.find((v) => v.format === "fmt ")!;
+    const datachunk = chunks.find((v) => v.format === "data")!;
 
-    const datachunk = chunks.find((v) => compareBytes(v.format, [0x64, 0x61, 0x74, 0x61]))!;
+    const format = st.read(FormatData, fmtchunk.data);
     const data = datachunk.data;
 
     return { format, data };
