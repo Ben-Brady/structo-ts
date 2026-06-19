@@ -3,18 +3,31 @@ import type { Serializer } from "../types";
 /**
  * createRememberedValue lets you save and recall a value when serializing
  *
+ * This is useful for checksums and other values calculated from a writen value
+ *
  * ```
- * const length = st.createRememberedValue<number>()
+ * const data = st.createRememberedValue<ArrayBuffer>()
  * st.object({
- *   length: length.save(st.u32()),
- *   type: st.u8(),
- *   data: st.sizedBytes(length.load())
+ *   data: data.save(st.bytes(1024))
+ *   checksum: crc32(data.load())
  * })
  * ```
  */
 export function createRememberedValue<T>() {
     const stack: T[] = [];
 
+    /**
+     * Transparently writes/reads the underlying value but stores the value written.
+     *
+     * ---
+     * ```
+     * const data = st.createRememberedValue<ArrayBuffer>()
+     * st.object({
+     *   data: data.save(st.bytes(1024))
+     *   checksum: crc32(data.load())
+     * })
+     * ```
+     * */
     function save(serializer: Serializer<T>): Serializer<T> {
         return {
             size: serializer.size,
@@ -31,10 +44,33 @@ export function createRememberedValue<T>() {
         };
     }
 
-    function load(): Serializer<T> {
+    /**
+     * Retrieves the last value written by `.save()`
+     *
+     * By default, the value is forgotten when written so that memory isn't leaked.
+     * It can be retained by setting `behaviour` to `"retain"`
+     *
+     * When writing this type does nothing
+     *
+     * ---
+     * ```
+     * const data = st.createRememberedValue<ArrayBuffer>()
+     * st.object({
+     *   data: data.save(st.bytes(1024))
+     *   checksum: crc32(data.load())
+     * })
+     * ```
+     */
+    function load(behaviour: "pop" | "retain" = "pop"): Serializer<T> {
         return {
             size: 0,
-            read: () => stack.pop()!,
+            read: () => {
+                if (behaviour === "pop") {
+                    return stack.pop()!;
+                } else {
+                    return stack.at(-1)!;
+                }
+            },
             write: () => {},
         };
     }

@@ -1,6 +1,6 @@
 // Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
-exports[`st.remember snapshots are correct 1`] = `
+exports[`st.createReference snapshots are correct 1`] = `
 ArrayBuffer [
   3,
   0,
