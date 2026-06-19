@@ -1,4 +1,4 @@
-import * as st from "../structo";
+import * as st from "../src";
 
 //@ts-ignore TODO
 import { readFileSync } from "node:fs";
@@ -21,7 +21,10 @@ const RiffFile = st.object({
     data: st.sizedBytes(
         st.pipe(
             fileSize.load(),
-            st.modify((v: number) => v - 16),
+            st.encode({
+                encode: (v) => v + 16,
+                decode: (v) => v - 16,
+            }),
         ),
     ),
 });

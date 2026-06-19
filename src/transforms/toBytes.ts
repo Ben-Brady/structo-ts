@@ -13,10 +13,10 @@ import { encode } from "./encode";
  * `ArrayBuffer([0, 255, c])` => `[0, 255, ArrayBuffer([0, 255, 0])]`
  */
 export function toBytes() {
-    return encode<ArrayBuffer, number[]>(
-        (v) => new Uint8Array(v.map(validateByte)).buffer,
-        (v) => Array.from(new Uint8Array(v)),
-    );
+    return encode<ArrayBuffer, number[]>({
+        encode: (v) => new Uint8Array(v.map(validateByte)).buffer,
+        decode: (v) => Array.from(new Uint8Array(v)),
+    });
 }
 
 const validateByte = (v: number): number => {

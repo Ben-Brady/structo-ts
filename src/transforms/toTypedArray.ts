@@ -14,8 +14,8 @@ type TypedArrayConstructor<T extends TypedArray> = new (array: ArrayBuffer) => T
  * ```
  */
 export function toTypedArray<T extends TypedArray>(arrayType: TypedArrayConstructor<T>) {
-    return encode<ArrayBuffer, T>(
-        (v) => v.buffer,
-        (v) => new arrayType(v),
-    );
+    return encode<ArrayBuffer, T>({
+        encode: (v) => v.buffer,
+        decode: (v) => new arrayType(v),
+    });
 }

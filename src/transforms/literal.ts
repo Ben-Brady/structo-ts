@@ -1,14 +1,14 @@
 import { encode } from "./encode";
 
 export function literal<const T>(value: T) {
-    return encode<any, T>(
-        (v) => {
+    return encode<any, T>({
+        encode: (v) => {
             if (v !== value) throw new Error(`Invalid literal variant: ${v}`);
             return v;
         },
-        (v) => {
+        decode: (v) => {
             if (v !== value) throw new Error(`Invalid literal variant: ${v}`);
             return v;
         },
-    );
+    });
 }

@@ -1,4 +1,4 @@
-import * as st from "../structo";
+import * as st from "../src";
 
 // If you need a utility, just define your own serializer
 

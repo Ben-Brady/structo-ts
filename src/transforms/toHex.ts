@@ -13,8 +13,8 @@ import { encode } from "./encode";
  * `ArrayBuffer([0, 255, 0])` => `00FF00`
  */
 export function toHex() {
-    return encode<ArrayBuffer, string>(
-        (v) => Uint8Array.fromHex(v).buffer,
-        (v) => new Uint8Array(v).toHex().toUpperCase(),
-    );
+    return encode<ArrayBuffer, string>({
+        encode: (v) => Uint8Array.fromHex(v).buffer,
+        decode: (v) => new Uint8Array(v).toHex().toUpperCase(),
+    });
 }
