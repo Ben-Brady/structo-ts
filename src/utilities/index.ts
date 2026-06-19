@@ -1,3 +1,3 @@
-export { lazy } from "./lazy";
-export { createReference } from "./reference";
-export { createRememberedValue } from "./remember";
+export { lazy } from "./lazy.js";
+export { createReference } from "./reference.js";
+export { createRememberedValue } from "./remember.js";

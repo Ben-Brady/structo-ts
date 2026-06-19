@@ -1,7 +1,7 @@
 import { describe, it } from "bun:test";
-import { encodeTest } from "../utils.test";
+import { encodeTest } from "../utils.test.js";
 
-import * as st from "../index";
+import * as st from "../index.js";
 
 describe("st.offset(relative)", () => {
     it("encodes correctly with fixed offset", () => {

@@ -1,4 +1,4 @@
-import * as st from "../../index";
+import * as st from "../../index.js";
 
 /**
  * exhuastiveArray is read until the end of the data

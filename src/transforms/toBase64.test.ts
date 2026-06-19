@@ -1,7 +1,7 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../utils.test";
+import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../utils.test.js";
 
-import * as st from "../index";
+import * as st from "../index.js";
 
 describe("st.toBase64", () => {
     it("encode correctly", () => {

@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../../types.js";
 
 const checkValue = (value: number, start: number, end: number) => {
     if (!Number.isInteger(value)) {

@@ -1,4 +1,4 @@
-import type { Serializer } from "../types";
+import type { Serializer } from "../types.js";
 
 /**
  * createRememberedValue lets you save and recall a value when serializing

@@ -1,4 +1,4 @@
-import type { WriterContext, Serializer } from "./types";
+import type { WriterContext, Serializer } from "./types.js";
 
 export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn): ArrayBuffer {
     const ctx = createdWriterContext(serializer);

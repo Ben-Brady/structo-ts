@@ -5,12 +5,12 @@
         "outDir": "dist",
         "rootDir": "src",
         "useDefineForClassFields": true,
-        "module": "ESNext",
+        "module": "nodenext",
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "skipLibCheck": true,
 
         /* Bundler mode */
-        "moduleResolution": "bundler",
+        "moduleResolution": "nodenext",
         "verbatimModuleSyntax": true,
         "moduleDetection": "force",
         "jsx": "preserve",

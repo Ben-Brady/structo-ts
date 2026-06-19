@@ -1,4 +1,4 @@
-import { encode } from "./encode";
+import { encode } from "./encode.js";
 
 export function literal<const T>(value: T) {
     return encode<any, T>({

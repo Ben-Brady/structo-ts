@@ -1,4 +1,4 @@
-import type { Serializer } from "../types";
+import type { Serializer } from "../types.js";
 
 /**
  * createReference lets you defer writing a value until later, useful for lengths and sizes

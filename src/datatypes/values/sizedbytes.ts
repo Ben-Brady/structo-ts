@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../../types.js";
 
 export function sizedBytes(length: Serializer<number>): Serializer<ArrayBuffer> {
     return {

@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
-import * as st from "../index";
-import { encodeTest, encodeFailTest } from "../utils.test";
+import * as st from "../index.js";
+import { encodeTest, encodeFailTest } from "../utils.test.js";
 
 describe("st.literal", () => {
     it("encode correctly", () => {

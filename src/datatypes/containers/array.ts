@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../../types.js";
 
 /**
  * `st.array` is a fixed length array, akin to a C array.

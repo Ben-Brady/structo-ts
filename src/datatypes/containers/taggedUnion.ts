@@ -1,4 +1,4 @@
-import type { InferInput, InferOutput, Serializer } from "../../types";
+import type { InferInput, InferOutput, Serializer } from "../../types.js";
 
 /**
  * `st.taggedUnion` is a union type with a kind

@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../../types.js";
 
 /** 16bit float */
 export function f16(endian: "little" | "big" = "little"): Serializer<number> {

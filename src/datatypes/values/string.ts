@@ -1,5 +1,4 @@
-import type { Serializer } from "../../types";
-
+import type { Serializer } from "../../types.js";
 
 /**
  * `st.json` stores string data by writing/reading the length and then reading that many bytes

@@ -1,7 +1,12 @@
 import { describe, expectTypeOf, it } from "bun:test";
-import { encodeTest, expectEncodeSize, encodeSnapshotTest, encodeFailTest } from "../../utils.test";
+import {
+    encodeTest,
+    expectEncodeSize,
+    encodeSnapshotTest,
+    encodeFailTest,
+} from "../../utils.test.js";
 
-import * as st from "../../index";
+import * as st from "../../index.js";
 
 describe("st.taggedUnion", () => {
     it("encode correctly", () => {

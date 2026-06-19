@@ -1,4 +1,4 @@
-import { encode } from "./encode";
+import { encode } from "./encode.js";
 
 type TypedArray = { buffer: ArrayBuffer };
 type TypedArrayConstructor<T extends TypedArray> = new (array: ArrayBuffer) => T;

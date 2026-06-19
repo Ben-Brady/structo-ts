@@ -1,4 +1,4 @@
-import type { Serializer, ReaderContext } from "./types";
+import type { Serializer, ReaderContext } from "./types.js";
 
 export function read<TIn, TOut>(serializer: Serializer<TIn, TOut>, buffer: ArrayBuffer): TOut {
     const ctx = createReaderContext(buffer);

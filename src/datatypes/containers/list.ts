@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../../types.js";
 
 /**
  * `st.list` is a dynamically sized array

@@ -1,4 +1,4 @@
-import type { Serializer } from "../types";
+import type { Serializer } from "../types.js";
 
 export function lazy<TIn, TOut = TIn>(type: () => Serializer<TIn, TOut>): Serializer<TIn, TOut> {
     let _size: number | undefined;

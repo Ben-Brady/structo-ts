@@ -1,4 +1,4 @@
-import { encode } from "./encode";
+import { encode } from "./encode.js";
 
 export function toBase64() {
     return encode<ArrayBuffer, string>({

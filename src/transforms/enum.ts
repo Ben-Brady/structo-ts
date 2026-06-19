@@ -1,4 +1,4 @@
-import { encode } from "./encode";
+import { encode } from "./encode.js";
 
 export function enum_<const T>(values: T[]) {
     return encode<any, T>({

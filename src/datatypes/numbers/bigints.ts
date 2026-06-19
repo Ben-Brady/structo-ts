@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../../types.js";
 
 const checkValue = (value: number | bigint, start: bigint, end: bigint) => {
     if (value < start || value >= end) {

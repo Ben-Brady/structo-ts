@@ -6,9 +6,9 @@ import {
     expectError,
     randint,
     encodeFailTest,
-} from "../../utils.test";
+} from "../../utils.test.js";
 
-import * as st from "../../index";
+import * as st from "../../index.js";
 
 function test_uint(options: {
     name: string;

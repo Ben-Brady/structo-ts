@@ -1,4 +1,4 @@
-import type { Serializer } from "../types";
+import type { Serializer } from "../types.js";
 
 export function offset<TIn, TOut>(
     behaviour: "relative" | "absolute",

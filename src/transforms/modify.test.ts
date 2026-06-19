@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
-import { encodeFailTest } from "../utils.test";
+import { encodeFailTest } from "../utils.test.js";
 
-import * as st from "../index";
+import * as st from "../index.js";
 
 describe("st.modify", () => {
     it("encodes correctly", () => {

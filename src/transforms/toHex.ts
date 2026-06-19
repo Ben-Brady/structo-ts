@@ -1,4 +1,4 @@
-import { encode } from "./encode";
+import { encode } from "./encode.js";
 
 /**
  * Converts an ArrayBuffer to uppercase hex

@@ -1,5 +1,5 @@
-import type { Serializer } from "../types";
-import type { Transform } from "./pipe";
+import type { Serializer } from "../types.js";
+import type { Transform } from "./pipe.js";
 
 export function encode<TIn, TOut>(options: {
     encode: (value: TOut) => TIn;

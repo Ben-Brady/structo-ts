@@ -1,7 +1,7 @@
 import { describe, it } from "bun:test";
-import { encodeFailTest, encodeTest } from "../../utils.test";
+import { encodeFailTest, encodeTest } from "../../utils.test.js";
 
-import * as st from "../../index";
+import * as st from "../../index.js";
 
 describe("st.string", () => {
     it("encode correctly", () => {

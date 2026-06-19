@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types";
+import type { Serializer } from "../../types.js";
 
 /** 8bit unsigned integer */
 export function u8(): Serializer<number> {

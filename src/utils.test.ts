@@ -1,6 +1,6 @@
 //@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
-import * as st from "./index";
+import * as st from "./index.js";
 
 export const randint = (start: number, end: number) => {
     const range = end - start;

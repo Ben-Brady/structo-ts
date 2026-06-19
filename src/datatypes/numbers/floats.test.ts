@@ -1,8 +1,8 @@
 //@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
-import { encodeTest, expectEncodeSize } from "../../utils.test";
+import { encodeTest, expectEncodeSize } from "../../utils.test.js";
 
-import * as st from "../../index";
+import * as st from "../../index.js";
 
 function test_float(options: { name: string; serializer: st.Serializer<number>; size: number }) {
     const { name, serializer, size } = options;
