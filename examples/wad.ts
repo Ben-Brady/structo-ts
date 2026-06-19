@@ -42,10 +42,11 @@ const Lump = st.lazy(() =>
 
 //@ts-ignore TODO
 import { readFileSync } from "node:fs";
-const path = import.meta.resolve("./data/DOOM.WAD").replace("file://", "");
+const path = import.meta.resolve("./data/31plats.wad").replace("file://", "");
 const data = readFileSync(path).buffer;
 
 const wad = st.read(WadFile, data);
 for (const lump of wad.lumps) {
-    console.log(`${lump.name}`);
+    const size = `${(lump.size / 1024).toFixed(1)}kb`;
+    console.log(`${size} @${lump.position.toString().padEnd(5)} - ${lump.name}`);
 }
