@@ -6,11 +6,11 @@ type TypedArrayLike = {
     byteLength: number;
     BYTES_PER_ELEMENT: number;
 };
-type TypedArray<T extends TypedArrayLike> = new (
+type TypedArray<T extends TypedArrayLike> = { BYTES_PER_ELEMENT: number } & (new (
     array: ArrayBuffer | SharedArrayBuffer,
     offset?: number,
     length?: number,
-) => T;
+) => T);
 
 /**
  * Converts a `Uint8Array` into the provided `TypedArray`, etc Float64Arrayt
