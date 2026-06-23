@@ -11,3 +11,27 @@ ArrayBuffer [
   4,
 ]
 `;
+
+exports[`st.createReference snapshots are correct 2`] = `
+ArrayBuffer [
+  3,
+  0,
+  0,
+  0,
+  1,
+  3,
+  4,
+]
+`;
+
+exports[`st.createReference snapshots are correct 3`] = `
+ArrayBuffer [
+  3,
+  0,
+  0,
+  0,
+  1,
+  3,
+  4,
+]
+`;

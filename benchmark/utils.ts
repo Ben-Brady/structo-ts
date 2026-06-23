@@ -1,18 +1,16 @@
-type Run<T> = {
-    name: string;
-    times: number;
-    data: () => T;
-};
+import { run, bench, compact, summary, group, boxplot } from "mitata";
+
 export function benchmark<T>(options: {
-    runs: Run<T>[];
-    optimal: (value: T) => ArrayBuffer; //
+    name: string;
+    range: [number, number];
+    generateData: (size: number) => T;
+    handwritten: (value: T) => ArrayBuffer; //
     library: (value: T) => ArrayBuffer; //
 }) {
-    const { runs, library, optimal } = options;
+    const { generateData, name, range, library, handwritten } = options;
 
-    function verify() {
-        const data = runs[0].data();
-        const a = optimal(data);
+    function verify(data: T) {
+        const a = handwritten(data);
         const b = library(data);
         if (a.byteLength !== b.byteLength) throw new Error("Invalid Lengths");
 
@@ -25,41 +23,28 @@ export function benchmark<T>(options: {
         }
     }
 
-    function measure(callback: () => void): number {
-        const start = performance.now();
-        callback();
-        return performance.now() - start;
-    }
+    verify(generateData(100));
 
-    function bench(times: number, callback: () => void) {
-        let numbers: number[] = [];
-        for (let i = 0; i < times; i++) {
-            numbers.push(measure(callback));
-        }
-        return numbers.reduce((a, b) => a + b, 0) / times;
-    }
+    const [start, end] = range;
+    const sizes = [];
+    let size: number | undefined;
+    do {
+        size = size === undefined ? start : size * 10
+        size = Math.min(size, end);
+        sizes.push(size);
+    } while (size < end);
 
-    verify();
+    for (const size of sizes) {
+        const DIVIDER = "---------------------------------------------------------------------------"
+        summary(() => {
 
-    for (const { name, data: generateData, times } of runs) {
-        const data = generateData();
-
-        const formatTime = (ms: number) => {
-            if (ms > 0.01) {
-                return `${ms.toFixed(2)}ms`;
-            } else {
-                return `${(ms * 1000).toFixed(2)}μs`;
-            }
-        };
-
-        const duration = measure(() => {
-            console.log(`${name}:`);
-            const optimalMs = bench(times, () => optimal(data));
-            console.log(`    Optimal: ${formatTime(optimalMs)}`);
-            const libraryMs = bench(times, () => library(data));
-            console.log(`    Library: ${formatTime(libraryMs)}`);
-            console.log(`    ${((optimalMs / libraryMs) * 100).toFixed(2)}% as Fast`);
+            group(`\n\n${name} x${size}`, () => {
+                const data = generateData(size);
+                bench(`handwritten`, () => handwritten(data)).compact(true);
+                bench(`library`, () => library(data))
+                    .compact(true)
+                    .baseline(true);
+            });
         });
-        console.log(`    Test Took ${(duration / 1000).toFixed()}s`);
     }
 }

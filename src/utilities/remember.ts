@@ -6,7 +6,7 @@ import type { Serializer } from "../types.js";
  * This is useful for checksums and other values calculated from a writen value
  *
  * ```
- * const data = st.createRememberedValue<ArrayBuffer>()
+ * const data = st.createRememberedValue<Uint8Array>()
  * st.object({
  *   data: data.save(st.bytes(1024))
  *   checksum: crc32(data.load())
@@ -21,7 +21,7 @@ export function createRememberedValue<T>() {
      *
      * ---
      * ```
-     * const data = st.createRememberedValue<ArrayBuffer>()
+     * const data = st.createRememberedValue<Uint8Array>()
      * st.object({
      *   data: data.save(st.bytes(1024))
      *   checksum: crc32(data.load())
@@ -54,7 +54,7 @@ export function createRememberedValue<T>() {
      *
      * ---
      * ```
-     * const data = st.createRememberedValue<ArrayBuffer>()
+     * const data = st.createRememberedValue<Uint8Array>()
      * st.object({
      *   data: data.save(st.bytes(1024))
      *   checksum: crc32(data.load())

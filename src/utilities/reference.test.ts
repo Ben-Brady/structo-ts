@@ -20,7 +20,7 @@ describe("st.createReference", () => {
     });
 
     it("cant create reference to pointer", () => {
-        const length = st.createReference<ArrayBuffer>();
+        const length = st.createReference<Uint8Array>();
         expectError(() => {
             length.pointer(st.sizedBytes(st.u8()));
         });

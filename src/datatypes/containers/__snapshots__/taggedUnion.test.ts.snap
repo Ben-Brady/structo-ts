@@ -17,3 +17,39 @@ ArrayBuffer [
   63,
 ]
 `;
+
+exports[`st.taggedUnion encodes snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  240,
+  63,
+]
+`;
+
+exports[`st.taggedUnion encodes snapshots 3`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  240,
+  63,
+]
+`;

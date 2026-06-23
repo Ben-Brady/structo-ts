@@ -1,7 +1,7 @@
 import { encode } from "./encode.js";
 
 /**
- * Converts an ArrayBuffer to uppercase hex
+ * Converts an Uint8Array to uppercase hex
  *
  * ```ts
  * st.pipe(
@@ -10,11 +10,11 @@ import { encode } from "./encode.js";
  * )
  * ```
  *
- * `ArrayBuffer([0, 255, 0])` => `00FF00`
+ * `Uint8Array([0, 255, 0])` => `00FF00`
  */
 export function toHex() {
-    return encode<ArrayBuffer, string>({
-        encode: (v) => Uint8Array.fromHex(v).buffer,
-        decode: (v) => new Uint8Array(v).toHex().toUpperCase(),
+    return encode<Uint8Array, string>({
+        encode: (v) => Uint8Array.fromHex(v),
+        decode: (v) => v.toHex().toUpperCase(),
     });
 }

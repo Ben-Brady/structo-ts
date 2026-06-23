@@ -53,6 +53,4 @@ export const expectError = (callback: () => void) => {
     throw new Error("Expected Error");
 };
 
-export const bytes = (bytes: number[]) => {
-    return new Uint8Array(bytes).buffer;
-};
+export const bytes = (bytes: number[]) => new Uint8Array(bytes);

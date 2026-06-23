@@ -5,6 +5,7 @@
         "outDir": "dist",
         "rootDir": "src",
         "useDefineForClassFields": true,
+        "rewriteRelativeImportExtensions": true,
         "module": "nodenext",
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "skipLibCheck": true,

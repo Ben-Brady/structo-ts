@@ -20,14 +20,14 @@ const Entity = st.object({
 
 ```
 
+- Extremely Fast! [benchmarks](./benchmark) show equivelent performance to hand written serializers
+- Designed to be both Web & Node.js compatible
 - Lightweight, base size is <1KB and each datatype is a few hundred bytes
-- Fast![benchmarks](./benchmark) show only 1.5-5x slower than ideal implementaiton
-- Designed for both Web/Node.js compatible
-- Easily implement your own serializers
+- Easily extendable with your own datatypes
 
 Each serializer is completely seperate from the base library, meaning you only pay for what you use.
 
-## Implementing your own Serializer
+## Implementing your datatype
 
 Implementing your own serializer is incredibly simple, heres the `f64` serializer for example
 

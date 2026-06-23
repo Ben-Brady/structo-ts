@@ -41,3 +41,45 @@ ArrayBuffer [
   63,
 ]
 `;
+
+exports[`st.toTypedArray snapshot tests 1`] = `
+ArrayBuffer [
+  1,
+  0,
+  6,
+  0,
+  3,
+  0,
+  12,
+  0,
+]
+`;
+
+exports[`st.toTypedArray snapshot tests 2`] = `
+ArrayBuffer [
+  82,
+  184,
+  30,
+  133,
+  235,
+  81,
+  248,
+  63,
+  7,
+  95,
+  152,
+  76,
+  21,
+  140,
+  214,
+  63,
+  219,
+  249,
+  126,
+  106,
+  188,
+  116,
+  195,
+  63,
+]
+`;

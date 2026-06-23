@@ -19,7 +19,7 @@ export function u64Bigint(
         write: (ctx, value) => {
             checkValue(value, 0n, 2n ** 64n);
 
-            ctx.alloc(8);
+            ctx.reserve(8);
             ctx.view.setBigUint64(ctx.offset, BigInt(value), endian === "little");
             ctx.offset += 8;
         },
@@ -43,7 +43,7 @@ export function s64Bigint(
         write: (ctx, value) => {
             checkValue(value, -(2n ** 63n), 2n ** 63n);
 
-            ctx.alloc(8);
+            ctx.reserve(8);
             ctx.view.setBigInt64(ctx.offset, BigInt(value), endian === "little");
             ctx.offset += 8;
         },

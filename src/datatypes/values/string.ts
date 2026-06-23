@@ -23,11 +23,10 @@ export function string(length: Serializer<number>): Serializer<string> {
             const bytes = encoder.encode(value);
 
             const size = bytes.byteLength;
-            ctx.alloc(size + lengthSize);
+            ctx.reserve(size + lengthSize);
 
             length.write(ctx, size);
-            const arr = new Uint8Array(ctx.buffer, ctx.offset);
-            arr.set(bytes);
+            ctx.bytes.set(bytes, ctx.offset);
             ctx.offset += size;
         },
         read: (ctx) => {

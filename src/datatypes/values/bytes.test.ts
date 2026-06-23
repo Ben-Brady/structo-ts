@@ -22,7 +22,7 @@ describe("st.bytes", () => {
         const data = new Uint8Array(size);
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-        encodeTest(spec, data.buffer);
+        encodeTest(spec, data);
     });
 
     it("large data writes work", () => {
@@ -38,7 +38,7 @@ describe("st.bytes", () => {
         data.set([3, 4], 2000);
         encodeTest(spec, {
             before: 1,
-            data: data.buffer,
+            data,
             after: 2,
         });
     });

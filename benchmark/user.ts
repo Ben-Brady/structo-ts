@@ -1,5 +1,5 @@
-import * as st from "../src";
-import { benchmark } from "./utils";
+import * as st from "../src/index.js";
+import { benchmark } from "./utils.js";
 
 type User = st.Infer<typeof User>;
 const User = st.fastObject({
@@ -30,12 +30,12 @@ const generateData = (size: number): User[] => {
     return arr;
 };
 
-function serializeUsingLibrary(entities: User[]) {
-    const UserList = st.array(entities.length, User);
-    return st.write(UserList, entities);
+function serializeUsingLibrary(users: User[]) {
+    const UserList = st.array(users.length, User);
+    return st.write(UserList, users);
 }
 
-function serializeUsingOptimal(users: User[]) {
+function serializeUsingHandwritten(users: User[]) {
     const encoder = new TextEncoder();
 
     let totalSize = 0;
@@ -47,46 +47,54 @@ function serializeUsingOptimal(users: User[]) {
     }
 
     const buffer = new ArrayBuffer(totalSize);
+    const arr = new Uint8Array(buffer);
     const view = new DataView(buffer);
+
+    const bytes = (value: Uint8Array) => {
+        arr.set(value, offset);
+        offset += value.byteLength;
+    };
+    const u32 = (value: number) => {
+        view.setUint32(offset, value, true);
+        offset += 4;
+    };
+    const u64 = (value: number) => {
+        view.setBigUint64(offset, BigInt(value), true);
+        offset += 8;
+    };
+    const f64 = (value: number) => {
+        view.setFloat64(offset, value, true);
+        offset += 8;
+    };
 
     let offset = 0;
     for (let i = 0; i < users.length; i++) {
-        const { id, createdAt } = users[i];
-
-        view.setBigUint64(offset, BigInt(id), true);
-        offset += 8;
-
+        const user = users[i];
         const name = names[i];
-        view.setUint32(offset, name.byteLength, true);
-        offset += 4;
 
-        const arr = new Uint8Array(buffer);
-        arr.set(names[i], offset);
-        offset += name.byteLength;
-
-        view.setFloat64(offset, createdAt.getTime(), true);
-        offset += 8;
+        u64(user.id);
+        u32(name.byteLength);
+        bytes(name);
+        f64(user.createdAt.getTime());
     }
 
     return buffer;
 }
 
-export function run() {
-    benchmark({
+export async function generateBenchmarks() {
+    await benchmark({
+        name: "Users",
+        range: [1, 250_000],
+        generateData,
         library: serializeUsingLibrary,
-        optimal: serializeUsingOptimal,
-        runs: [
-            { name: "10 Users", data: () => generateData(1), times: 5_000_000 },
-            { name: "1k Users", data: () => generateData(1_000), times: 25_000 },
-            { name: "25k Users", data: () => generateData(25_000), times: 1000 },
-            { name: "100k Users", data: () => generateData(100_000), times: 500 },
-            { name: "1M Users", data: () => generateData(1_000_000), times: 25 },
-        ],
+        handwritten: serializeUsingHandwritten,
     });
 }
 
 import { pathToFileURL } from "node:url";
 import process from "node:process";
+import { run } from "mitata";
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-    run();
+    generateBenchmarks();
+    await run();
 }

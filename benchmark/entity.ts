@@ -1,5 +1,5 @@
-import * as st from "../src";
-import { benchmark } from "./utils";
+import * as st from "../src/index.js";
+import { benchmark } from "./utils.js";
 
 const generateData = (size: number): Entity[] => {
     const randint = (max: number) => Math.floor(Math.random() * max);
@@ -54,49 +54,66 @@ function serializeUsingLibrary(entities: Entity[]) {
     return st.write(EntityList, entities);
 }
 
-function serializeUsingOptimal(entities: Entity[]) {
+function serializeUsingHandwritten(entities: Entity[]) {
     const data = new ArrayBuffer(48 * entities.length);
     const view = new DataView(data);
 
     let offset = 0;
 
+    // Outlining to functions is actually faster
+    const u16 = (value: number) => {
+        view.setUint16(offset, value, true);
+        offset += 2;
+    };
+    const u32 = (value: number) => {
+        view.setUint32(offset, value, true);
+        offset += 4;
+    };
+    const f32 = (value: number) => {
+        view.setFloat32(offset, value, true);
+        offset += 4;
+    };
+    const f64 = (value: number) => {
+        view.setFloat64(offset, value, true);
+        offset += 8;
+    };
+
+    const encodeEntity = (entity: Entity) => {
+        u32(entity.id);
+        u16(entity.type);
+        u16(entity.health);
+
+        f64(entity.position.x);
+        f64(entity.position.y);
+        f64(entity.position.z);
+
+        f32(entity.rotation.w);
+        f32(entity.rotation.x);
+        f32(entity.rotation.y);
+        f32(entity.rotation.z);
+    };
+
     for (let i = 0; i < entities.length; i++) {
-        const entity = entities[i];
-
-        view.setUint32(offset, entity.id, true);
-        view.setUint16(offset + 4, entity.type, true);
-        view.setUint16(offset + 6, entity.health, true);
-
-        view.setFloat64(offset + 8, entity.position.x, true);
-        view.setFloat64(offset + 16, entity.position.y, true);
-        view.setFloat64(offset + 24, entity.position.z, true);
-
-        view.setFloat32(offset + 32, entity.rotation.w, true);
-        view.setFloat32(offset + 36, entity.rotation.x, true);
-        view.setFloat32(offset + 40, entity.rotation.y, true);
-        view.setFloat32(offset + 44, entity.rotation.z, true);
-        offset += 48;
+        encodeEntity(entities[i]);
     }
 
     return data;
 }
 
-export function run() {
-    benchmark({
+export async function generateBenchmarks() {
+    await benchmark({
+        name: "Entities",
+        range: [1, 250_000],
+        generateData,
         library: serializeUsingLibrary,
-        optimal: serializeUsingOptimal,
-        runs: [
-            { name: "10 Entities", data: () => generateData(1), times: 10_000_000 },
-            { name: "1k Entities", data: () => generateData(1000), times: 25_000 },
-            { name: "25k Entities", data: () => generateData(25_000), times: 1_250 },
-            { name: "100k Entities", data: () => generateData(100_000), times: 500 },
-            { name: "1M Entities", data: () => generateData(1_000_000), times: 50 },
-        ],
+        handwritten: serializeUsingHandwritten,
     });
 }
 
 import { pathToFileURL } from "node:url";
 import process from "node:process";
+import { run } from "mitata";
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-    run();
+    generateBenchmarks();
+    await run();
 }

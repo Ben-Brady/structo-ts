@@ -1,11 +1,11 @@
 import { encode } from "./encode.js";
 
 export function toAscii() {
-    return encode<ArrayBuffer, string>({
+    return encode<Uint8Array, string>({
         encode: (v) =>
-            new Uint8Array(Array.from(v).map((char) => validateAscii(char.charCodeAt(0)))).buffer,
+            new Uint8Array(Array.from(v).map((char) => validateAscii(char.charCodeAt(0)))),
         decode: (v) =>
-            Array.from(new Uint8Array(v))
+            Array.from(v)
                 .map((v) => String.fromCharCode(v))
                 .join(""),
     });

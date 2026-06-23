@@ -1,5 +1,4 @@
-import type { Serializer } from "../../types.js";
-
+import * as st from "../../index.js";
 /**
  * Fixed length bytes
  *
@@ -7,21 +6,20 @@ import type { Serializer } from "../../types.js";
  * st.bytes(4)
  * ```
  */
-export function bytes(size: number): Serializer<ArrayBuffer> {
+export function bytes(size: number): st.Serializer<Uint8Array> {
     return {
         size,
         write: (ctx, value) => {
-            const bytes = new Uint8Array(value);
-            if (bytes.length !== size) throw new Error("Invalid Length");
+            if (value.length !== size) throw new Error("Invalid Length");
 
-            ctx.alloc(size);
-            new Uint8Array(ctx.buffer).set(bytes, ctx.offset);
+            ctx.reserve(size);
+            ctx.bytes.set(value, ctx.offset)
             ctx.offset += size;
         },
         read: (ctx) => {
-            const slice = ctx.buffer.slice(ctx.offset, ctx.offset + size);
+            const arr = ctx.bytes.subarray(ctx.offset, ctx.offset + size);
             ctx.offset += size;
-            return slice;
+            return arr.slice();
         },
     };
 }

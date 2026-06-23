@@ -6,8 +6,8 @@ export type {
     WriterContext,
     Serializer,
 } from "./types.js";
-export { read, createReaderContext } from "./read.js";
-export { write, createdWriterContext } from "./write.js";
+export { read } from "./read.js";
+export { write, writeInto } from "./write.js";
 
 export * from "./datatypes/index.js";
 export * from "./transforms/index.js";
