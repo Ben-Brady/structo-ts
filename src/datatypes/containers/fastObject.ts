@@ -1,7 +1,13 @@
-import type { InferInput, Serializer } from "../../types.js";
+import type { InferInput, InferOutput, Serializer } from "../../types.js";
 
-type InferObject<T> =
-    T extends Record<string, Serializer<any>> ? { [Key in keyof T]: InferInput<T[Key]> } : never;
+
+type InferObjectInput<T extends Record<string, Serializer<any>>> = {
+    [Key in keyof T]: InferInput<T[Key]>;
+};
+
+type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
+    [Key in keyof T]: InferOutput<T[Key]>;
+};
 
 const definitionSymbol = Symbol();
 
@@ -22,7 +28,7 @@ const definitionSymbol = Symbol();
  */
 export function fastObject<T extends Record<string, Serializer<any>>>(
     definition: T,
-): Serializer<InferObject<T>> {
+): Serializer<InferObjectInput<T>, InferObjectOutput<T>> {
     let serializers: [string, Serializer<any>][] = [];
 
     let writeBody = "";

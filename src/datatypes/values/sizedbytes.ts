@@ -12,7 +12,7 @@ export function sizedBytes(length: Serializer<number>): Serializer<Uint8Array> {
         read: (ctx) => {
             const size = length.read(ctx);
 
-            const slice = ctx.bytes.subarray(ctx.offset, ctx.offset + size);
+            const slice = ctx.bytes.slice(ctx.offset, ctx.offset + size);
             ctx.offset += size;
             return slice;
         },

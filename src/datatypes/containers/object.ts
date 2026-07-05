@@ -1,10 +1,12 @@
 import type { InferInput, InferOutput, Serializer } from "../../types.js";
 
-type InferObjectInfer<T> =
-    T extends Record<string, Serializer<any>> ? { [Key in keyof T]: InferInput<T[Key]> } : never;
+type InferObjectInput<T extends Record<string, Serializer<any>>> = {
+    [Key in keyof T]: InferInput<T[Key]>;
+};
 
-type InferObjectOutput<T> =
-    T extends Record<string, Serializer<any>> ? { [Key in keyof T]: InferOutput<T[Key]> } : never;
+type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
+    [Key in keyof T]: InferOutput<T[Key]>;
+};
 
 /**
  * `object` is equivelent to a C struct, values are stored in the order defined
@@ -19,7 +21,7 @@ type InferObjectOutput<T> =
  */
 export function object<T extends Record<string, Serializer<any>>>(
     definition: T,
-): Serializer<InferObjectInfer<T>, InferObjectOutput<T>> {
+): Serializer<InferObjectInput<T>, InferObjectOutput<T>> {
     const entires = Object.entries(definition);
 
     // Use the fact: number + undefined = NaN

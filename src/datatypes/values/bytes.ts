@@ -1,4 +1,5 @@
 import * as st from "../../index.js";
+
 /**
  * Fixed length bytes
  *
@@ -17,9 +18,9 @@ export function bytes(size: number): st.Serializer<Uint8Array> {
             ctx.offset += size;
         },
         read: (ctx) => {
-            const arr = ctx.bytes.subarray(ctx.offset, ctx.offset + size);
+            const slice = ctx.bytes.slice(ctx.offset, ctx.offset + size);
             ctx.offset += size;
-            return arr.slice();
+            return slice;
         },
     };
 }

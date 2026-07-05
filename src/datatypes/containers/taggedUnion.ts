@@ -1,5 +1,13 @@
 import type { InferInput, InferOutput, Serializer } from "../../types.js";
 
+type InferUnionInput<Variants extends Record<Tag, Serializer<any>>> = {
+    [K in keyof Variants]: { type: K; value: InferInput<Variants[K]> };
+}[keyof Variants];
+
+type InferUnionOutput<Variants extends Record<Tag, Serializer<any>>> = {
+    [K in keyof Variants]: { type: K; value: InferOutput<Variants[K]> };
+}[keyof Variants];
+
 /**
  * `st.taggedUnion` is a union type with a kind
  *
@@ -19,14 +27,7 @@ export function taggedUnion<
 >(
     tag: Serializer<Tag>,
     variants: Variants & Record<Exclude<keyof Variants, Tag>, never>, // Prevents extra keys not assignable to Tag
-): Serializer<
-    {
-        [K in keyof Variants]: { type: K; value: InferInput<Variants[K]> };
-    }[keyof Variants],
-    {
-        [K in keyof Variants]: { type: K; value: InferOutput<Variants[K]> };
-    }[keyof Variants]
-> {
+): Serializer<InferUnionInput<Variants>, InferUnionOutput<Variants>> {
     return {
         write: (ctx, value) => {
             if (!(value.type in variants)) throw new Error(`Unknown type ${String(value.type)}`);

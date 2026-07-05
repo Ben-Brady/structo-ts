@@ -7,7 +7,7 @@ import * as st from "../../index.js";
  * exhuastiveArray(st.string(st.u8()))
  * ```
  */
-export function exhuastiveArray<T>(type: st.Serializer<T>): st.Serializer<T[]> {
+export function exhuastiveArray<TIn, TOut>(type: st.Serializer<TIn, Tout>): st.Serializer<TIn[], TOut[]> {
     return {
         read(ctx) {
             let arr: T[] = [];

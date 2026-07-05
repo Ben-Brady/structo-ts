@@ -10,7 +10,10 @@ import type { Serializer } from "../../types.js";
  * ```
  *
  */
-export function list<T>(length: Serializer<number>, type: Serializer<T>): Serializer<T[]> {
+export function list<TIn, TOut>(
+    length: Serializer<number>,
+    type: Serializer<TIn, TOut>,
+): Serializer<TIn[], TOut[]> {
     return {
         write: (ctx, value) => {
             length.write(ctx, value.length);
