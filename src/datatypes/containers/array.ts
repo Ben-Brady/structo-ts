@@ -9,8 +9,6 @@ import type { Serializer } from "../../types.js";
  *
  */
 export function array<T>(size: number, type: Serializer<T>): Serializer<T[]> {
-    const SHOW_ERRORS = false;
-
     return {
         size: type.size ? size * type.size : undefined,
         write: (ctx, value) => {
@@ -18,18 +16,18 @@ export function array<T>(size: number, type: Serializer<T>): Serializer<T[]> {
 
             if (type.size) ctx.reserve(size * type.size);
             for (let i = 0; i < size; i++) {
-                // if (SHOW_ERRORS) ctx.path.push(`[${i}]`);
+                ctx.pushPath?.(i);
                 type.write(ctx, value[i]);
-                // if (SHOW_ERRORS) ctx.path.pop();
+                ctx.popPath?.();
             }
         },
         read: (ctx) => {
             const arr = new Array(size);
 
             for (let i = 0; i < size; i++) {
-                if (SHOW_ERRORS) ctx.path.push(`[${i}]`);
+                ctx.pushPath?.(i);
                 arr[i] = type.read(ctx);
-                if (SHOW_ERRORS) ctx.path.pop();
+                ctx.popPath?.();
             }
             return arr;
         },

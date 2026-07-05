@@ -17,28 +17,24 @@ export function list<TIn, TOut>(
     return {
         write: (ctx, value) => {
             length.write(ctx, value.length);
-            const TRACK_STACK = value.length < 1000;
-
             if (type.size) {
                 ctx.reserve(value.length * type.size);
             }
 
             for (let i = 0; i < value.length; i++) {
-                if (TRACK_STACK) ctx.path.push(`[${i}]`);
+                ctx.pushPath?.(i);
                 const v = value[i];
                 type.write(ctx, v);
-                if (TRACK_STACK) ctx.path.pop();
+                ctx.popPath?.();
             }
         },
         read: (ctx) => {
             const size = length.read(ctx);
-            const TRACK_STACK = size < 1000;
-
             const arr = new Array(size);
             for (let i = 0; i < size; i++) {
-                if (TRACK_STACK) ctx.path.push(`[${i}]`);
+                ctx.pushPath?.(i);
                 arr[i] = type.read(ctx);
-                if (TRACK_STACK) ctx.path.pop();
+                ctx.popPath?.();
             }
             return arr;
         },

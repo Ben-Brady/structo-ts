@@ -4,12 +4,15 @@ export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn):
     let byteLength = serializer.size ?? 4096;
     let buffer_ = new ArrayBuffer(byteLength);
 
+    const path: (string | number)[] = [];
+
     let ctx: WriterContext<ArrayBuffer> = {
-        path: [],
         offset: 0,
         buffer: buffer_,
         bytes: new Uint8Array(buffer_),
         view: new DataView(buffer_),
+        pushPath: (key) => path.push(key),
+        popPath: () => path.pop(),
         reserve: (length: number) => {
             if (length <= 0) return;
             while (ctx.offset + length > byteLength) {
@@ -32,8 +35,11 @@ export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn):
     try {
         serializer.write(ctx, value);
     } catch (e) {
-        const path = ctx.path.length === 0 ? "root" : "value" + ctx.path.join("");
-        throw new Error(`Serialization error at ${path}`, { cause: e });
+        const pathStr =
+            path.length === 0
+                ? "root" //
+                : "value" + path.map((v) => `[${v}]`).join("");
+        throw new Error(`Serialization error at ${pathStr}`, { cause: e });
     }
 
     if (ctx.buffer.byteLength === ctx.offset) {
@@ -49,12 +55,14 @@ export function writeInto<TIn, TOut, TBuffer extends ArrayBuffer | SharedArrayBu
     serializer: Serializer<TIn, TOut>,
     value: TIn,
 ) {
+    const path: (string | number)[] = [];
     let ctx = {
-        path: [],
         offset: offset,
         buffer: buffer,
         bytes: new Uint8Array(buffer),
         view: new DataView(buffer),
+        pushPath: (key) => path.push(key),
+        popPath: () => path.pop(),
         reserve(length: number) {
             if (ctx.offset + length > ctx.buffer.byteLength) {
                 throw new Error("Attempted to allocate space when writing into buffer");
@@ -65,7 +73,10 @@ export function writeInto<TIn, TOut, TBuffer extends ArrayBuffer | SharedArrayBu
     try {
         serializer.write(ctx, value);
     } catch (e) {
-        const path = ctx.path.join("") ?? "root";
-        throw new Error(`Serialization error at value${path}`, { cause: e });
+        const pathStr =
+            path.length === 0
+                ? "root" //
+                : "value" + path.map((v) => `[${v}]`).join("");
+        throw new Error(`Serialization error at value${pathStr}`, { cause: e });
     }
 }

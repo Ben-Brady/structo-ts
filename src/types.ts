@@ -13,8 +13,10 @@ export interface WriterContext<
     buffer: TBuffer;
     view: DataView;
     bytes: Uint8Array;
-    path: string[];
     reserve: (length: number) => void;
+
+    pushPath?: (key: string | number) => void;
+    popPath?: () => void;
 }
 
 export interface ReaderContext<
@@ -24,8 +26,10 @@ export interface ReaderContext<
     buffer: TBuffer;
     view: DataView;
     bytes: Uint8Array;
-    path: string[];
+
+    pushPath?: (key: string | number) => void;
+    popPath?: () => void;
 }
 
-export type InferInput<T> = T extends Serializer<infer V> ? V : never;
-export type InferOutput<T> = T extends Serializer<any, infer V> ? V : never;
+export type InferInput<T extends Serializer<any>> = T extends Serializer<infer V> ? V : never;
+export type InferOutput<T extends Serializer<any>> = T extends Serializer<infer V> ? V : never;

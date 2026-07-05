@@ -10,25 +10,20 @@ import * as st from "../../index.js";
 export function exhuastiveArray<TIn, TOut>(type: st.Serializer<TIn, Tout>): st.Serializer<TIn[], TOut[]> {
     return {
         read(ctx) {
-            let arr: T[] = [];
+            let arr: TOut[] = [];
 
-            let i = 0;
             while (ctx.offset < ctx.view.byteLength) {
-                const TRACK_STACK = i++ < 512;
-
-                if (TRACK_STACK) ctx.path.push(`[${arr.length - 1}]`);
+                ctx.pushPath?.(arr.length - 1);
                 arr.push(type.read(ctx));
-                if (TRACK_STACK) ctx.path.pop();
+                ctx.popPath?.();
             }
             return arr;
         },
         write(ctx, value) {
-            const TRACK_STACK = value.length < 512;
-
             for (let i = 0; i < value.length; i++) {
-                if (TRACK_STACK) ctx.path.push(`[${i}]`);
+                ctx.pushPath?.(i);
                 type.write(ctx, value[i]);
-                if (TRACK_STACK) ctx.path.pop();
+                ctx.popPath?.();
             }
         },
     };

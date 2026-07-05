@@ -40,9 +40,9 @@ export function object<T extends Record<string, Serializer<any>>>(
             for (let i = 0; i < entires.length; i++) {
                 const [key, serializer] = entires[i];
 
-                // ctx.path.push(`.${key}`);
+                ctx.pushPath?.(key);
                 serializer.write(ctx, value[key]);
-                // ctx.path.pop();
+                ctx.popPath?.();
             }
         },
         read: (ctx) => {
@@ -51,10 +51,10 @@ export function object<T extends Record<string, Serializer<any>>>(
             for (let i = 0; i < entires.length; i++) {
                 const [key, serializer] = entires[i];
 
-                // ctx.path.push(`.${key}`);
+                ctx.pushPath?.(key);
                 //@ts-expect-error
                 output[key] = serializer.read(ctx);
-                // ctx.path.pop();
+                ctx.popPath?.();
             }
 
             return output;
