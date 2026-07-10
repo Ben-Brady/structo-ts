@@ -1,0 +1,21 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`st.toAscii snapshots 1`] = `
+ArrayBuffer [
+  54,
+  51,
+  52,
+  102,
+]
+`;
+
+exports[`st.toAscii snapshots 2`] = `
+ArrayBuffer [
+  104,
+  100,
+  106,
+  100,
+  112,
+  95,
+]
+`;
