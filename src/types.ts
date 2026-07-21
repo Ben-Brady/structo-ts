@@ -6,9 +6,9 @@ export type Serializer<TIn, TOut = TIn> = {
 
 export type SerializationContext = WriterContext | ReaderContext;
 
-export interface WriterContext<
-    TBuffer extends ArrayBuffer | SharedArrayBuffer = ArrayBuffer | SharedArrayBuffer,
-> {
+type BufferType = ArrayBuffer | SharedArrayBuffer;
+
+export interface WriterContext<TBuffer extends BufferType = BufferType> {
     offset: number;
     buffer: TBuffer;
     view: DataView;
@@ -19,9 +19,7 @@ export interface WriterContext<
     popPath?: () => void;
 }
 
-export interface ReaderContext<
-    TBuffer extends ArrayBuffer | SharedArrayBuffer = ArrayBuffer | SharedArrayBuffer,
-> {
+export interface ReaderContext<TBuffer extends BufferType = BufferType> {
     offset: number;
     buffer: TBuffer;
     view: DataView;
@@ -31,5 +29,6 @@ export interface ReaderContext<
     popPath?: () => void;
 }
 
-export type InferInput<T extends Serializer<any>> = T extends Serializer<infer V> ? V : never;
-export type InferOutput<T extends Serializer<any>> = T extends Serializer<infer V> ? V : never;
+export type InferInput<T extends Serializer<any, any>> =
+    T extends Serializer<infer V, any> ? V : never;
+export type InferOutput<T extends Serializer<any>> = T extends Serializer<any, infer V> ? V : never;
