@@ -1,6 +1,5 @@
-//@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
-import { bytes, encodeTest, encodeSnapshotTest } from "../../utils.test.ts";
+import { bytes, expectEncode, encodeSnapshotTest } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -37,7 +36,7 @@ describe("st.fastObject", () => {
     });
 
     it("encodes empty", () => {
-        encodeTest(st.fastObject({}), {});
+        expectEncode(st.fastObject({}), {});
     });
 
     it(`matches snapshots`, () => {

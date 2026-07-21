@@ -23,7 +23,7 @@ type TypedArray<T extends TypedArrayLike> = { BYTES_PER_ELEMENT: number } & (new
  * ```
  */
 export function toTypedArray<T extends TypedArrayLike>(Array: TypedArray<T>) {
-    return encode<Uint8Array, T>({
+    return encode<T, Uint8Array>({
         encode: (arr) =>
             new Uint8Array(
                 arr.buffer,

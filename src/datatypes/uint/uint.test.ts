@@ -1,11 +1,10 @@
-//@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
 import {
-    encodeTest,
+    expectEncode,
     encodeSnapshotTest,
     expectError,
     randint,
-    encodeFailTest,
+    expectEncodeFail,
 } from "../../utils.test.js";
 
 import * as st from "../../index.ts";
@@ -27,17 +26,17 @@ function test_uint(options: {
 
     describe(name, () => {
         it(`works in bounds`, () => {
-            encodeTest(serializer, start);
+            expectEncode(serializer, start);
             for (let i = 0; i < 100; i++) {
-                encodeTest(serializer, randint(start, end));
+                expectEncode(serializer, randint(start, end));
             }
-            encodeTest(serializer, end);
+            expectEncode(serializer, end);
         });
 
         it(`errors outside bounds`, () => {
-            encodeFailTest(serializer, start - 1);
+            expectEncodeFail(serializer, start - 1);
             if (!disableMaxCheck) {
-                encodeFailTest(serializer, end + 1);
+                expectEncodeFail(serializer, end + 1);
             }
         });
 

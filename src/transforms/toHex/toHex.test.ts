@@ -1,25 +1,25 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
 describe("st.toHex", () => {
     it("encode correctly", () => {
-        encodeTest(
+        expectEncode(
             st.pipe(st.bytes(3), st.toHex()), //
             "FFAB01",
         );
     });
 
     it("invalid digits error", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(3), st.toHex()), //
             "00000G",
         );
     });
 
     it("invalid length error", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(3), st.toHex()), //
             "0000",
         );

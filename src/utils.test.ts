@@ -1,5 +1,4 @@
-//@ts-ignore TODO
-import { describe, it, expect } from "bun:test";
+import { expect } from "bun:test";
 import * as st from "./index.js";
 
 export const randint = (start: number, end: number) => {
@@ -14,7 +13,7 @@ export const randbigint = (start: bigint, end: bigint) => {
     return start + offset;
 };
 
-export const encodeTest = <TIn, TOut>(
+export const expectEncode = <TIn, TOut>(
     serializer: st.Serializer<TIn, TOut>,
     value: TIn,
     expected?: TOut,
@@ -24,7 +23,7 @@ export const encodeTest = <TIn, TOut>(
     expect(newValue).toEqual((expected ?? value) as unknown as TOut);
 };
 
-export const encodeFailTest = <TIn, TOut>(serializer: st.Serializer<TIn, TOut>, value: TIn) => {
+export const expectEncodeFail = <TIn, TOut>(serializer: st.Serializer<TIn, TOut>, value: TIn) => {
     expectError(() => {
         st.write(serializer, value);
     });

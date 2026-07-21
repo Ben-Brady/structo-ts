@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { encodeFailTest } from "../../utils.test.js";
+import { expectEncodeFail } from "../../utils.test.js";
 
 import * as st from "../../index.js";
 
@@ -18,7 +18,7 @@ describe("st.modify", () => {
     });
 
     it("cannot be written", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(
                 st.u32(),
                 st.modify((v) => v + 8),

@@ -1,6 +1,6 @@
 import * as st from "../src";
 
-//@ts-ignore TODO
+//@ts-expect-error node import
 import { readFileSync } from "node:fs";
 const path = import.meta.resolve("./data/image.png").replace("file://", "");
 const data = readFileSync(path).buffer;

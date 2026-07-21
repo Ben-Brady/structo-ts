@@ -1,33 +1,33 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
 describe("st.toBytes", () => {
     it("encode correctly", () => {
-        encodeTest(
+        expectEncode(
             st.pipe(st.bytes(3), st.toBytes()), //
             [0, 1, 2],
         );
-        encodeTest(
+        expectEncode(
             st.pipe(st.bytes(3), st.toBytes()), //
             [255, 0, 127],
         );
     });
 
     it("invalid length throws error", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(3), st.toBytes()), //
             [0, 1],
         );
     });
 
     it("invalid values throws error", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(3), st.toBytes()), //
             [256, 1, 1],
         );
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(3), st.toBytes()), //
             [-1, 1, 1],
         );

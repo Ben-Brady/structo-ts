@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, expectError } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectError } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -12,7 +12,7 @@ describe("st.createReference", () => {
         });
 
         expect(spec.size).toBe(undefined);
-        encodeTest(
+        expectEncode(
             spec, //
             { length: 0, numbers: [1, 3, 4] },
             { length: 3, numbers: [1, 3, 4] },
@@ -34,7 +34,7 @@ describe("st.createReference", () => {
         });
 
         for (let i = 0; i < 3; i++) {
-            encodeTest(
+            expectEncode(
                 spec, //
                 { a: NaN, b: [1, 3, 4] },
                 { a: 3, b: [1, 3, 4] },
@@ -52,7 +52,7 @@ describe("st.createReference", () => {
             }),
         );
 
-        encodeTest(
+        expectEncode(
             Node,
             {
                 size: NaN,

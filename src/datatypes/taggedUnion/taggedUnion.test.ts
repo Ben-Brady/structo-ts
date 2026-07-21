@@ -1,9 +1,9 @@
 import { describe, expectTypeOf, it } from "bun:test";
 import {
-    encodeTest,
+    expectEncode,
     expectEncodeSize,
     encodeSnapshotTest,
-    encodeFailTest,
+    expectEncodeFail,
 } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
@@ -14,8 +14,8 @@ describe("st.taggedUnion", () => {
             1: st.string(st.u8()),
             2: st.u8(),
         });
-        encodeTest(spec, { type: 1, value: "s" });
-        encodeTest(spec, { type: 2, value: 52 });
+        expectEncode(spec, { type: 1, value: "s" });
+        expectEncode(spec, { type: 2, value: 52 });
     });
 
     it("encode with string tag", () => {
@@ -23,8 +23,8 @@ describe("st.taggedUnion", () => {
             foo: st.string(st.u8()),
             bar: st.u8(),
         });
-        encodeTest(spec, { type: "foo", value: "woof" });
-        encodeTest(spec, { type: "bar", value: 52 });
+        expectEncode(spec, { type: "foo", value: "woof" });
+        expectEncode(spec, { type: "bar", value: 52 });
     });
 
     it("throws error on invalid tag", () => {
@@ -33,7 +33,7 @@ describe("st.taggedUnion", () => {
             bar: st.u8(),
         });
         //@ts-expect-error, intended
-        encodeFailTest(spec, { type: "unknown", value: "woof" });
+        expectEncodeFail(spec, { type: "unknown", value: "woof" });
     });
 
     it("throws error on invalid type", () => {
@@ -42,7 +42,7 @@ describe("st.taggedUnion", () => {
             bar: st.u8(),
         });
         //@ts-expect-error, intended
-        encodeFailTest(spec, { type: "unknown", value: "woof" });
+        expectEncodeFail(spec, { type: "unknown", value: "woof" });
     });
 
     it("throws error on invalid value", () => {
@@ -50,7 +50,7 @@ describe("st.taggedUnion", () => {
             foo: st.string(st.u8()),
         });
         //@ts-expect-error, intended
-        encodeFailTest(spec, { type: "foo", value: 0 });
+        expectEncodeFail(spec, { type: "foo", value: 0 });
     });
 
     it("encodes varying sizes", () => {
@@ -59,7 +59,7 @@ describe("st.taggedUnion", () => {
             1: st.string(st.u8()),
             2: st.u8(),
         });
-        encodeTest(spec, { type: 1, value: "s" });
+        expectEncode(spec, { type: 1, value: "s" });
         expectEncodeSize(spec, 5, { type: 1, value: "foo" });
         expectEncodeSize(spec, 2, { type: 2, value: 52 });
     });

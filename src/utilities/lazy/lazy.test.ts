@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { encodeTest } from "../../utils.test.ts";
+import { expectEncode } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -11,7 +11,7 @@ describe("st.lazy", () => {
                 b: st.u16(),
             }),
         );
-        encodeTest(spec, {
+        expectEncode(spec, {
             a: [1, 2, 3, 4],
             b: 2,
         });
@@ -26,7 +26,7 @@ describe("st.lazy", () => {
                 }),
             ),
         });
-        encodeTest(spec, {
+        expectEncode(spec, {
             a: [1, 2, 3, 4],
             b: { a: 1 },
         });

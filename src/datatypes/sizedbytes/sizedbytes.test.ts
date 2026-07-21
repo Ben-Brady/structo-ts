@@ -1,17 +1,17 @@
 import { describe, it } from "bun:test";
-import { bytes, encodeFailTest, encodeTest } from "../../utils.test.ts";
+import { bytes, expectEncodeFail, expectEncode } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
 describe("st.sizedBytes", () => {
     it("encode correctly", () => {
         const buffer = st.sizedBytes(st.u8());
-        encodeTest(buffer, bytes([1, 2]));
+        expectEncode(buffer, bytes([1, 2]));
     });
 
     it("encodes empty correctly", () => {
         const spec = st.sizedBytes(st.u8());
-        encodeTest(spec, bytes([]));
+        expectEncode(spec, bytes([]));
     });
 
     it("holds large data", () => {
@@ -21,11 +21,11 @@ describe("st.sizedBytes", () => {
         const data = new Uint8Array(size);
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-        encodeTest(spec, data);
+        expectEncode(spec, data);
     });
 
     it("errors on invalid length", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.sizedBytes(st.u8()), //
             bytes(Array.from({ length: 256 }, () => 0)),
         );

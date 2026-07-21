@@ -1,15 +1,13 @@
-import type { Serializer } from "../types.js";
-import type { Transform } from "./pipe.js";
+import type { Transform } from "../pipe.js";
 
 export function encode<TIn, TOut>(options: {
-    encode: (value: TOut) => TIn;
-    decode: (value: TIn) => TOut;
-}): Transform<TOut, TIn> {
+    encode: (value: TIn) => TOut;
+    decode: (value: TOut) => TIn;
+}): Transform<TIn, TOut> {
     const { encode, decode } = options;
-    return (type: Serializer<TIn>) =>
-        ({
-            size: type.size,
-            read: (ctx) => decode(type.read(ctx)),
-            write: (ctx, value) => type.write(ctx, encode(value)),
-        }) satisfies Serializer<TOut>;
+    return (type) => ({
+        size: type.size,
+        read: (ctx) => decode(type.read(ctx)),
+        write: (ctx, value) => type.write(ctx, encode(value)),
+    });
 }

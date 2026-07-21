@@ -1,33 +1,33 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
 describe("st.toBase64", () => {
     it("encode correctly", () => {
-        encodeTest(
+        expectEncode(
             st.pipe(st.bytes(1), st.toBase64()), //
             "rw==",
         );
-        encodeTest(
+        expectEncode(
             st.pipe(st.bytes(2), st.toBase64()), //
             "rx8=",
         );
-        encodeTest(
+        expectEncode(
             st.pipe(st.bytes(3), st.toBase64()), //
             "rx9K",
         );
     });
 
     it("invalid character error", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(3), st.toBase64()), //
             "rx9-",
         );
     });
 
     it("invalid length error", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(4), st.toBase64()), //
             "rx9L",
         );

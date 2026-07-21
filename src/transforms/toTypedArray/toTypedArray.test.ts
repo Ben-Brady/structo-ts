@@ -1,11 +1,11 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, expectError } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectError } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
 describe("st.toTypedArray", () => {
     it("encode correctly", () => {
-        encodeTest(
+        expectEncode(
             st.pipe(
                 st.bytes(6), //
                 st.toTypedArray(Uint8Array),
@@ -15,7 +15,7 @@ describe("st.toTypedArray", () => {
     });
 
     it("encode different types correctly", () => {
-        encodeTest(
+        expectEncode(
             st.object({
                 padding: st.u64(),
                 data: st.pipe(
@@ -25,7 +25,7 @@ describe("st.toTypedArray", () => {
             }),
             { padding: 0, data: new Uint8Array([1, 2, 3]) },
         );
-        encodeTest(
+        expectEncode(
             st.object({
                 padding: st.u64(),
                 data: st.pipe(
@@ -35,7 +35,7 @@ describe("st.toTypedArray", () => {
             }),
             { padding: 0, data: new Uint16Array([1, 2, 3, 63, 74]) },
         );
-        encodeTest(
+        expectEncode(
             st.object({
                 padding: st.u64(),
                 data: st.pipe(

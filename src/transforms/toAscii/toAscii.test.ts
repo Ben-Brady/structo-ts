@@ -1,29 +1,29 @@
 import { describe, it } from "bun:test";
-import { encodeTest, encodeSnapshotTest, encodeFailTest } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
 describe("st.toAscii", () => {
     it("encode correctly", () => {
-        encodeTest(
+        expectEncode(
             st.pipe(st.bytes(5), st.toAscii()), //
             "a6534",
         );
-        encodeTest(
+        expectEncode(
             st.pipe(st.bytes(3), st.toAscii()), //
             "-as",
         );
     });
 
     it("invalid length throws error", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(4), st.toAscii()), //
             "asd",
         );
     });
 
     it("invalid character throws error", () => {
-        encodeFailTest(
+        expectEncodeFail(
             st.pipe(st.bytes(4), st.toAscii()), //
             "asdé",
         );

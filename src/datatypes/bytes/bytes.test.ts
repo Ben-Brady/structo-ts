@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { bytes, encodeFailTest, encodeTest } from "../../utils.test.ts";
+import { bytes, expectEncodeFail, expectEncode } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -7,12 +7,12 @@ describe("st.bytes", () => {
     const buffer = st.bytes(2);
 
     it("encode correctly", () => {
-        encodeTest(buffer, bytes([1, 2]));
+        expectEncode(buffer, bytes([1, 2]));
     });
 
     it("encodes empty correctly", () => {
         const spec = st.bytes(0);
-        encodeTest(spec, bytes([]));
+        expectEncode(spec, bytes([]));
     });
 
     it("holds large data", () => {
@@ -22,7 +22,7 @@ describe("st.bytes", () => {
         const data = new Uint8Array(size);
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-        encodeTest(spec, data);
+        expectEncode(spec, data);
     });
 
     it("large data writes work", () => {
@@ -36,7 +36,7 @@ describe("st.bytes", () => {
         const data = new Uint8Array(size);
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-        encodeTest(spec, {
+        expectEncode(spec, {
             before: 1,
             data,
             after: 2,
@@ -45,6 +45,6 @@ describe("st.bytes", () => {
 
     it("errors on invalid length", () => {
         const spec = st.bytes(5);
-        encodeFailTest(spec, bytes([1, 2, 3, 4]));
+        expectEncodeFail(spec, bytes([1, 2, 3, 4]));
     });
 });

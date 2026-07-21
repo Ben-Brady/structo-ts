@@ -1,17 +1,17 @@
 import { describe, it, expect, expectTypeOf } from "bun:test";
-import { bytes, encodeTest, encodeSnapshotTest } from "../../utils.test.ts";
+import { bytes, expectEncode, encodeSnapshotTest } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
 describe("st.object", () => {
     it("encodes correctly", () => {
-        encodeTest(
+        expectEncode(
             st.object({ a: st.u8(), b: st.u8() }), //
             { b: 2, a: 1 },
         );
     });
     it("encodes nested correctly", () => {
-        encodeTest(
+        expectEncode(
             st.object({
                 a: st.object({ a: st.u8() }),
                 b: st.u8(),
@@ -34,7 +34,7 @@ describe("st.object", () => {
     });
 
     it("encodes empty", () => {
-        encodeTest(st.object({}), {});
+        expectEncode(st.object({}), {});
     });
 
     it(`matches snapshots`, () => {

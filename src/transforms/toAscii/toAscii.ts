@@ -1,7 +1,7 @@
 import { encode } from "../encode/encode.ts";
 
 export function toAscii() {
-    return encode<Uint8Array, string>({
+    return encode<string, Uint8Array>({
         encode: (v) =>
             new Uint8Array(Array.from(v).map((char) => validateAscii(char.charCodeAt(0)))),
         decode: (v) =>

@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { encodeTest } from "../../utils.test.ts";
+import { expectEncode } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -12,7 +12,7 @@ describe("st.offset(relative)", () => {
                 st.offset("relative", -4), //
             ),
         });
-        encodeTest(
+        expectEncode(
             spec,
             { foo: 1, bar: 5 },
             { foo: 5, bar: 5 }, //
@@ -29,7 +29,7 @@ describe("st.offset(relative)", () => {
                 st.offset("relative", offset.load()), //
             ),
         });
-        encodeTest(
+        expectEncode(
             spec,
             { foo: 0, offset: -6, bar: 5 },
             { foo: 5, offset: -6, bar: 5 }, //
@@ -46,7 +46,7 @@ describe("st.offset(absolute)", () => {
                 st.offset("absolute", 0), //
             ),
         });
-        encodeTest(
+        expectEncode(
             spec,
             { foo: 0, bar: 5 },
             { foo: 5, bar: 5 }, //
@@ -63,7 +63,7 @@ describe("st.offset(absolute)", () => {
                 st.offset("absolute", offset.load()), //
             ),
         });
-        encodeTest(
+        expectEncode(
             spec,
             { foo: 0, offset: 0, bar: 5 },
             { foo: 5, offset: 0, bar: 5 }, //

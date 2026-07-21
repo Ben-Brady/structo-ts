@@ -1,5 +1,10 @@
 import { describe, it, expect } from "bun:test";
-import { encodeTest, encodeSnapshotTest, randbigint, encodeFailTest } from "../../utils.test.ts";
+import {
+    expectEncode,
+    encodeSnapshotTest,
+    randbigint,
+    expectEncodeFail,
+} from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -17,16 +22,16 @@ function test_bigint(options: {
     } = options;
     describe(name, () => {
         it("works in bounds", () => {
-            encodeTest(serializer, start);
+            expectEncode(serializer, start);
             for (let i = 0; i < 100; i++) {
-                encodeTest(serializer, randbigint(start, end));
+                expectEncode(serializer, randbigint(start, end));
             }
-            encodeTest(serializer, end);
+            expectEncode(serializer, end);
         });
 
         it("outside bounds", () => {
-            encodeFailTest(serializer, start - 1n);
-            encodeFailTest(serializer, end + 1n);
+            expectEncodeFail(serializer, start - 1n);
+            expectEncodeFail(serializer, end + 1n);
         });
 
         it(`is right size`, () => {

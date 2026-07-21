@@ -1,5 +1,4 @@
-import type { InferInput, InferOutput, Serializer } from "../../../types.ts";
-
+import type { InferInput, InferOutput, Serializer } from "../../types.js";
 
 type InferObjectInput<T extends Record<string, Serializer<any>>> = {
     [Key in keyof T]: InferInput<T[Key]>;
@@ -78,7 +77,7 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
     let size = Object.values(definition).reduce((total, v) => total + (v.size as number), 0);
 
     return {
-        //@ts-ignore
+        //@ts-expect-error, this doesn't match the type
         [definitionSymbol]: definition,
         size: isNaN(size) ? undefined : size,
         write,

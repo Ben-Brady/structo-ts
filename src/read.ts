@@ -5,17 +5,24 @@ export function read<TIn, TOut>(
     buffer: ArrayBuffer | SharedArrayBuffer,
     offset?: number,
 ): TOut {
+    const path: (string | number)[] = [];
+
     const ctx: ReaderContext = {
         buffer: buffer,
         view: new DataView(buffer),
         bytes: new Uint8Array(buffer),
-        path: [],
         offset: offset ?? 0,
+        pushPath: (key) => path.push(key),
+        popPath: () => path.pop(),
     };
+
     try {
         return serializer.read(ctx);
     } catch (e) {
-        const path = ctx.path.join("") ?? "root";
-        throw new Error(`Deserialization error at serializer${path}\n${e}`, { cause: e });
+        const pathStr =
+            path.length === 0
+                ? "root" //
+                : "value" + path.map((v) => `[${v}]`).join("");
+        throw new Error(`Deserialization error at serializer ${pathStr}\n${e}`, { cause: e });
     }
 }

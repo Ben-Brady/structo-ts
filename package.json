@@ -9,7 +9,7 @@
     "node"
   ],
   "license": "ISC",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "author": "Ben Brady",
   "private": false,
   "publishConfig": {
@@ -48,7 +48,7 @@
     "build": "tsc",
     "prepublish": "tsc",
     "check": "tsc --noEmit",
-    "test": "bun test src ",
+    "test": "bun test src; tsc",
     "test:coverage": "bun test src --only-failures --coverage"
   },
   "devDependencies": {

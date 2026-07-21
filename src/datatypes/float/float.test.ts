@@ -1,6 +1,5 @@
-//@ts-ignore TODO
 import { describe, it, expect } from "bun:test";
-import { encodeTest, expectEncodeSize } from "../../utils.test.ts";
+import { expectEncode, expectEncodeSize } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -24,17 +23,17 @@ function test_float(options: { name: string; serializer: st.Serializer<number>; 
             }
         });
         it(`works on Infinty`, () => {
-            encodeTest(serializer, Infinity);
-            encodeTest(serializer, -Infinity);
+            expectEncode(serializer, Infinity);
+            expectEncode(serializer, -Infinity);
         });
         it(`works on NaN`, () => {
-            encodeTest(serializer, NaN);
+            expectEncode(serializer, NaN);
         });
         it(`works on 0`, () => {
-            encodeTest(serializer, 0);
+            expectEncode(serializer, 0);
         });
         it(`works on -0`, () => {
-            encodeTest(serializer, -0);
+            expectEncode(serializer, -0);
         });
 
         it(`is right size`, () => {

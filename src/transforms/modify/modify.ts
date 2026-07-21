@@ -18,7 +18,7 @@ import type { Transform } from "../pipe.js";
  * st.pipe()
  * ```
  */
-export function modify<TIn, TOut>(callback: (value: TIn) => TOut): Transform<TOut, TIn> {
+export function modify<TIn, TOut>(callback: (value: TOut) => TIn): Transform<TIn, TOut> {
     return (type) => ({
         size: type.size,
         read: (ctx) => callback(type.read(ctx)),
