@@ -1,7 +1,7 @@
 import { encode } from "../encode/encode.ts";
 
 /**
- * Converts an Uint8Array to uppercase hex
+ * Converts a `Uint8Array` to uppercase hex
  *
  * ```ts
  * st.pipe(

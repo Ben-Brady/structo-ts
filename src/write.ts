@@ -1,16 +1,29 @@
 import type { WriterContext, Serializer } from "./types.js";
 
+/**
+ * Writes data into an `ArrayBuffer` using a schema.
+ *
+ * ```ts
+ * const user = { name: "nnilky", age: 25 }
+ * const schema = st.object({
+ *     name: st.string(st.u8()),
+ *     age: st.u32(),
+ * })
+ *
+ * const data = st.read(schema, user)
+ * ```
+ */
 export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn): ArrayBuffer {
     let byteLength = serializer.size ?? 4096;
-    let buffer_ = new ArrayBuffer(byteLength);
+    let buffer = new ArrayBuffer(byteLength);
 
     const path: (string | number)[] = [];
 
     let ctx: WriterContext<ArrayBuffer> = {
+        buffer,
+        bytes: new Uint8Array(buffer),
+        view: new DataView(buffer),
         offset: 0,
-        buffer: buffer_,
-        bytes: new Uint8Array(buffer_),
-        view: new DataView(buffer_),
         pushPath: (key) => path.push(key),
         popPath: () => path.pop(),
         reserve: (length: number) => {

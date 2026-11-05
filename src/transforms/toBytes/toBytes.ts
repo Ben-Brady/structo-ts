@@ -1,7 +1,7 @@
 import { encode } from "../encode/encode.ts";
 
 /**
- * Converts an ArrayBuffer to the byte digits
+ * Converts a `Uint8Array` to the byte digits
  *
  * ```ts
  * st.pipe(

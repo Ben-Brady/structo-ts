@@ -9,7 +9,7 @@ type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
 };
 
 /**
- * `object` is equivelent to a C struct, values are stored in the order defined
+ * `st.object` is similar to a C struct without any padding, values are stored in the order defined
  *
  * ```ts
  * st.object({

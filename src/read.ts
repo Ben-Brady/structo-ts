@@ -1,5 +1,18 @@
 import type { Serializer, ReaderContext } from "./types.js";
 
+/**
+ * Reads data from an `ArrayBuffer` using a schema.
+ *
+ * ```ts
+ * const data: ArrayBuffer = ...;
+ * const schema = st.object({
+ *     name: st.string(st.u8()),
+ *     age: st.u32(),
+ * })
+ *
+ * const { name, age } = st.read(schema, data)
+ * ```
+ */
 export function read<TIn, TOut>(
     serializer: Serializer<TIn, TOut>,
     buffer: ArrayBuffer | SharedArrayBuffer,

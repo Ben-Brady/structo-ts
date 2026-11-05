@@ -1,5 +1,8 @@
 import { encode } from "../encode/encode.ts";
 
+/**
+ * st.pipe(st.u32("big"), st.literal())
+ */
 export function literal<const T>(value: T) {
     return encode<T, any>({
         encode: (v) => {

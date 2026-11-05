@@ -1,5 +1,15 @@
 import { encode } from "../encode/encode.ts";
 
+/**
+ * Converts a `Uint8Array` to ascii text
+ *
+ * ```ts
+ * st.pipe(
+ *     st.bytes(3),
+ *     st.toAscii()
+ * )
+ * ```
+ */
 export function toAscii() {
     return encode<string, Uint8Array>({
         encode: (v) =>
