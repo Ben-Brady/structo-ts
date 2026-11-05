@@ -1,10 +1,5 @@
+import { assertInRange, assertInteger } from "../../helpers.ts";
 import type { Serializer } from "../../types.ts";
-
-const checkValue = (value: number | bigint, start: bigint, end: bigint) => {
-    if (value < start || value >= end) {
-        throw new Error("Out of Range");
-    }
-};
 
 /**
  * 64bit unsigned interger
@@ -17,7 +12,7 @@ export function u64Bigint(
     return {
         size: 8,
         write: (ctx, value) => {
-            checkValue(value, 0n, 2n ** 64n);
+            assertInRange(value, 0n, 2n ** 64n);
 
             ctx.reserve(8);
             ctx.view.setBigUint64(ctx.offset, BigInt(value), endian === "little");
@@ -41,7 +36,7 @@ export function s64Bigint(
     return {
         size: 8,
         write: (ctx, value) => {
-            checkValue(value, -(2n ** 63n), 2n ** 63n);
+            assertInRange(value, -(2n ** 63n), 2n ** 63n);
 
             ctx.reserve(8);
             ctx.view.setBigInt64(ctx.offset, BigInt(value), endian === "little");

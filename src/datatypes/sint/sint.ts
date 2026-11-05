@@ -1,21 +1,13 @@
+import { assertInteger, assertInRange } from "../../helpers.ts";
 import type { Serializer } from "../../types.ts";
-
-const checkValue = (value: number, start: number, end: number) => {
-    if (!Number.isInteger(value)) {
-        throw new Error("Not Integer");
-    }
-
-    if (value < start || value >= end) {
-        throw new Error("Out of Range");
-    }
-};
 
 /** 8bit signed integer */
 export function s8(): Serializer<number> {
     return {
         size: 1,
         write: (ctx, value) => {
-            checkValue(value, -(2 ** 7), 2 ** 7);
+            assertInteger(value);
+            assertInRange(value, -(2 ** 7), 2 ** 7);
 
             ctx.reserve(1);
             ctx.view.setInt8(ctx.offset, value);
@@ -35,7 +27,8 @@ export function s16(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 2,
         write: (ctx, value) => {
-            checkValue(value, -(2 ** 15), 2 ** 15);
+            assertInteger(value);
+            assertInRange(value, -(2 ** 15), 2 ** 15);
 
             ctx.reserve(2);
             ctx.view.setInt16(ctx.offset, value, littleEndian);
@@ -55,7 +48,8 @@ export function s32(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 4,
         write: (ctx, value) => {
-            checkValue(value, -(2 ** 31), 2 ** 31);
+            assertInteger(value);
+            assertInRange(value, -(2 ** 31), 2 ** 31);
 
             ctx.reserve(4);
             ctx.view.setInt32(ctx.offset, value, littleEndian);
@@ -75,7 +69,8 @@ export function s64(endian: "little" | "big" = "little"): Serializer<number> {
     return {
         size: 8,
         write: (ctx, value) => {
-            checkValue(value, -(2 ** 63), 2 ** 63);
+            assertInteger(value);
+            assertInRange(value, -(2 ** 63), 2 ** 63);
 
             ctx.reserve(8);
             ctx.view.setBigInt64(ctx.offset, BigInt(value), littleEndian);
