@@ -1,9 +1,51 @@
-import { describe, it, expectTypeOf } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodedAs } from "../../utils.test.ts";
+import { describe, it, expectTypeOf, expect } from "bun:test";
+import {
+    expectEncode,
+    encodeSnapshotTest,
+    expectEncodedAs,
+    expectEncodeErrors,
+} from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
+const byte = (str: string): number => {
+    let bits = Array.from(str).filter((v) => v === "0" || v === "1");
+    return parseInt(bits.join(""), 2);
+};
+
+const bytes = (str: string): number[] => {
+    let bits = Array.from(str)
+        .filter((v) => v === "0" || v === "1")
+        .join("");
+
+    const bitsize = bits.length;
+    bits = bits.padEnd(Math.ceil(bits.length / 8) * 8, "0");
+
+    let result: number[] = [];
+    for (let i = 0; i < bitsize; i += 8) {
+        const byteStr = bits.slice(i, i + 8);
+        result.push(parseInt(byteStr, 2));
+    }
+
+    return result;
+};
+
 describe("st.packedBits", () => {
+    it("byte test utils function correctly", () => {
+        expect(byte("11111111")).toEqual(255);
+        expect(byte("111")).toEqual(7);
+        expect(byte("101")).toEqual(5);
+    });
+
+    it("bytes utils function correctly", () => {
+        expect(bytes("11111111")).toEqual([255]);
+        expect(bytes("10000000")).toEqual([128]);
+        expect(bytes("11111111 10000000")).toEqual([255, 128]);
+        expect(bytes("00110000 00000101")).toEqual([48, 5]);
+        expect(bytes("00-11-00-00")).toEqual([48]);
+        expect(bytes("11010 100110 010")).toEqual(bytes("11010100 11001000"));
+    });
+
     it("encodes correctly", () => {
         expectEncode(
             st.packedBits({
@@ -26,27 +68,71 @@ describe("st.packedBits", () => {
 
     it("encodes to spec", () => {
         expectEncodedAs(
-            st.packedBits({
-                a: { bits: 4 },
-                b: { bits: 5 },
-                c: { bits: 7 },
-            }),
-            { a: 4, b: 13, c: 77 },
-            [212, 154],
+            st.packedBits({ a: { bits: 4 }, b: { bits: 5 }, c: { bits: 7 } }),
+            { a: byte("1101"), b: byte("1001-1"), c: byte("1111-000") },
+            bytes("1101 1001-1 1111-000"),
         );
         expectEncodedAs(
-            st.packedBits({
-                a: { bits: 5 },
-                b: { bits: 6 },
-                c: { bits: 3 },
-            }),
-            { a: 17, b: 63, c: 3 },
-            [241, 47], // ensure compatiblity with python library
+            st.packedBits({ a: { bits: 5 }, b: { bits: 6 }, c: { bits: 3 } }),
+            { a: byte("11010"), b: byte("100110"), c: byte("010") },
+            bytes("11010 100110 010"),
         );
     });
 
     it("encodes empty", () => {
         expectEncode(st.packedBits({}), {});
+    });
+
+    it("encodes large sizes", () => {
+        expectEncode(
+            st.packedBits({
+                a: { bits: 48 },
+                b: { bits: 48 },
+                c: { bits: 48 },
+                d: { bits: 48 },
+                e: { bits: 39 },
+            }),
+            { a: 63431254, b: 6345323, c: 6345123, d: 5675923, e: 124567423 },
+        );
+    });
+
+    it("encodes to correct size", () => {
+        {
+            const data = st.write(st.packedBits({ a: { bits: 8 } }), { a: 255 });
+            expect(data.byteLength).toBe(1);
+        }
+        {
+            const data = st.write(
+                st.packedBits({ a: { bits: 8 }, b: { bits: 3 }, c: { bits: 5 } }),
+                { a: 255, b: 1, c: 1 },
+            );
+            expect(data.byteLength).toBe(2);
+        }
+        {
+            const data = st.write(
+                st.packedBits({ a: { bits: 8 }, b: { bits: 5 }, c: { bits: 6 } }),
+                { a: 255, b: 1, c: 1 },
+            );
+            expect(data.byteLength).toBe(3);
+        }
+    });
+
+    it("encodes at max value", () => {
+        expectEncode(st.packedBits({ a: { bits: 8 } }), { a: 255 });
+    });
+
+    it("too large throws error", () => {
+        expectEncodeErrors(
+            st.packedBits({ a: { bits: 3 } }), //
+            { a: byte("1000") },
+        );
+    });
+
+    it("smaller than zero throws error", () => {
+        expectEncodeErrors(
+            st.packedBits({ a: { bits: 8 } }), //
+            { a: -1 },
+        );
     });
 
     it(`matches snapshots`, () => {
