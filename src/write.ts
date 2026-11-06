@@ -4,13 +4,13 @@ import type { WriterContext, Serializer } from "./types.ts";
  * Writes data into an `ArrayBuffer` using a schema.
  *
  * ```ts
- * const user = { name: "nnilky", age: 25 }
  * const schema = st.object({
  *     name: st.string(st.u8()),
  *     age: st.u32(),
  * })
+ * const user = { name: "nnilky", age: 25 }
  *
- * const data = st.read(schema, user)
+ * const data = st.write(schema, user)
  * ```
  */
 export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn): ArrayBuffer {
@@ -62,6 +62,20 @@ export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn):
     }
 }
 
+/**
+ * Writes data into an existing `ArrayBuffer`, this is used to edit existing data without a copy.
+ *
+ * ```ts
+ * const buffer: ArrayBuffer = ...
+ * const schema = st.object({
+ *     name: st.string(st.u8()),
+ *     age: st.u32(),
+ * })
+ * const user = { name: "nnilky", age: 25 }
+ *
+ * const data = st.writeInto(buffer, 16, schema, user)
+ * ```
+ */
 export function writeInto<TIn, TOut, TBuffer extends ArrayBuffer | SharedArrayBuffer>(
     buffer: TBuffer,
     offset: number,
@@ -78,7 +92,7 @@ export function writeInto<TIn, TOut, TBuffer extends ArrayBuffer | SharedArrayBu
         popPath: () => path.pop(),
         reserve(length: number) {
             if (ctx.offset + length > ctx.buffer.byteLength) {
-                throw new Error("Attempted to allocate space when writing into buffer");
+                throw new Error("Attempted to allocate space when writing into an existing buffer");
             }
         },
     } as WriterContext<TBuffer>;
