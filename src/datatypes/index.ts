@@ -2,6 +2,7 @@ export { u64Bigint, s64Bigint } from "./bigints/bigints.ts";
 export { f16, f32, f64 } from "./float/float.ts";
 export { s8, s16, s32, s64 } from "./sint/sint.ts";
 export { u8, u16, u32, u64 } from "./uint/uint.ts";
+export { Void } from "./void/void.ts";
 
 export { array } from "./array/array.ts";
 export { fastObject } from "./fastObject/fastObject.ts";
