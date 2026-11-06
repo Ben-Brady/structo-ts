@@ -9,7 +9,7 @@ import {
 
 import * as st from "../../index.ts";
 
-function test_sint(options: {
+function runSIntTests(options: {
     name: string;
     serializer: st.Serializer<number>;
     range: [number, number];
@@ -66,46 +66,46 @@ function test_sint(options: {
     });
 }
 
-test_sint({
+runSIntTests({
     name: "st.s8",
     serializer: st.s8(),
     range: [-128, 127],
     size: 1,
 });
 
-test_sint({
+runSIntTests({
     name: "st.s16(little)",
     serializer: st.s16("little"),
     range: [-32_768, 32_767],
     size: 2,
 });
-test_sint({
+runSIntTests({
     name: "st.s16(big)",
     serializer: st.s16("big"),
     range: [-32_768, 32_767],
     size: 2,
 });
 
-test_sint({
+runSIntTests({
     name: "st.s32(little)",
     serializer: st.s32("little"),
     range: [-2_147_483_648, 2_147_483_647],
     size: 4,
 });
-test_sint({
+runSIntTests({
     name: "st.s32(big)",
     serializer: st.s32("big"),
     range: [-2_147_483_648, 2_147_483_647],
     size: 4,
 });
-test_sint({
+runSIntTests({
     name: "st.s64(little)",
     serializer: st.s64("little"),
     range: [-(2 ** 62), 2 ** 62],
     size: 8,
     disableRangeCheck: true,
 });
-test_sint({
+runSIntTests({
     name: "st.s64(big)",
     serializer: st.s64("big"),
     range: [-(2 ** 62), 2 ** 62],
