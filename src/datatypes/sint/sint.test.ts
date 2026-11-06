@@ -4,7 +4,7 @@ import {
     encodeSnapshotTest,
     expectError,
     randint,
-    expectEncodeFail,
+    expectEncodeErrors,
 } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
@@ -35,8 +35,8 @@ function test_sint(options: {
 
         if (!disableRangeCheck) {
             it(`errors outside bounds`, () => {
-                expectEncodeFail(serializer, start - 1);
-                expectEncodeFail(serializer, end + 1);
+                expectEncodeErrors(serializer, start - 1);
+                expectEncodeErrors(serializer, end + 1);
             });
         }
 

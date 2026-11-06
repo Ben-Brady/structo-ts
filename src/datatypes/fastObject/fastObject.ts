@@ -1,4 +1,4 @@
-import type { InferInput, InferOutput, Serializer } from "../../types.js";
+import type { InferInput, InferOutput, Serializer } from "../../types.ts";
 
 type InferObjectInput<T extends Record<string, Serializer<any>>> = {
     [Key in keyof T]: InferInput<T[Key]>;

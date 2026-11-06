@@ -1,6 +1,6 @@
-export { type Transform as Pipeline, pipe } from "./pipe.js";
-export { encode } from "./encode/encode.js";
-export { modify } from "./modify/modify.js";
+export { type Transform as Pipeline, pipe } from "./pipe.ts";
+export { encode } from "./encode/encode.ts";
+export { modify } from "./modify/modify.ts";
 
 export { literal } from "./literal/literal.ts";
 export { enum } from "./enum/enum.ts";

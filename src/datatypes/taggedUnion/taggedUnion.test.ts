@@ -3,7 +3,7 @@ import {
     expectEncode,
     expectEncodeSize,
     encodeSnapshotTest,
-    expectEncodeFail,
+    expectEncodeErrors,
 } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
@@ -33,7 +33,7 @@ describe("st.taggedUnion", () => {
             bar: st.u8(),
         });
         //@ts-expect-error, intended
-        expectEncodeFail(spec, { type: "unknown", value: "woof" });
+        expectEncodeErrors(spec, { type: "unknown", value: "woof" });
     });
 
     it("throws error on invalid type", () => {
@@ -42,7 +42,7 @@ describe("st.taggedUnion", () => {
             bar: st.u8(),
         });
         //@ts-expect-error, intended
-        expectEncodeFail(spec, { type: "unknown", value: "woof" });
+        expectEncodeErrors(spec, { type: "unknown", value: "woof" });
     });
 
     it("throws error on invalid value", () => {
@@ -50,7 +50,7 @@ describe("st.taggedUnion", () => {
             foo: st.string(st.u8()),
         });
         //@ts-expect-error, intended
-        expectEncodeFail(spec, { type: "foo", value: 0 });
+        expectEncodeErrors(spec, { type: "foo", value: 0 });
     });
 
     it("encodes varying sizes", () => {

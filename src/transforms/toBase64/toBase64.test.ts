@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -20,14 +20,14 @@ describe("st.toBase64", () => {
     });
 
     it("invalid character error", () => {
-        expectEncodeFail(
+        expectEncodeErrors(
             st.pipe(st.bytes(3), st.toBase64()), //
             "rx9-",
         );
     });
 
     it("invalid length error", () => {
-        expectEncodeFail(
+        expectEncodeErrors(
             st.pipe(st.bytes(4), st.toBase64()), //
             "rx9L",
         );

@@ -14,7 +14,7 @@ export function bytes(size: number): st.Serializer<Uint8Array> {
             if (value.length !== size) throw new Error("Invalid Length");
 
             ctx.reserve(size);
-            ctx.bytes.set(value, ctx.offset)
+            ctx.bytes.set(value, ctx.offset);
             ctx.offset += size;
         },
         read: (ctx) => {

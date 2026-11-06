@@ -1,4 +1,4 @@
-import type { Serializer, ReaderContext } from "./types.js";
+import type { Serializer, ReaderContext } from "./types.ts";
 
 /**
  * Reads data from an `ArrayBuffer` using a schema.

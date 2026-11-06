@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { expectEncodeFail, expectEncode } from "../../utils.test.ts";
+import { expectEncodeErrors, expectEncode } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -14,7 +14,7 @@ describe("st.string", () => {
 
     it("errors on numbers", () => {
         //@ts-expect-error, intentional mistake
-        expectEncodeFail(st.string(st.u8()), 8);
+        expectEncodeErrors(st.string(st.u8()), 8);
     });
 
     it("works on long strings", () => {
@@ -22,6 +22,6 @@ describe("st.string", () => {
     });
 
     it("errors on too long strings", () => {
-        expectEncodeFail(st.string(st.u8()), "A".repeat(256));
+        expectEncodeErrors(st.string(st.u8()), "A".repeat(256));
     });
 });

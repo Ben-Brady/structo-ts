@@ -3,7 +3,7 @@ import {
     expectEncode,
     encodeSnapshotTest,
     randbigint,
-    expectEncodeFail,
+    expectEncodeErrors,
 } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
@@ -30,8 +30,8 @@ function test_bigint(options: {
         });
 
         it("outside bounds", () => {
-            expectEncodeFail(serializer, start - 1n);
-            expectEncodeFail(serializer, end + 1n);
+            expectEncodeErrors(serializer, start - 1n);
+            expectEncodeErrors(serializer, end + 1n);
         });
 
         it(`is right size`, () => {

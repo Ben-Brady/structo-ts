@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -16,14 +16,14 @@ describe("st.toAscii", () => {
     });
 
     it("invalid length throws error", () => {
-        expectEncodeFail(
+        expectEncodeErrors(
             st.pipe(st.bytes(4), st.toAscii()), //
             "asd",
         );
     });
 
     it("invalid character throws error", () => {
-        expectEncodeFail(
+        expectEncodeErrors(
             st.pipe(st.bytes(4), st.toAscii()), //
             "asdé",
         );

@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import * as st from "../../index.ts";
-import { expectEncode, expectEncodeFail } from "../../utils.test.ts";
+import { expectEncode, expectEncodeErrors } from "../../utils.test.ts";
 
 describe("st.enum", () => {
     it("encode correctly", () => {
@@ -15,9 +15,9 @@ describe("st.enum", () => {
     });
     it("invalid union variants error", () => {
         //@ts-expect-error
-        expectEncodeFail(st.pipe(st.u8(), st.enum([0, 1, 2])), 4);
+        expectEncodeErrors(st.pipe(st.u8(), st.enum([0, 1, 2])), 4);
         //@ts-expect-error
-        expectEncodeFail(st.pipe(st.string(st.u8()), st.enum(["A", "B", "C"])), "D");
+        expectEncodeErrors(st.pipe(st.string(st.u8()), st.enum(["A", "B", "C"])), "D");
     });
 
     () => {

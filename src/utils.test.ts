@@ -1,5 +1,5 @@
 import { expect } from "bun:test";
-import * as st from "./index.js";
+import * as st from "./index.ts";
 
 export const randint = (start: number, end: number) => {
     const range = end - start;
@@ -23,7 +23,13 @@ export const expectEncode = <TIn, TOut>(
     expect(newValue).toEqual((expected ?? value) as unknown as TOut);
 };
 
-export const expectEncodeFail = <TIn, TOut>(serializer: st.Serializer<TIn, TOut>, value: TIn) => {
+export const expectEncodedAs = <T>(serializer: st.Serializer<T>, value: T, expected: number[]) => {
+    const data = st.write(serializer, value);
+    const bytes = Array.from(new Uint8Array(data));
+    expect(bytes).toEqual(expected);
+};
+
+export const expectEncodeErrors = <TIn, TOut>(serializer: st.Serializer<TIn, TOut>, value: TIn) => {
     expectError(() => {
         st.write(serializer, value);
     });

@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -16,18 +16,18 @@ describe("st.toBytes", () => {
     });
 
     it("invalid length throws error", () => {
-        expectEncodeFail(
+        expectEncodeErrors(
             st.pipe(st.bytes(3), st.toBytes()), //
             [0, 1],
         );
     });
 
     it("invalid values throws error", () => {
-        expectEncodeFail(
+        expectEncodeErrors(
             st.pipe(st.bytes(3), st.toBytes()), //
             [256, 1, 1],
         );
-        expectEncodeFail(
+        expectEncodeErrors(
             st.pipe(st.bytes(3), st.toBytes()), //
             [-1, 1, 1],
         );

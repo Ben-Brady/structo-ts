@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import * as st from "../../index.ts";
-import { expectEncode, expectEncodeFail } from "../../utils.test.ts";
+import { expectEncode, expectEncodeErrors } from "../../utils.test.ts";
 
 describe("st.literal", () => {
     it("encode correctly", () => {
@@ -10,9 +10,9 @@ describe("st.literal", () => {
 
     it("invalid literal errors", () => {
         //@ts-expect-error
-        expectEncodeFail(st.pipe(st.u8(), st.literal(0)), 2);
+        expectEncodeErrors(st.pipe(st.u8(), st.literal(0)), 2);
         //@ts-expect-error
-        expectEncodeFail(st.pipe(st.string(st.u8()), st.literal("A")), "B");
+        expectEncodeErrors(st.pipe(st.string(st.u8()), st.literal("A")), "B");
     });
 
     () => {

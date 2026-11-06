@@ -5,11 +5,11 @@ export type {
     ReaderContext,
     WriterContext,
     Serializer,
-} from "./types.js";
-export { read } from "./read.js";
-export { write, writeInto } from "./write.js";
+} from "./types.ts";
+export { read } from "./read.ts";
+export { write, writeInto } from "./write.ts";
 
-export * from "./datatypes/index.js";
-export * from "./transforms/index.js";
-export * from "./utilities/index.js";
+export * from "./datatypes/index.ts";
+export * from "./transforms/index.ts";
+export * from "./utilities/index.ts";
 export * as st from "./import.ts";

@@ -1,4 +1,4 @@
-import type { WriterContext, Serializer } from "./types.js";
+import type { WriterContext, Serializer } from "./types.ts";
 
 /**
  * Writes data into an `ArrayBuffer` using a schema.

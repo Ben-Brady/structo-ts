@@ -1,4 +1,4 @@
-import { assertInRange, assertInteger } from "../../helpers.ts";
+import { assertInRange } from "../../helpers.ts";
 import type { Serializer } from "../../types.ts";
 
 /**

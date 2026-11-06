@@ -1,5 +1,5 @@
 import { assertInRange, assertInteger } from "../../helpers.ts";
-import type { Serializer } from "../../types.js";
+import type { Serializer } from "../../types.ts";
 
 /** 8bit unsigned integer */
 export function u8(): Serializer<number> {

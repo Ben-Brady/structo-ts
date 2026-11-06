@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -32,7 +32,7 @@ describe("st.exhuastiveArray", () => {
     });
 
     it("throws error on invalid value", () => {
-        expectEncodeFail(st.exhuastiveArray(st.u16()), [-1]);
+        expectEncodeErrors(st.exhuastiveArray(st.u16()), [-1]);
     });
 
     it("nested arrays encode correctly", () => {

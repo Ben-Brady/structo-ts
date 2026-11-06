@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodeFail } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -15,14 +15,14 @@ describe("st.list", () => {
     });
 
     it("throws error on too large array", () => {
-        expectEncodeFail(
+        expectEncodeErrors(
             st.list(st.u8(), st.u32()),
             Array.from({ length: 10000 }, () => 0),
         );
     });
 
     it("throws error on invalid value", () => {
-        expectEncodeFail(st.list(st.u8(), st.u16()), [-1]);
+        expectEncodeErrors(st.list(st.u8(), st.u16()), [-1]);
     });
 
     it(`matches snapshots`, () => {

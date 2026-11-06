@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { expectEncode, expectEncodeFail } from "../../utils.test.ts";
+import { expectEncode, expectEncodeErrors } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -13,11 +13,11 @@ describe("st.array", () => {
     });
 
     it("throws error on invalid size", () => {
-        expectEncodeFail(st.array(2, st.u16()), [1]);
+        expectEncodeErrors(st.array(2, st.u16()), [1]);
     });
 
     it("throws error on invalid value", () => {
-        expectEncodeFail(st.array(2, st.u16()), [1, -1]);
-        expectEncodeFail(st.array(2, st.u16()), [2 ** 16 + 1, 0]);
+        expectEncodeErrors(st.array(2, st.u16()), [1, -1]);
+        expectEncodeErrors(st.array(2, st.u16()), [2 ** 16 + 1, 0]);
     });
 });

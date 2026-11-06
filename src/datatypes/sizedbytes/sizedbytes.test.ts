@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { bytes, expectEncodeFail, expectEncode } from "../../utils.test.ts";
+import { bytes, expectEncodeErrors, expectEncode } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
@@ -25,7 +25,7 @@ describe("st.sizedBytes", () => {
     });
 
     it("errors on invalid length", () => {
-        expectEncodeFail(
+        expectEncodeErrors(
             st.sizedBytes(st.u8()), //
             bytes(Array.from({ length: 256 }, () => 0)),
         );

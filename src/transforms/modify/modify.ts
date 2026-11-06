@@ -1,4 +1,4 @@
-import type { Transform } from "../pipe.js";
+import type { Transform } from "../pipe.ts";
 
 /**
  * A readonly modification function, useful for sizes or offsets.

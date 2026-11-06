@@ -1,4 +1,4 @@
-import type { Transform } from "../pipe.js";
+import type { Transform } from "../pipe.ts";
 
 export function encode<TIn, TOut>(options: {
     encode: (value: TIn) => TOut;
