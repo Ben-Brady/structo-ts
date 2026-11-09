@@ -1,6 +1,25 @@
 import type { Serializer } from "../../types.ts";
 
 /**
+ * `st.lazy` lets you hoist types up by using a clsoure, allowing you to define things in any order
+ *
+ * This works by resolving the types when they are used for the first time
+ *
+ * ---
+ *
+ * ```ts
+ * const User = st.object({
+ *     id: st.u32(),
+ *     position: st.lazy(() => Vec3),
+ * })
+ *
+ * const Vec3 = st.object({
+ *     x: st.f32(),
+ *     y: st.f32(),
+ *     z: st.f32(),
+ * })
+ * ```
+ *
  * @group Utilities
  */
 export function lazy<TIn, TOut = TIn>(type: () => Serializer<TIn, TOut>): Serializer<TIn, TOut> {

@@ -13,6 +13,10 @@ type InferUnionOutput<Tag extends keyof any, Variants extends Record<Tag, Serial
  *
  * Note: `tag` is read/writen first, then the value
  *
+ * > Experimental: API might change in the future
+ *
+ * ---
+ *
  * ```
  * st.taggedUnion(st.u32(), {
  *     0: MovementPacket,

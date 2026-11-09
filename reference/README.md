@@ -42,7 +42,7 @@ export function f64(endian: "little" | "big" = "little"): st.Serializer<number> 
     return {
         size: 8,
         write: (ctx, value) => {
-            ctx.alloc(8);
+            ctx.reserve(8);
             ctx.view.setFloat64(ctx.offset, value, endian === "little");
             ctx.offset += 8;
         },

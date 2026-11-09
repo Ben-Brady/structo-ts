@@ -1,6 +1,6 @@
 {
     "entryPoints": ["../src/index.ts"],
-    "out": "./dist",
+    "out": "../dist-reference",
     "readme": "./README.md",
 
     "groupOrder": [

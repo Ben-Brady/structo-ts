@@ -17,6 +17,13 @@ export interface WriterContext<
     buffer: TBuffer;
     view: DataView;
     bytes: Uint8Array;
+
+    /**
+     * Ensure that there are `n` number of bytes ahead of the current offset
+     *
+     * It won't allocate more data if there is that number of bytes already available,
+     * this means that you can optimistically reserve
+     */
     reserve: (length: number) => void;
 
     /**
@@ -114,7 +121,7 @@ export interface ReaderContext<
  * }
  * ```
  *
- * @group Type Helpers
+ * @group Types
  */
 export type InferInput<T extends Serializer<any>> = T extends Serializer<infer V, any> ? V : never;
 
@@ -137,13 +144,14 @@ export type InferInput<T extends Serializer<any>> = T extends Serializer<infer V
  * }
  * ```
  *
- * @group Type Helpers
+ * @group Types
  */
 export type InferOutput<T extends Serializer<any>> = T extends Serializer<any, infer V> ? V : never;
 
 /**
  * @deprecated use `st.InferOutput` instead
  *
- * @group Type Helpers
+ * @group Types
+ * @hidden
  */
 export type Infer<T extends Serializer<any>> = T extends Serializer<any, infer V> ? V : never;
