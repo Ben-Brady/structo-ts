@@ -1,34 +1,149 @@
+/**
+ * @group Types
+ */
 export type Serializer<TIn, TOut = TIn> = {
     size?: number | undefined;
     write: (ctx: WriterContext, value: TIn) => void;
     read: (ctx: ReaderContext) => TOut;
 };
 
-export type SerializationContext = WriterContext | ReaderContext;
-
-type BufferType = ArrayBuffer | SharedArrayBuffer;
-
-export interface WriterContext<TBuffer extends BufferType = BufferType> {
+/**
+ * @group Types
+ */
+export interface WriterContext<
+    TBuffer extends ArrayBuffer | SharedArrayBuffer = ArrayBuffer | SharedArrayBuffer,
+> {
     offset: number;
     buffer: TBuffer;
     view: DataView;
     bytes: Uint8Array;
     reserve: (length: number) => void;
 
+    /**
+     * Pushes the current index/key to the context for error reporting, supports both number and string indexes
+     *
+     * Using this API is optional, but provides a better experience when errors occur
+     *
+     * Note: you must use `?.(` calling since it may not be defined for performance reasons
+     *
+     * ---
+     *
+     * ```ts
+     * ctx.pushPath?.(index)
+     * type.write(ctx, value[i]);
+     * ctx.popPath?.()
+     * ```
+     */
     pushPath?: (key: string | number) => void;
+    /**
+     * Pops the current key for error reporting, see `pushPath` for details
+     *
+     * Note: you must use `?.(` calling since it may not be defined for performance reasons\
+     *
+     * ---
+     *
+     * ```ts
+     * ctx.pushPath?.(index)
+     * type.write(ctx, value[i]);
+     * ctx.popPath?.()
+     * ```
+     */
     popPath?: () => void;
 }
 
-export interface ReaderContext<TBuffer extends BufferType = BufferType> {
+/**
+ * @group Types
+ */
+export interface ReaderContext<
+    TBuffer extends ArrayBuffer | SharedArrayBuffer = ArrayBuffer | SharedArrayBuffer,
+> {
     offset: number;
     buffer: TBuffer;
     view: DataView;
     bytes: Uint8Array;
 
+    /**
+     * Pushes the current index/key to the context for error reporting, supports both number and string indexes
+     *
+     * Using this API is optional, but provides a better experience when errors occur
+     *
+     * Note: you must use `?.(` calling since it may not be defined for performance reasons
+     *
+     * ---
+     *
+     * ```ts
+     * ctx.pushPath?.(index)
+     * type.write(ctx, value[i]);
+     * ctx.popPath?.()
+     * ```
+     */
     pushPath?: (key: string | number) => void;
+    /**
+     * Pops the current key for error reporting, see `pushPath` for details
+     *
+     * Note: you must use `?.(` calling since it may not be defined for performance reasons\
+     *
+     * ---
+     *
+     * ```ts
+     * ctx.pushPath?.(index)
+     * type.write(ctx, value[i]);
+     * ctx.popPath?.()
+     * ```
+     */
     popPath?: () => void;
 }
 
-export type InferInput<T extends Serializer<any, any>> =
-    T extends Serializer<infer V, any> ? V : never;
+/**
+ * Allows to infer the Input into a serializer, this is the type needed to write it
+ *
+ * ---
+ *
+ * ```ts
+ * const User = st.object({
+ *     username: st.string(st.u32()),
+ *     createdAt: st.u64BigInt(),
+ * })
+ *
+ * type User = st.InferOutput<typeof User>
+ * // expands to
+ * type User = {
+ *     username: string,
+ *     // u64BigInt supports writing either `number | bigint`
+ *     age: number | bigint,
+ * }
+ * ```
+ *
+ * @group Type Helpers
+ */
+export type InferInput<T extends Serializer<any>> = T extends Serializer<infer V, any> ? V : never;
+
+/**
+ * Allows to infer the Output from a serializer, this is the type returned when you read that type
+ *
+ * ---
+ *
+ * ```ts
+ * const User = st.object({
+ *     username: st.string(st.u32()),
+ *     createdAt: st.u64BigInt(),
+ * })
+ *
+ * type User = st.InferOutput<typeof User>
+ * // expands to
+ * type User = {
+ *     username: string,
+ *     age: bigint,
+ * }
+ * ```
+ *
+ * @group Type Helpers
+ */
 export type InferOutput<T extends Serializer<any>> = T extends Serializer<any, infer V> ? V : never;
+
+/**
+ * @deprecated use `st.InferOutput` instead
+ *
+ * @group Type Helpers
+ */
+export type Infer<T extends Serializer<any>> = T extends Serializer<any, infer V> ? V : never;

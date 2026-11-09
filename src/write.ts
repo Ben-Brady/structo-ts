@@ -1,16 +1,20 @@
 import type { WriterContext, Serializer } from "./types.ts";
 
 /**
- * Writes data into an `ArrayBuffer` using a schema.
+ * Writes a schema into a newly allocated `ArrayBuffer`.
+ *
+ * ---
  *
  * ```ts
- * const schema = st.object({
+ * const User = st.object({
  *     name: st.string(st.u8()),
  *     age: st.u32(),
  * })
- * const user = { name: "nnilky", age: 25 }
  *
- * const data = st.write(schema, user)
+ * const data = st.write(User, {
+ *     name: "nnilky",
+ *     age: 26,
+ * })
  * ```
  */
 export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn): ArrayBuffer {
@@ -47,33 +51,39 @@ export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn):
 
     try {
         serializer.write(ctx, value);
-    } catch (e) {
-        const pathStr =
-            path.length === 0
-                ? "root" //
-                : "value" + path.map((v) => `[${v}]`).join("");
-        throw new Error(`Serialization error at ${pathStr}`, { cause: e });
+    } catch (err) {
+        throwSerializationError(err, path);
     }
 
-    if (ctx.buffer.byteLength === ctx.offset) {
-        return ctx.buffer;
-    } else {
-        return ctx.buffer.transferToFixedLength(ctx.offset);
+    if (ctx.buffer.byteLength !== ctx.offset) {
+        ctx.buffer = ctx.buffer.transferToFixedLength(ctx.offset);
     }
+
+    return ctx.buffer;
 }
 
 /**
  * Writes data into an existing `ArrayBuffer`, this is used to edit existing data without a copy.
  *
+ * Additionally, it can be used to reduce garbage collection by reusing a buffer.
+ *
+ * ---
+ *
  * ```ts
- * const buffer: ArrayBuffer = ...
- * const schema = st.object({
- *     name: st.string(st.u8()),
+ * const User = st.object({
+ *     name: st.pipe(st.fixedBytes(16), st.toAscii()),
  *     age: st.u32(),
  * })
- * const user = { name: "nnilky", age: 25 }
  *
- * const data = st.writeInto(buffer, 16, schema, user)
+ * const buffer = new ArrayBuffer(32)
+ * st.writeInto(buffer, 0, User, {
+ *     name: "nnilky",
+ *     age: 26
+ * })
+ * st.writeInto(buffer, 16, User, {
+ *     name: "August",
+ *     age: 22
+ * })
  * ```
  */
 export function writeInto<TIn, TOut, TBuffer extends ArrayBuffer | SharedArrayBuffer>(
@@ -99,11 +109,15 @@ export function writeInto<TIn, TOut, TBuffer extends ArrayBuffer | SharedArrayBu
 
     try {
         serializer.write(ctx, value);
-    } catch (e) {
-        const pathStr =
-            path.length === 0
-                ? "root" //
-                : "value" + path.map((v) => `[${v}]`).join("");
-        throw new Error(`Serialization error at value${pathStr}`, { cause: e });
+    } catch (err) {
+        throwSerializationError(err, path);
     }
+}
+
+function throwSerializationError(err: any, path: (string | number)[]) {
+    let pathStr = path.map((v) => `[${v}]`).join("");
+    throw new Error(
+        `Serialization error at value${pathStr}: \n${err}`, //
+        { cause: err },
+    );
 }

@@ -5,8 +5,6 @@ const objEntries = Object.entries as <TKey extends string, TVal>(
     object: Record<TKey, TVal>,
 ) => [TKey, TVal][];
 
-type BitDefintion = { bits: number };
-
 /**
  * **Experimental**: May undergo API changes in future versions, but the bit representation will not change
  *
@@ -21,9 +19,11 @@ type BitDefintion = { bits: number };
  *     createdAt: {bits: 16},
  * })
  * ```
+ *
+ * @group Object
  */
 export function packedBits<T extends string>(
-    definition: Record<T, BitDefintion>,
+    definition: Record<T, { bits: number }>,
 ): Serializer<Record<T, number>> {
     const entries = objEntries(definition);
 

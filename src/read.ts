@@ -1,17 +1,23 @@
 import type { Serializer, ReaderContext } from "./types.ts";
 
 /**
- * Reads data from an `ArrayBuffer` using a schema.
+ * Read a schema from an `ArrayBuffer`.
+ *
+ * You an specify where to read from offset
+ *
+ * ---
  *
  * ```ts
  * const data: ArrayBuffer = ...;
- * const schema = st.object({
+ * const User = st.object({
  *     name: st.string(st.u8()),
  *     age: st.u32(),
  * })
  *
- * const { name, age } = st.read(schema, data)
+ * const { name, age } = st.read(User, data)
  * ```
+ *
+ * @param offset what offset to read the data from
  */
 export function read<TIn, TOut>(
     serializer: Serializer<TIn, TOut>,
@@ -19,7 +25,6 @@ export function read<TIn, TOut>(
     offset?: number,
 ): TOut {
     const path: (string | number)[] = [];
-
     const ctx: ReaderContext = {
         buffer: buffer,
         view: new DataView(buffer),
@@ -32,10 +37,10 @@ export function read<TIn, TOut>(
     try {
         return serializer.read(ctx);
     } catch (e) {
-        const pathStr =
-            path.length === 0
-                ? "root" //
-                : "value" + path.map((v) => `[${v}]`).join("");
-        throw new Error(`Deserialization error at serializer ${pathStr}\n${e}`, { cause: e });
+        let pathStr = path.map((v) => `[${v}]`).join("");
+        throw new Error(
+            `Deserialization error at value${pathStr}:\n${e}`, //
+            { cause: e },
+        );
     }
 }

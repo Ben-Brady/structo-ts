@@ -24,6 +24,8 @@ const definitionSymbol = Symbol();
  * ```
  *
  * Note: Using `st.lazy` affects the performance of fastObject as it prevents discovery of subobjects, avoid when performance is a requirement
+ *
+ * @group Object
  */
 export function fastObject<T extends Record<string, Serializer<any>>>(
     definition: T,

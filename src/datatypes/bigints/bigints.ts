@@ -5,8 +5,10 @@ import type { Serializer } from "../../types.ts";
  * 64bit unsigned interger
  *
  * This version uses bigints to ensure accuracy is not lost
+ *
+ * @group Number
  */
-export function u64Bigint(
+export function u64BigInt(
     endian: "little" | "big" = "little",
 ): Serializer<number | bigint, bigint> {
     return {
@@ -29,8 +31,10 @@ export function u64Bigint(
  * 64bit signed interger
  *
  * This version uses bigints to ensure accuracy is not lost
+ *
+ * @group Number
  */
-export function s64Bigint(
+export function s64BigInt(
     endian: "little" | "big" = "little",
 ): Serializer<number | bigint, bigint> {
     return {

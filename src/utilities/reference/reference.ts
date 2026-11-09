@@ -3,15 +3,19 @@ import type { Serializer } from "../../types.ts";
 /**
  * createReference lets you defer writing a value until later, useful for lengths and sizes
  *
+ * It's not recommended to use this unless you have to for an existing specification
+ *
  * ---
  * ```
  * const length = st.createReference<number>()
  * st.object({
  *   length: length.pointer(st.u32()),
  *   type: st.u8(),
- *   data: st.sizedBytes(length.deref())
+ *   data: st.bytes(length.deref())
  * })
  * ```
+ *
+ * @group Utilities
  */
 export function createReference<T>() {
     const readStack: T[] = [];
@@ -23,7 +27,7 @@ export function createReference<T>() {
     /**
      * When reading: reads the value normal and saves it for later
      *
-     * When writing: omits this value, it is written by deref
+     * When writing: noop, it is written by deref
      *
      * ---
      * ```
@@ -31,7 +35,7 @@ export function createReference<T>() {
      * st.object({
      *   length: length.pointer(st.u32()),
      *   type: st.u8(),
-     *   data: st.sizedBytes(length.deref())
+     *   data: st.bytes(length.deref())
      * })
      * ```
      */
@@ -58,12 +62,9 @@ export function createReference<T>() {
     }
 
     /**
-     * When reading: gets the value stored in pointer
+     * When reading: reads the value stored in pointer
      *
-     * When writing: saves the value into the pointer
-     *
-     * By default the value is removed from the pointer,
-     * but you can retain it to ensure the next value is
+     * When writing: saves the value into the position specified by pointer
      *
      * ---
      * ```
@@ -71,7 +72,7 @@ export function createReference<T>() {
      * st.object({
      *   length: length.pointer(st.u32()),
      *   type: st.u8(),
-     *   data: st.sizedBytes(length.deref())
+     *   data: st.bytes(length.deref())
      * })
      * ```
      */

@@ -9,6 +9,8 @@ import type { Serializer } from "../../types.ts";
  * st.list(st.u32(), User)
  * ```
  *
+ * @group Array
+ *
  */
 export function list<TIn, TOut>(
     length: Serializer<number>,

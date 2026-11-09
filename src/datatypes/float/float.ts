@@ -1,6 +1,10 @@
 import type { Serializer } from "../../types.ts";
 
-/** 16bit float */
+/**
+ * 16bit float
+ *
+ * @group Number
+ */
 export function f16(endian: "little" | "big" = "little"): Serializer<number> {
     const littleEndian = endian === "little";
     return {
@@ -17,7 +21,10 @@ export function f16(endian: "little" | "big" = "little"): Serializer<number> {
         },
     };
 }
-/** 32bit float */
+/** 32bit float
+ *
+ * @group Number
+ */
 export function f32(endian: "little" | "big" = "little"): Serializer<number> {
     const littleEndian = endian === "little";
     return {
@@ -35,7 +42,10 @@ export function f32(endian: "little" | "big" = "little"): Serializer<number> {
     };
 }
 
-/** 64bit float */
+/** 64bit float
+ *
+ * @group Number
+ */
 export function f64(endian: "little" | "big" = "little"): Serializer<number> {
     const littleEndian = endian === "little";
     return {

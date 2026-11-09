@@ -1,11 +1,17 @@
 import * as st from "../../index.ts";
 
 /**
- * exhuastiveArray is read until the end of the data
+ * `st.exhuastiveArray` does not store it's size, instead reading until the end of the `ArrayBuffer`
  *
- * ```py
+ * This means it cannot be nested inside other objects or must be the last property
+ *
+ * ---
+ *
+ * ```ts
  * exhuastiveArray(st.string(st.u8()))
  * ```
+ *
+ * @group Array
  */
 export function exhuastiveArray<TIn, TOut>(
     type: st.Serializer<TIn, TOut>,

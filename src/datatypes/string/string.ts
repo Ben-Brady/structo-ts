@@ -1,16 +1,21 @@
 import type { Serializer } from "../../types.ts";
 
 /**
- * `st.json` stores string data by writing/reading the length and then reading that many bytes
+ * `st.string stores string data by writing/reading the length and then reading that many bytes
  *
- * The type passed in is the type used to store it's length
+ *  used to store it's length
  *
  * Note: The length stored is the byte length, not string length
  *
- * ```
- * st.string(st.u32())
+ * ---
+ * ```ts
+ * const User = st.object({
+ *     username: st.string(st.u32())
+ * })
  * ```
  *
+ *
+ * @group String/Bytes
  */
 export function string(length: Serializer<number>): Serializer<string> {
     const encoder = new TextEncoder();

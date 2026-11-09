@@ -1,20 +1,24 @@
 import type { Serializer } from "../../types.ts";
 
+/**
+ * @group Utilities
+ */
 export function lazy<TIn, TOut = TIn>(type: () => Serializer<TIn, TOut>): Serializer<TIn, TOut> {
-    let _size: number | undefined;
-
+    // This inheriently has to be hacky to work with the API defined
     let resolve = () => {
         resolve = () => {};
         const { size, write, read } = type();
-        _size = size ?? undefined;
-        serializer.read = read;
-        serializer.write = write;
+        Object.defineProperties(serializer, {
+            size: { get: () => size },
+            read: { value: read },
+            write: { value: write },
+        });
     };
 
     const serializer: Serializer<TIn, TOut> = {
         get size() {
             resolve();
-            return _size;
+            return this.size;
         },
         read(ctx) {
             resolve();

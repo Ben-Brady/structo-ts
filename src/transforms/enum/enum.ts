@@ -1,5 +1,8 @@
 import { encode } from "../encode/encode.ts";
 
+/**
+ * @group Pipeline
+ */
 export function enum_<const T>(values: T[]) {
     // Note: We have to use any here instead of T
     // because when T = 0 | 1 | 2, then T != number

@@ -18,6 +18,8 @@ type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
  *     createdAt: st.f64(),
  * })
  * ```
+ *
+ * @group Object
  */
 export function object<T extends Record<string, Serializer<any>>>(
     definition: T,

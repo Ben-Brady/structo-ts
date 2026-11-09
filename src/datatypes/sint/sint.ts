@@ -1,7 +1,11 @@
 import { assertInteger, assertInRange } from "../../helpers.ts";
 import type { Serializer } from "../../types.ts";
 
-/** 8bit signed integer */
+/**
+ * 8bit signed integer
+ *
+ * @group Number
+ * */
 export function s8(): Serializer<number> {
     return {
         size: 1,
@@ -21,7 +25,11 @@ export function s8(): Serializer<number> {
     };
 }
 
-/** 16bit signed integer */
+/**
+ * 16bit signed integer
+ *
+ * @group Number
+ */
 export function s16(endian: "little" | "big" = "little"): Serializer<number> {
     const littleEndian = endian === "little";
     return {
@@ -42,7 +50,11 @@ export function s16(endian: "little" | "big" = "little"): Serializer<number> {
     };
 }
 
-/** 32bit signed integer */
+/**
+ * 32bit signed integer
+ *
+ * @group Number
+ */
 export function s32(endian: "little" | "big" = "little"): Serializer<number> {
     const littleEndian = endian === "little";
     return {
@@ -63,7 +75,11 @@ export function s32(endian: "little" | "big" = "little"): Serializer<number> {
     };
 }
 
-/** 64bit signed integer */
+/**
+ * 64bit signed integer
+ *
+ * @group Number
+ */
 export function s64(endian: "little" | "big" = "little"): Serializer<number> {
     const littleEndian = endian === "little";
     return {

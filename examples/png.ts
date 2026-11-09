@@ -7,7 +7,7 @@ const data = readFileSync(path).buffer;
 
 const hexLiteral = (value: string) =>
     st.pipe(
-        st.bytes(value.length / 2), //
+        st.fixedBytes(value.length / 2), //
         st.toHex(),
         st.literal(value.toUpperCase()),
     );
@@ -22,8 +22,8 @@ const PngFile = st.lazy(() =>
 const length = st.createRememberedValue<number>();
 const GenericChunk = st.object({
     length: length.save(st.u32("big")),
-    type: st.pipe(st.bytes(4), st.toAscii()),
-    data: st.sizedBytes(length.load()),
+    type: st.pipe(st.fixedBytes(4), st.toAscii()),
+    data: st.bytes(length.load()),
     crc: st.u32(),
 });
 

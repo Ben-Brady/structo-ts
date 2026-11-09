@@ -1,4 +1,4 @@
-import type { Transform } from "../pipe.ts";
+import type { Pipeline } from "../pipe.ts";
 
 /**
  * A readonly modification function, useful for sizes or offsets.
@@ -8,17 +8,17 @@ import type { Transform } from "../pipe.ts";
  *
  * ```ts
  * length: length.save(st.u32())
- * st.sizedBytes(
+ * st.bytes(
  *   st.pipe(
  *     length.load(),
  *     st.modify(v => v - 8),
  *   )
  * ))
- *
- * st.pipe()
  * ```
+ *
+ * @group Pipeline
  */
-export function modify<TIn, TOut>(callback: (value: TOut) => TIn): Transform<TIn, TOut> {
+export function modify<TIn, TOut>(callback: (value: TOut) => TIn): Pipeline<TIn, TOut> {
     return (type) => ({
         size: type.size,
         read: (ctx) => callback(type.read(ctx)),

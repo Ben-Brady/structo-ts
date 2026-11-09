@@ -11,7 +11,7 @@ const lumpsCount = st.createReference<number>();
 const directoryOffset = st.createReference<number>();
 const Header = st.object({
     id: st.pipe(
-        st.bytes(4),
+        st.fixedBytes(4),
         st.toAscii(),
         st.enum(["IWAD", "PWAD"]), //
     ),
@@ -32,9 +32,9 @@ const Lump = st.lazy(() =>
     st.object({
         position: lumpPosition.pointer(st.s32()),
         size: lumpSize.pointer(st.s32()),
-        name: st.pipe(st.bytes(8), st.toAscii()),
+        name: st.pipe(st.fixedBytes(8), st.toAscii()),
         data: st.pipe(
-            st.sizedBytes(lumpSize.deref()), //
+            st.bytes(lumpSize.deref()), //
             st.offset("absolute", lumpPosition.deref()),
         ),
     }),

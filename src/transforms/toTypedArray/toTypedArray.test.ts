@@ -7,7 +7,7 @@ describe("st.toTypedArray", () => {
     it("encode correctly", () => {
         expectEncode(
             st.pipe(
-                st.bytes(6), //
+                st.fixedBytes(6), //
                 st.toTypedArray(Uint8Array),
             ),
             new Uint8Array([1, 2, 3, 4, 5, 6]),
@@ -19,7 +19,7 @@ describe("st.toTypedArray", () => {
             st.object({
                 padding: st.u64(),
                 data: st.pipe(
-                    st.bytes(3), //
+                    st.fixedBytes(3), //
                     st.toTypedArray(Uint8Array),
                 ),
             }),
@@ -29,7 +29,7 @@ describe("st.toTypedArray", () => {
             st.object({
                 padding: st.u64(),
                 data: st.pipe(
-                    st.bytes(5 * 2), //
+                    st.fixedBytes(5 * 2), //
                     st.toTypedArray(Uint16Array),
                 ),
             }),
@@ -39,7 +39,7 @@ describe("st.toTypedArray", () => {
             st.object({
                 padding: st.u64(),
                 data: st.pipe(
-                    st.bytes(3 * 8), //
+                    st.fixedBytes(3 * 8), //
                     st.toTypedArray(Float64Array),
                 ),
             }),
@@ -51,7 +51,7 @@ describe("st.toTypedArray", () => {
         expectError(() => {
             st.write(
                 st.pipe(
-                    st.bytes(3), //
+                    st.fixedBytes(3), //
                     st.toTypedArray(Uint16Array),
                 ),
                 new Uint16Array([1, 2]),
@@ -62,14 +62,14 @@ describe("st.toTypedArray", () => {
     it("snapshot tests", () => {
         encodeSnapshotTest(
             st.pipe(
-                st.bytes(4 * 2), //
+                st.fixedBytes(4 * 2), //
                 st.toTypedArray(Uint16Array),
             ),
             new Uint16Array([1, 6, 3, 12]),
         );
         encodeSnapshotTest(
             st.pipe(
-                st.bytes(3 * 8), //
+                st.fixedBytes(3 * 8), //
                 st.toTypedArray(Float64Array),
             ),
             new Float64Array([1.52, 0.3523, 0.152]),

@@ -1,16 +1,18 @@
 import { encode } from "../encode/encode.ts";
 
 /**
- * Converts a `Uint8Array` to the byte digits
+ * Converts a `Uint8Array` into a `number[]`
  *
  * ```ts
  * st.pipe(
- *     st.bytes(3),
+ *     st.fixedBytes(3),
  *     st.toBytes()
  * )
  * ```
  *
- * `ArrayBuffer([0, 255, c])` => `[0, 255, ArrayBuffer([0, 255, 0])]`
+ * `ArrayBuffer([0, 255, 3])` => `[0, 255, 3]`
+ *
+ * @group Pipeline
  */
 export function toBytes() {
     return encode<number[], Uint8Array>({

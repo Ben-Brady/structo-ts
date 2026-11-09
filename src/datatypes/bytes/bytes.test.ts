@@ -4,20 +4,19 @@ import { bytes, expectEncodeErrors, expectEncode } from "../../utils.test.ts";
 import * as st from "../../index.ts";
 
 describe("st.bytes", () => {
-    const buffer = st.bytes(2);
-
     it("encode correctly", () => {
+        const buffer = st.bytes(st.u8());
         expectEncode(buffer, bytes([1, 2]));
     });
 
     it("encodes empty correctly", () => {
-        const spec = st.bytes(0);
+        const spec = st.bytes(st.u8());
         expectEncode(spec, bytes([]));
     });
 
     it("holds large data", () => {
         const size = 1024 * 1024 * 8; // 8MB
-        const spec = st.bytes(size);
+        const spec = st.bytes(st.u32());
 
         const data = new Uint8Array(size);
         data.set([3, 4], 1000);
@@ -25,26 +24,10 @@ describe("st.bytes", () => {
         expectEncode(spec, data);
     });
 
-    it("large data writes work", () => {
-        const size = 1024 * 1024 * 8; // 8MB
-        const spec = st.object({
-            before: st.u8(),
-            data: st.bytes(size),
-            after: st.u8(),
-        });
-
-        const data = new Uint8Array(size);
-        data.set([3, 4], 1000);
-        data.set([3, 4], 2000);
-        expectEncode(spec, {
-            before: 1,
-            data,
-            after: 2,
-        });
-    });
-
     it("errors on invalid length", () => {
-        const spec = st.bytes(5);
-        expectEncodeErrors(spec, bytes([1, 2, 3, 4]));
+        expectEncodeErrors(
+            st.bytes(st.u8()), //
+            bytes(Array.from({ length: 256 }, () => 0)),
+        );
     });
 });

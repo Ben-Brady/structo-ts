@@ -8,10 +8,12 @@ import type { Serializer } from "../../types.ts";
  * ```
  * const data = st.createRememberedValue<Uint8Array>()
  * st.object({
- *   data: data.save(st.bytes(1024))
+ *   data: data.save(st.fixedBytes(1024))
  *   checksum: crc32(data.load())
  * })
  * ```
+ *
+ * @group Utilities
  */
 export function createRememberedValue<T>() {
     const stack: T[] = [];
@@ -23,7 +25,7 @@ export function createRememberedValue<T>() {
      * ```
      * const data = st.createRememberedValue<Uint8Array>()
      * st.object({
-     *   data: data.save(st.bytes(1024))
+     *   data: data.save(st.fixedBytes(1024))
      *   checksum: crc32(data.load())
      * })
      * ```
@@ -56,7 +58,7 @@ export function createRememberedValue<T>() {
      * ```
      * const data = st.createRememberedValue<Uint8Array>()
      * st.object({
-     *   data: data.save(st.bytes(1024))
+     *   data: data.save(st.fixedBytes(1024))
      *   checksum: crc32(data.load())
      * })
      * ```

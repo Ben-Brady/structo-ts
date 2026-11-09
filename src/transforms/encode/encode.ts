@@ -1,9 +1,12 @@
-import type { Transform } from "../pipe.ts";
+import type { Pipeline } from "../pipe.ts";
 
+/**
+ * @group Pipeline
+ */
 export function encode<TIn, TOut>(options: {
     encode: (value: TIn) => TOut;
     decode: (value: TOut) => TIn;
-}): Transform<TIn, TOut> {
+}): Pipeline<TIn, TOut> {
     const { encode, decode } = options;
     return (type) => ({
         size: type.size,

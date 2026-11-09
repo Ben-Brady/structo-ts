@@ -5,10 +5,12 @@ import { encode } from "../encode/encode.ts";
  *
  * ```ts
  * st.pipe(
- *     st.bytes(3),
+ *     st.fixedBytes(3),
  *     st.toBase64()
  * )
  * ```
+ *
+ * @group Pipeline
  */
 export function toBase64() {
     return encode<string, Uint8Array>({

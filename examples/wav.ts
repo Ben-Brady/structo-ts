@@ -7,7 +7,7 @@ const data = readFileSync(path).buffer;
 
 const hexLiteral = (value: string) =>
     st.pipe(
-        st.bytes(value.length / 2), //
+        st.fixedBytes(value.length / 2), //
         st.toHex(),
         st.literal(value.toUpperCase()),
     );
@@ -18,7 +18,7 @@ const RiffFile = st.object({
     filetype: hexLiteral("52494646"),
     size: fileSize.pointer(st.u32()),
     format: hexLiteral("57415645"),
-    data: st.sizedBytes(
+    data: st.bytes(
         st.pipe(
             fileSize.deref(),
             st.encode({
@@ -32,9 +32,9 @@ const RiffFile = st.object({
 const chunkSize = st.createReference<number>();
 type RiffChunk = st.Infer<typeof RiffChunk>;
 const RiffChunk = st.object({
-    format: st.pipe(st.bytes(4), st.toAscii()),
+    format: st.pipe(st.fixedBytes(4), st.toAscii()),
     size: chunkSize.pointer(st.u32("little")),
-    data: st.sizedBytes(chunkSize.deref()),
+    data: st.bytes(chunkSize.deref()),
 });
 
 type FormatData = st.Infer<typeof FormatData>;

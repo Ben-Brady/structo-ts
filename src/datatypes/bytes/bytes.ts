@@ -1,23 +1,33 @@
-import * as st from "../../index.ts";
+import type { Serializer } from "../../types.ts";
 
 /**
- * Fixed length bytes
+ * `st.bytes(st.u32())`, a dynamic amount of bytes prefixed with it's length
  *
+ * This is very similar to a string, except the contents are not decoded
+ *
+ * ---
+ *
+ * ```ts
+ * const File = st.object({
+ *     name: st.string(st.u32()),
+ *     contents: st.bytes(st.u32()),
+ * })
  * ```
- * st.bytes(4)
- * ```
+ *
+ * @group String/Bytes
  */
-export function bytes(size: number): st.Serializer<Uint8Array> {
+export function bytes(length: Serializer<number>): Serializer<Uint8Array> {
     return {
-        size,
         write: (ctx, value) => {
-            if (value.length !== size) throw new Error("Invalid Length");
+            length.write(ctx, value.byteLength);
 
-            ctx.reserve(size);
+            ctx.reserve(value.byteLength);
             ctx.bytes.set(value, ctx.offset);
-            ctx.offset += size;
+            ctx.offset += value.byteLength;
         },
         read: (ctx) => {
+            const size = length.read(ctx);
+
             const slice = ctx.bytes.slice(ctx.offset, ctx.offset + size);
             ctx.offset += size;
             return slice;

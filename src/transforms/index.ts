@@ -1,4 +1,4 @@
-export { type Transform as Pipeline, pipe } from "./pipe.ts";
+export { type Pipeline, pipe } from "./pipe.ts";
 export { encode } from "./encode/encode.ts";
 export { modify } from "./modify/modify.ts";
 

@@ -20,6 +20,8 @@ type InferUnionOutput<Tag extends keyof any, Variants extends Record<Tag, Serial
  *     2: MouseMovePacket,
  * })
  * ```
+ *
+ * @group Utilities
  */
 export function taggedUnion<
     Tag extends PropertyKey, //

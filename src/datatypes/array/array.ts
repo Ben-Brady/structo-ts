@@ -3,10 +3,11 @@ import type { Serializer } from "../../types.ts";
 /**
  * `st.array` is a fixed length array, akin to a C array.
  *
- * ```
+ * ```ts
  * st.array(16, st.f64())
  * ```
  *
+ * @group Array
  */
 export function array<T>(size: number, type: Serializer<T>): Serializer<T[]> {
     return {

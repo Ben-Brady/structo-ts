@@ -6,6 +6,7 @@ type TypedArrayLike = {
     byteLength: number;
     BYTES_PER_ELEMENT: number;
 };
+
 type TypedArray<T extends TypedArrayLike> = { BYTES_PER_ELEMENT: number } & (new (
     array: ArrayBuffer | SharedArrayBuffer,
     offset?: number,
@@ -15,12 +16,16 @@ type TypedArray<T extends TypedArrayLike> = { BYTES_PER_ELEMENT: number } & (new
 /**
  * Converts a `Uint8Array` into the provided `TypedArray`, etc Float64Array
  *
- * ```
+ * ---
+ *
+ * ```ts
  * st.pipe(
- *     st.bytes(16),
+ *     st.fixedBytes(16),
  *     toTypedArray(Float32Array),
  * )
  * ```
+ *
+ * @group Pipeline
  */
 export function toTypedArray<T extends TypedArrayLike>(Array: TypedArray<T>) {
     return encode<T, Uint8Array>({

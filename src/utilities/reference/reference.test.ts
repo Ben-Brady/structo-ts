@@ -22,7 +22,7 @@ describe("st.createReference", () => {
     it("cant create reference to pointer", () => {
         const length = st.createReference<Uint8Array>();
         expectError(() => {
-            length.pointer(st.sizedBytes(st.u8()));
+            length.pointer(st.bytes(st.u8()));
         });
     });
 
