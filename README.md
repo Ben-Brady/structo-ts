@@ -6,7 +6,6 @@ npm install @nnilky/structo
 
 | [Repository](https://github.com/Ben-Brady/structo-ts) | [API Reference](https://ben-brady.github.io/structo-ts/) |
 | - | - |
-| | |
 
 Use zod style schemas to serialise/deserialize binary objects
 

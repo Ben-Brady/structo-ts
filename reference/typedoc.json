@@ -1,0 +1,23 @@
+{
+    "entryPoints": ["../src/index.ts"],
+    "out": "./dist",
+    "readme": "./README.md",
+    
+    "groupOrder": [
+        "Functions",
+        "Types",
+        "Type Helpers",
+        "Number",
+        "String/Bytes",
+        "Array",
+        "Object"
+    ],
+    "sort": ["kind", "source-order", "alphabetical"],
+    "categorizeByGroup": true,
+    "navigation": {
+        "includeGroups": true
+    },
+    "customCss": "./docs.css",
+    "plugin": ["typedoc-material-theme"],
+    "themeColor": "#cb9820"
+}

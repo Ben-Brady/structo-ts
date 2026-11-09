@@ -3,6 +3,8 @@ import { encode } from "../encode/encode.ts";
 /**
  * Converts a `Uint8Array` into a `number[]`
  *
+ * ---
+ *
  * ```ts
  * st.pipe(
  *     st.fixedBytes(3),

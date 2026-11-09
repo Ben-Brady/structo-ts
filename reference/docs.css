@@ -1,0 +1,11 @@
+#tsd-nav-container>li:nth-child(3) {
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--color-text);
+    }
+    /* border-bottom: white 1px solid; */
+}

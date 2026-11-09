@@ -9,7 +9,10 @@ export type {
 export { read } from "./read.ts";
 export { write, writeInto } from "./write.ts";
 
-export * from "./datatypes/index.ts";
+export * from "./array/index.ts";
+export * from "./object/index.ts";
+export * from "./bytes/index.ts";
+export * from "./numbers/index.ts";
 export * from "./transforms/index.ts";
 export * from "./utilities/index.ts";
 

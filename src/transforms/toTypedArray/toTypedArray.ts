@@ -14,7 +14,7 @@ type TypedArray<T extends TypedArrayLike> = { BYTES_PER_ELEMENT: number } & (new
 ) => T);
 
 /**
- * Converts a `Uint8Array` into the provided `TypedArray`, etc Float64Array
+ * Converts a `Uint8Array` into the provided a different `TypedArray`, etc Float64Array
  *
  * ---
  *

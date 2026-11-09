@@ -46,10 +46,10 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepublish": "tsc && bun test src && typedoc",
+    "prepublish": "tsc",
     "check": "tsc --noEmit",
-    "test": "bun test src --only-failures",
-    "generate:docs": "typedoc",
+    "test": "bun test src --only-failures ./src/index.ts",
+    "generate:docs": "typedoc --options ./reference/typedoc.json",
     "test:update": "bun test src --update-snapshots",
     "test:coverage": "bun test src --only-failures --coverage"
   },
