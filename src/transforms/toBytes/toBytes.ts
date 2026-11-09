@@ -18,12 +18,12 @@ import { encode } from "../encode/encode.ts";
  */
 export function toBytes() {
     return encode<number[], Uint8Array>({
-        encode: (v) => new Uint8Array(v.map(validateByte)),
+        encode: (bytes) => {
+            bytes.forEach((byte) => {
+                if (byte < 0 || byte > 255) throw new Error(`Invalid byte: ${byte}`);
+            });
+            return new Uint8Array(bytes);
+        },
         decode: (v) => Array.from(v),
     });
 }
-
-const validateByte = (v: number): number => {
-    if (v >= 0 && v <= 255) return v;
-    throw new Error(`Invalid value: ${v}`);
-};

@@ -12,7 +12,7 @@ import * as st from "../../index.ts";
  * })
  * ```
  *
- * @group String/Bytes
+ * @group String / Bytes
  */
 export function fixedBytes(size: number): st.Serializer<Uint8Array> {
     return {

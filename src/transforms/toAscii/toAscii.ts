@@ -19,12 +19,10 @@ import { encode } from "../encode/encode.ts";
 export function toAscii() {
     return encode<string, Uint8Array>({
         encode: (v) => {
-            const bytes = Array.from(v) //
-                .map((char) => {
-                    const byte = char.charCodeAt(0);
-                    if (byte > 127) throw new Error(`Invalid ascii byte: ${byte}`);
-                    return byte;
-                });
+            const bytes = Array.from(v).map((char) => char.charCodeAt(0));
+            bytes.forEach((byte) => {
+                if (byte > 127) throw new Error(`Invalid ascii byte: ${byte}`);
+            });
             return new Uint8Array(bytes);
         },
         decode: (v) =>

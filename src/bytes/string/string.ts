@@ -1,7 +1,7 @@
 import type { Serializer } from "../../types.ts";
 
 /**
- * `st.string stores string data by writing/reading the length and then reading that many bytes
+ * `st.string` stores string data by writing/reading the length and then reading that many bytes
  *
  *  used to store it's length
  *
@@ -15,7 +15,7 @@ import type { Serializer } from "../../types.ts";
  * ```
  *
  *
- * @group String/Bytes
+ * @group String / Bytes
  */
 export function string(length: Serializer<number>): Serializer<string> {
     const encoder = new TextEncoder();

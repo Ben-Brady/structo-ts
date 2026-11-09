@@ -2,13 +2,13 @@
     "entryPoints": ["../src/index.ts"],
     "out": "./dist",
     "readme": "./README.md",
-    
+
     "groupOrder": [
         "Functions",
         "Types",
         "Type Helpers",
         "Number",
-        "String/Bytes",
+        "String / Bytes",
         "Array",
         "Object"
     ],

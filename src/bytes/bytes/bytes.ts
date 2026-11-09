@@ -14,7 +14,7 @@ import type { Serializer } from "../../types.ts";
  * })
  * ```
  *
- * @group String/Bytes
+ * @group String / Bytes
  */
 export function bytes(length: Serializer<number>): Serializer<Uint8Array> {
     return {
