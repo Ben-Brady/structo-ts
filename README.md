@@ -1,6 +1,10 @@
 # Structo
 
-Define binary objects in zod style schemas
+```
+npm install @nnilky/structo
+```
+
+Use zod style schemas to serialise/deserialize binary objects
 
 ```ts
 import * as st from "@nnilky/structo";
