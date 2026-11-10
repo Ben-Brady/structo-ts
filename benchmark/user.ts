@@ -1,7 +1,7 @@
 import * as st from "../src/index.js";
 import { benchmark } from "./utils.js";
 
-type User = st.Infer<typeof User>;
+type User = st.InferOutput<typeof User>;
 const User = st.fastObject({
     id: st.u64(),
     name: st.string(st.u32()),
@@ -31,7 +31,7 @@ const generateData = (size: number): User[] => {
 };
 
 function serializeUsingLibrary(users: User[]) {
-    const UserList = st.array(users.length, User);
+    const UserList = st.fixedArray(users.length, User);
     return st.write(UserList, users);
 }
 

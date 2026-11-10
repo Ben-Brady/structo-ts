@@ -1,6 +1,6 @@
 import { run } from "mitata";
-import * as entity from "./entity.js";
-import * as user from "./user.js";
+import * as entity from "./entity";
+import * as user from "./user";
 
 async function main() {
     await user.generateBenchmarks();

@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "target": "esnext",
+        "outDir": "dist",
+        "rootDir": "src",
+        "useDefineForClassFields": true,
+        "rewriteRelativeImportExtensions": true,
+        "module": "nodenext",
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "skipLibCheck": true,
+
+        /* Bundler mode */
+        "moduleResolution": "nodenext",
+        "verbatimModuleSyntax": true,
+        "moduleDetection": "force",
+        "removeComments": false,
+        "declarationMap": true,
+
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "erasableSyntaxOnly": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedSideEffectImports": true,
+        "types": ["bun", "node"]
+    },
+    "include": ["./*.ts"]
+}

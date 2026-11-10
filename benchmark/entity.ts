@@ -25,7 +25,7 @@ const generateData = (size: number): Entity[] => {
     return arr;
 };
 
-type Quaternion = st.Infer<typeof Quaternion>;
+type Quaternion = st.InferOutput<typeof Quaternion>;
 const Quaternion = st.fastObject({
     w: st.f32(),
     x: st.f32(),
@@ -33,14 +33,14 @@ const Quaternion = st.fastObject({
     z: st.f32(),
 });
 
-type Vec3 = st.Infer<typeof Vec3>;
+type Vec3 = st.InferOutput<typeof Vec3>;
 const Vec3 = st.fastObject({
     x: st.f64(),
     y: st.f64(),
     z: st.f64(),
 });
 
-type Entity = st.Infer<typeof Entity>;
+type Entity = st.InferOutput<typeof Entity>;
 const Entity = st.fastObject({
     id: st.u32(),
     type: st.u16(),
@@ -50,7 +50,7 @@ const Entity = st.fastObject({
 });
 
 function serializeUsingLibrary(entities: Entity[]) {
-    const EntityList = st.array(entities.length, Entity);
+    const EntityList = st.fixedArray(entities.length, Entity);
     return st.write(EntityList, entities);
 }
 

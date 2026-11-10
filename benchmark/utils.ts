@@ -29,21 +29,17 @@ export function benchmark<T>(options: {
     const sizes = [];
     let size: number | undefined;
     do {
-        size = size === undefined ? start : size * 10
+        size = size === undefined ? start : size * 10;
         size = Math.min(size, end);
         sizes.push(size);
     } while (size < end);
 
     for (const size of sizes) {
-        const DIVIDER = "---------------------------------------------------------------------------"
         summary(() => {
-
             group(`\n\n${name} x${size}`, () => {
                 const data = generateData(size);
-                bench(`handwritten`, () => handwritten(data)).compact(true);
-                bench(`library`, () => library(data))
-                    .compact(true)
-                    .baseline(true);
+                bench(`handwritten`, () => handwritten(data));
+                bench(`library`, () => library(data)).baseline(true);
             });
         });
     }
