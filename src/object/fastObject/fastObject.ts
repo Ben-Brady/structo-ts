@@ -25,20 +25,36 @@ const definitionSymbol = Symbol();
  *
  * > **Note:** Using `st.lazy` affects the performance of `st.fastObject` as it prevents discovery of child objects, avoid when performance is a requirement
  *
+ * > **DANGER**: Do not use dynamic keys as it a potential RCE vector due to using `eval`, please use static sensical keys
+ *
  * @group Object
  */
 export function fastObject<T extends Record<string, Serializer<any>>>(
     definition: T,
 ): Serializer<InferObjectInput<T>, InferObjectOutput<T>> {
     let serializers: [string, Serializer<any>][] = [];
-
     let writeBody = "";
     let readBody = "";
+
+    const isIdent = (key: string) => key.match(/[a-zA-Z_][a-zA-Z0-9_]+/);
+    const asDefKey = (key: string) => {
+        if (isIdent(key)) {
+            return key;
+        } else {
+            key = key //
+                .replace("\'", "\\\'")
+                .replace('"', '\\"');
+            return `["${key}"]`;
+        }
+    };
 
     function generateSerializers(serializer: Serializer<any>, keys: string[]) {
         if (definitionSymbol in serializer) {
             const definition = serializer[definitionSymbol] as any;
-            readBody += `${keys[keys.length - 1]}: {`;
+            const key = keys.at(-1)!;
+
+            readBody += `${asDefKey(key)}: {`;
+
             for (const key of Object.keys(definition as any)) {
                 generateSerializers(definition[key], [...keys, key]);
             }
@@ -46,17 +62,17 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
         } else {
             let path = "";
             for (const key of keys) {
-                if (key.match(/[a-zA-Z_][a-zA-Z0-9_]*/)) {
-                    path += `.${key}`;
-                } else {
-                    path += `[${JSON.stringify(key)}]`;
-                }
+                path += isIdent(key) //
+                    ? `.${key}`
+                    : `[${JSON.stringify(key)}]`;
             }
 
-            let name = `s${Object.keys(serializers).length}`;
-            serializers.push([name, serializer]);
-            writeBody += `${name}(c, v${path});`;
-            readBody += `${keys[keys.length - 1]}: ${name}(c),`;
+            const id = `s${Object.keys(serializers).length}`;
+            const key = asDefKey(keys.at(-1)!);
+
+            serializers.push([id, serializer]);
+            writeBody += `${id}(c, v${path});`;
+            readBody += `${key}: ${id}(c),`;
         }
     }
 
@@ -64,6 +80,7 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
         generateSerializers(definition[key], [key]);
     }
 
+    console.log(writeBody);
     const writeFactory = new Function(
         ...serializers.map((v) => v[0]),
         `return (c, v) => {${writeBody}}`,

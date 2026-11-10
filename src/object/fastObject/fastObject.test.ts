@@ -4,13 +4,14 @@ import { bytes, expectEncode, encodeSnapshotTest } from "../../utils.test.ts";
 import * as st from "../../index.ts";
 
 describe("st.fastObject", () => {
-    const spec = st.fastObject({
-        a: st.u8(),
-        b: st.u8(),
-    });
-
     it("encodes correctly", () => {
-        st.write(spec, { b: 2, a: 1 });
+        st.write(
+            st.fastObject({
+                a: st.u8(),
+                b: st.u8(),
+            }),
+            { b: 2, a: 1 },
+        );
     });
     it("encodes nest correctly", () => {
         st.write(
@@ -28,8 +29,28 @@ describe("st.fastObject", () => {
         );
     });
 
+    it("encodes bad key in child", () => {
+        const schema = st.fastObject({
+            a: st.fastObject({
+                "b-c": st.u8(),
+                "": st.u8(),
+                '"': st.u8(),
+                "'": st.u8(),
+            }),
+        });
+        st.write(schema, {
+            a: { "b-c": 1, "": 1, "'": 1, '"': 1 },
+        });
+    });
+
     it("encode in correct order", () => {
-        const data = st.write(spec, { b: 2, a: 1 });
+        const data = st.write(
+            st.fastObject({
+                a: st.u8(),
+                b: st.u8(),
+            }),
+            { b: 2, a: 1 },
+        );
         const arr = new Uint8Array(data);
         expect(arr[0]).toBe(1);
         expect(arr[1]).toBe(2);
@@ -44,7 +65,7 @@ describe("st.fastObject", () => {
             st.fastObject({
                 number: st.u32(),
                 puppy: st.string(st.s32()),
-                buffer: st.fixedBytes(4),
+                buffer: st.bytesFixed(4),
             }),
             {
                 number: 1,
