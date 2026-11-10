@@ -16,29 +16,31 @@ import type { Serializer } from "../../types.ts";
  *
  *
  * @group String / Bytes
+ * @document ./string.md
  */
 export function string(length: Serializer<number>): Serializer<string> {
     const encoder = new TextEncoder();
-    const decoder = new TextDecoder();
+    const decoder = new TextDecoder("utf-8", { fatal: true });
 
-    const lengthSize = length.size ?? 0;
     return {
-        write: (ctx, value) => {
+        write(ctx, value) {
             if (typeof value !== "string") throw new Error("Expected String");
-            const bytes = encoder.encode(value);
+            const size = value.length;
 
-            const size = bytes.byteLength;
-            ctx.reserve(size + lengthSize);
-
+            ctx.reserve((length.size ?? 0) + size);
             length.write(ctx, size);
-            ctx.bytes.set(bytes, ctx.offset);
+
+            const target = new Uint8Array(ctx.buffer, ctx.offset, size);
+            encoder.encodeInto(value, target);
             ctx.offset += size;
         },
-        read: (ctx) => {
+        read(ctx) {
             const size = length.read(ctx);
-            const section = ctx.buffer.slice(ctx.offset, ctx.offset + size);
+
+            const target = new Uint8Array(ctx.buffer, ctx.offset, size);
+            const output = decoder.decode(target);
             ctx.offset += size;
-            return decoder.decode(section);
+            return output;
         },
     };
 }

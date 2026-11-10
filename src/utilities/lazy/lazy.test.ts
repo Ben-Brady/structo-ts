@@ -7,7 +7,7 @@ describe("st.lazy", () => {
     it("encodes correctly", () => {
         const spec = st.lazy(() =>
             st.object({
-                a: st.arrayFixed(4, st.u8()),
+                a: st.fixedArray(4, st.u8()),
                 b: st.u16(),
             }),
         );
@@ -19,7 +19,7 @@ describe("st.lazy", () => {
 
     it("nested objects function", () => {
         const spec = st.object({
-            a: st.arrayFixed(4, st.u8()),
+            a: st.fixedArray(4, st.u8()),
             b: st.lazy(() =>
                 st.object({
                     a: st.lazy(() => st.u16()),

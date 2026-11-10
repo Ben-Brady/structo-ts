@@ -1,4 +1,4 @@
 export { bytes } from "./bytes/bytes.ts";
-export { bytesFixed, fixedBytes } from "./bytesFixed/bytesFixed.ts";
+export { fixedBytes } from "./fixedBytes/fixedBytes.ts";
 export { string } from "./string/string.ts";
-export { stringFixed } from "./stringFixed/stringFixed.ts";
+export { fixedString } from "./fixedString/fixedString.ts";

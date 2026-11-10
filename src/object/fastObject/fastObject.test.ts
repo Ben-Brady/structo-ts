@@ -65,7 +65,7 @@ describe("st.fastObject", () => {
             st.fastObject({
                 number: st.u32(),
                 puppy: st.string(st.s32()),
-                buffer: st.bytesFixed(4),
+                buffer: st.fixedBytes(4),
             }),
             {
                 number: 1,

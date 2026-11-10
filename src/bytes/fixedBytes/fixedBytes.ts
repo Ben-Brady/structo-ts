@@ -14,7 +14,7 @@ import * as st from "../../index.ts";
  *
  * @group String / Bytes
  */
-export function bytesFixed(size: number): st.Serializer<Uint8Array> {
+export function fixedBytes(size: number): st.Serializer<Uint8Array> {
     return {
         size,
         write: (ctx, value) => {
@@ -31,10 +31,3 @@ export function bytesFixed(size: number): st.Serializer<Uint8Array> {
         },
     };
 }
-
-/**
- * @deprecated use `bytesFixed` instead
- *
- * @hidden
- * */
-export const fixedBytes = bytesFixed;

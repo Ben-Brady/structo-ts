@@ -21,7 +21,7 @@ export function bytes(length: Serializer<number>): Serializer<Uint8Array> {
         write: (ctx, value) => {
             length.write(ctx, value.byteLength);
 
-            ctx.reserve(value.byteLength);
+            ctx.reserve((length.size ?? 0) + value.byteLength);
             ctx.bytes.set(value, ctx.offset);
             ctx.offset += value.byteLength;
         },

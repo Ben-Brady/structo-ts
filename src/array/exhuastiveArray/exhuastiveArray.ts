@@ -13,7 +13,7 @@ import * as st from "../../index.ts";
  *
  * @group Array
  */
-export function arrayExhaustive<TIn, TOut>(
+export function exhuastiveArray<TIn, TOut>(
     type: st.Serializer<TIn, TOut>,
 ): st.Serializer<TIn[], TOut[]> {
     return {
@@ -36,9 +36,3 @@ export function arrayExhaustive<TIn, TOut>(
         },
     };
 }
-
-/**
- * @deprecated use `arrayExhaustive`
- * @hidden
- * */
-export const exhuastiveArray = arrayExhaustive;
