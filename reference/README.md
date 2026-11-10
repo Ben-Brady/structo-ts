@@ -26,7 +26,7 @@ const Entity = st.object({
 
 ```
 
-- Extremely Fast! [benchmarks](./benchmark) show equivelent performance to hand written serializers
+- Extremely Fast! benchmarks show equivelent performance to hand written serializers
 - Designed to be both Web & Node.js compatible
 - Lightweight, base size is <1KB and each datatype is a few hundred bytes
 - Easily extendable with your own datatypes

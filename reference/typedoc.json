@@ -1,8 +1,21 @@
 {
+    "categorizeByGroup": true,
+    "sourceLinkExternal": false,
+    "includeVersion": true,
+    "navigation": {
+        "includeGroups": true,
+        "includeCategories": false,
+        "includeFolders": false
+    },
+    "plugin": ["typedoc-material-theme"],
+    "themeColor": "#cb9820",
+    "customCss": "./docs.css",
     "entryPoints": ["../src/index.ts"],
+
     "out": "../docs",
     "readme": "./README.md",
 
+    "sort": ["kind", "source-order", "alphabetical"],
     "groupOrder": [
         "Functions",
         "Types",
@@ -12,14 +25,12 @@
         "Array",
         "Object"
     ],
-    "sort": ["kind", "source-order", "alphabetical"],
-    "categorizeByGroup": true,
-    "sourceLinkExternal": false,
-    
-    "navigation": {
-        "includeGroups": true
-    },
-    "customCss": "./docs.css",
-    "plugin": ["typedoc-material-theme"],
-    "themeColor": "#cb9820"
+    "intentionallyNotExported": [
+        "InferObjectInput",
+        "InferObjectOutput",
+        "InferUnionInput",
+        "InferUnionOutput",
+        "TypedArray",
+        "TypedArrayLike"
+    ]
 }
