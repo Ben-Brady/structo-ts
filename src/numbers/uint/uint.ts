@@ -30,6 +30,13 @@ export function u8(): Serializer<number> {
  *
  * little endian by default
  *
+ * ---
+ *
+ * ```ts
+ * const Id = st.u16()
+ * const Size = st.u16("big")
+ * ```
+ *
  * @group Number
  */
 export function u16(endian: "little" | "big" = "little"): Serializer<number> {
@@ -57,6 +64,13 @@ export function u16(endian: "little" | "big" = "little"): Serializer<number> {
  *
  * little endian by default
  *
+ * ---
+ *
+ * ```ts
+ * const Id = st.u32()
+ * const Size = st.u32("big")
+ * ```
+ *
  * @group Number
  */
 export function u32(endian: "little" | "big" = "little"): Serializer<number> {
@@ -83,6 +97,13 @@ export function u32(endian: "little" | "big" = "little"): Serializer<number> {
  * 64 bit unsigned integer
  *
  * little endian by default
+ *
+ * ---
+ *
+ * ```ts
+ * const Id = st.u64()
+ * const Size = st.u64("big")
+ * ```
  *
  * @group Number
  */

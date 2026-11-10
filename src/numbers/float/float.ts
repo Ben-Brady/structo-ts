@@ -3,6 +3,18 @@ import type { Serializer } from "../../types.ts";
 /**
  * 16bit float
  *
+ * Little endian by default
+ *
+ *  ---
+ *
+ * ```ts
+ * const Vec3 = st.object({
+ *     x: st.f16(),
+ *     y: st.f16(),
+ *     z: st.f16(),
+ * })
+ * ```
+ *
  * @group Number
  */
 export function f16(endian: "little" | "big" = "little"): Serializer<number> {
@@ -21,7 +33,20 @@ export function f16(endian: "little" | "big" = "little"): Serializer<number> {
         },
     };
 }
+
 /** 32bit float
+ *
+ * Little endian by default
+ *
+ *  ---
+ *
+ * ```ts
+ * const Vec3 = st.object({
+ *     x: st.f32(),
+ *     y: st.f32(),
+ *     z: st.f32(),
+ * })
+ * ```
  *
  * @group Number
  */
@@ -43,6 +68,18 @@ export function f32(endian: "little" | "big" = "little"): Serializer<number> {
 }
 
 /** 64bit float
+ *
+ * Little endian by default
+ *
+ *  ---
+ *
+ * ```ts
+ * const Vec3 = st.object({
+ *     x: st.f64(),
+ *     y: st.f64(),
+ *     z: st.f64(),
+ * })
+ * ```
  *
  * @group Number
  */

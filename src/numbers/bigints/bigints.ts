@@ -2,9 +2,16 @@ import { assertInRange } from "../../helpers.ts";
 import type { Serializer } from "../../types.ts";
 
 /**
- * 64bit unsigned interger
+ * 64bit unsigned interger, read into a bigints
  *
- * This version uses bigints to ensure accuracy is not lost
+ * Little endian by default
+ *
+ * ---
+ *
+ * ```ts
+ * const Id = st.u64BigInt()
+ * const Size = st.u64BigInt("big")
+ * ```
  *
  * @group Number
  */
@@ -28,9 +35,16 @@ export function u64BigInt(
     };
 }
 /**
- * 64bit signed interger
+ * 64bit signed interger, read into a bigints
  *
- * This version uses bigints to ensure accuracy is not lost
+ * Little endian by default
+ *
+ * ---
+ *
+ * ```ts
+ * const Id = st.s64BigInt()
+ * const Size = st.s64BigInt("big")
+ * ```
  *
  * @group Number
  */

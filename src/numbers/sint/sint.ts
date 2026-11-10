@@ -28,6 +28,15 @@ export function s8(): Serializer<number> {
 /**
  * 16bit signed integer
  *
+ * little endian by default
+ *
+ * ---
+ *
+ * ```ts
+ * const Id = st.s16()
+ * const Size = st.s16("big")
+ * ```
+ *
  * @group Number
  */
 export function s16(endian: "little" | "big" = "little"): Serializer<number> {
@@ -53,6 +62,15 @@ export function s16(endian: "little" | "big" = "little"): Serializer<number> {
 /**
  * 32bit signed integer
  *
+ * little endian by default
+ *
+ * ---
+ *
+ * ```ts
+ * const Id = st.s32()
+ * const Size = st.s32("big")
+ * ```
+ *
  * @group Number
  */
 export function s32(endian: "little" | "big" = "little"): Serializer<number> {
@@ -77,6 +95,15 @@ export function s32(endian: "little" | "big" = "little"): Serializer<number> {
 
 /**
  * 64bit signed integer
+ *
+ * little endian by default
+ *
+ * ---
+ *
+ * ```ts
+ * const Id = st.s64()
+ * const Size = st.s64("big")
+ * ```
  *
  * @group Number
  */
