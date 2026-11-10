@@ -20,18 +20,19 @@ export function fixedString(size: number): Serializer<string> {
         size,
         write(ctx, value) {
             if (typeof value !== "string") throw new Error("Expected String");
-            if (value.length !== size) throw new Error("Invalid Size");
+
+            const data = encoder.encode(value);
+            if (data.byteLength !== size)
+                throw new Error(`String has invalid size: ${data.byteLength}`);
 
             ctx.reserve(size);
-            const target = new Uint8Array(ctx.buffer, ctx.offset, size);
-            encoder.encodeInto(value, target);
+            ctx.bytes.set(data, ctx.offset);
             ctx.offset += size;
         },
         read(ctx) {
-            const target = new Uint8Array(ctx.buffer, ctx.offset, size);
-            const output = decoder.decode(target);
+            const section = new Uint8Array(ctx.buffer, ctx.offset, size);
             ctx.offset += size;
-            return output;
+            return decoder.decode(section);
         },
     };
 }

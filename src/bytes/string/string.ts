@@ -20,27 +20,50 @@ import type { Serializer } from "../../types.ts";
  */
 export function string(length: Serializer<number>): Serializer<string> {
     const encoder = new TextEncoder();
-    const decoder = new TextDecoder("utf-8", { fatal: true });
+    const decoder = new TextDecoder();
 
+    const lengthSize = length.size ?? 0;
     return {
-        write(ctx, value) {
+        write: (ctx, value) => {
             if (typeof value !== "string") throw new Error("Expected String");
-            const size = value.length;
+            const bytes = encoder.encode(value);
 
-            ctx.reserve((length.size ?? 0) + size);
+            const size = bytes.byteLength;
+            ctx.reserve(size + lengthSize);
+
             length.write(ctx, size);
-
-            const target = new Uint8Array(ctx.buffer, ctx.offset, size);
-            encoder.encodeInto(value, target);
+            ctx.bytes.set(bytes, ctx.offset);
             ctx.offset += size;
         },
-        read(ctx) {
+        read: (ctx) => {
             const size = length.read(ctx);
 
-            const target = new Uint8Array(ctx.buffer, ctx.offset, size);
-            const output = decoder.decode(target);
+            const section = new Uint8Array(ctx.buffer, ctx.offset, size);
             ctx.offset += size;
-            return output;
+            return decoder.decode(section);
         },
     };
 }
+
+/*
+Implementation Note: Why not use encoder.encodeInto?
+
+It would be nice to be able to use encoder.encodeInto
+as it avoid having to make a copy of the data. But supporting
+variable width encoded lengths and UTF-16 makes this hard.
+
+enocdeInto doesn't allow you to know how much space the output will
+used before you encode it. This means you need to allocate the upper
+bound possible, which is 2 * length (since string.length represents
+the UTF-16 size). This means in most cases, your allocating more data
+than is needed before you encode the data since you need to assume it's
+all 2 byte characters.
+
+Additionally, since you need to write the data before you have the length,
+you have to know how much space to leave for length. This means you cannot
+support variable width encoded lengths, since you have no knowledge of the
+space they need to store the final length.
+
+These complexities make it too annoying to use encodeInto. It's possible to
+use it, but it makes the API much more constrained.
+*/

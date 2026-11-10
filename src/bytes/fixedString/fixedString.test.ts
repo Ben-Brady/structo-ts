@@ -12,6 +12,10 @@ describe("st.fixedString", () => {
         expectEncode(st.fixedString(0), "");
     });
 
+    it("supports characters past UTF-16", () => {
+        expectEncode(st.fixedString(3 * 4), "𰀇𰀇𰀇");
+    });
+
     it("errors on invalid type", () => {
         //@ts-expect-error, intentional mistake
         expectEncodeErrors(st.fixedString(1), 8);

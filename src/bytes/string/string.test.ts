@@ -11,6 +11,9 @@ describe("st.string", () => {
     it("works on empty strings", () => {
         expectEncode(st.string(st.u32()), "");
     });
+    it("supports characters past UTF-16", () => {
+        expectEncode(st.string(st.u32()), "𰀇𰀇𰀇");
+    });
 
     it("errors on numbers", () => {
         //@ts-expect-error, intentional mistake
