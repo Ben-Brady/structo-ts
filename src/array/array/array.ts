@@ -1,30 +1,38 @@
 import type { Serializer } from "../../types.ts";
 
 /**
- * `st.array` is a fixed length array, akin to a C array.
+ * `st.array` is a dynamically sized array
  *
- * ```ts
- * st.array(16, st.f64())
+ * Note: Length is read/writen first, then the values in order
+ *
+ * ```
+ * st.array(st.u32(), User)
  * ```
  *
  * @group Array
+ *
  */
-export function array<T>(size: number, type: Serializer<T>): Serializer<T[]> {
+export function array<TIn, TOut>(
+    length: Serializer<number>,
+    type: Serializer<TIn, TOut>,
+): Serializer<TIn[], TOut[]> {
     return {
-        size: type.size ? size * type.size : undefined,
         write: (ctx, value) => {
-            if (value.length !== size) throw new Error("Invalid Size");
+            length.write(ctx, value.length);
+            if (type.size) {
+                ctx.reserve(value.length * type.size);
+            }
 
-            if (type.size) ctx.reserve(size * type.size);
-            for (let i = 0; i < size; i++) {
+            for (let i = 0; i < value.length; i++) {
                 ctx.pushPath?.(i);
-                type.write(ctx, value[i]);
+                const v = value[i];
+                type.write(ctx, v);
                 ctx.popPath?.();
             }
         },
         read: (ctx) => {
+            const size = length.read(ctx);
             const arr = new Array(size);
-
             for (let i = 0; i < size; i++) {
                 ctx.pushPath?.(i);
                 arr[i] = type.read(ctx);
@@ -34,3 +42,9 @@ export function array<T>(size: number, type: Serializer<T>): Serializer<T[]> {
         },
     };
 }
+
+/**
+ * @deprecated use `array`
+ * @hidden
+ */
+export const list = array;

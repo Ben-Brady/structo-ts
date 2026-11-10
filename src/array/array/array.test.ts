@@ -1,23 +1,34 @@
 import { describe, it } from "bun:test";
-import { expectEncode, expectEncodeErrors } from "../../utils.test.ts";
+import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
 describe("st.array", () => {
     it("encode correctly", () => {
-        expectEncode(st.array(4, st.u16()), [1, 2, 3, 4]);
+        const spec = st.array(st.u8(), st.u32());
+        expectEncode(spec, [1, 2, 3, 4]);
     });
 
     it("works on empty lists", () => {
-        expectEncode(st.array(0, st.u16()), []);
+        const spec = st.array(st.u8(), st.u32());
+        expectEncode(spec, []);
     });
 
-    it("throws error on invalid size", () => {
-        expectEncodeErrors(st.array(2, st.u16()), [1]);
+    it("throws error on too large array", () => {
+        expectEncodeErrors(
+            st.array(st.u8(), st.u32()),
+            Array.from({ length: 10000 }, () => 0),
+        );
     });
 
     it("throws error on invalid value", () => {
-        expectEncodeErrors(st.array(2, st.u16()), [1, -1]);
-        expectEncodeErrors(st.array(2, st.u16()), [2 ** 16 + 1, 0]);
+        expectEncodeErrors(st.array(st.u8(), st.u16()), [-1]);
+    });
+
+    it(`matches snapshots`, () => {
+        encodeSnapshotTest(
+            st.array(st.s32(), st.string(st.u16())), //
+            ["foo", "bar", "baz"],
+        );
     });
 });

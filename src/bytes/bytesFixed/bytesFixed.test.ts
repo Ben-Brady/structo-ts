@@ -3,7 +3,7 @@ import { bytes, expectEncodeErrors, expectEncode } from "../../utils.test.ts";
 
 import * as st from "../../index.ts";
 
-describe("st.bytes", () => {
+describe("st.bytesFixed", () => {
     const buffer = st.fixedBytes(2);
 
     it("encode correctly", () => {

@@ -150,8 +150,6 @@ export type InferOutput<T extends Serializer<any>> = T extends Serializer<any, i
 
 /**
  * @deprecated use `st.InferOutput` instead
- *
- * @group Types
  * @hidden
  */
-export type Infer<T extends Serializer<any>> = T extends Serializer<any, infer V> ? V : never;
+export type Infer<T extends Serializer<any>> = InferOutput<T>;
