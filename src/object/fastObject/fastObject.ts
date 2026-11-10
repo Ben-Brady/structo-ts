@@ -80,7 +80,6 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
         generateSerializers(definition[key], [key]);
     }
 
-    console.log(writeBody);
     const writeFactory = new Function(
         ...serializers.map((v) => v[0]),
         `return (c, v) => {${writeBody}}`,
