@@ -22,15 +22,15 @@ export function string(length: Serializer<number>): Serializer<string> {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
-    const lengthSize = length.size ?? 0;
     return {
         write: (ctx, value) => {
             if (typeof value !== "string") throw new Error("Expected String");
             const bytes = encoder.encode(value);
 
             const size = bytes.byteLength;
-            ctx.reserve(size + lengthSize);
+            const lengthSize = length.size ?? 0;
 
+            ctx.reserve(size + lengthSize);
             length.write(ctx, size);
             ctx.bytes.set(bytes, ctx.offset);
             ctx.offset += size;
