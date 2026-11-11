@@ -18,7 +18,19 @@ describe("st.object", () => {
             value: { b: 2, a: 1 },
         });
     });
-    
+
+    it("encodes correctly in correct order", () => {
+        assertEncodesAs({
+            serializer: st.object({
+                a: st.u8(),
+                b: st.u16("little"),
+                c: st.u16("big"),
+            }),
+            value: { a: 1, b: 2, c: 2 },
+            expected: new Uint8Array([1, 2, 0, 0, 2]),
+        });
+    });
+
     it("encodes nested correctly", () => {
         assertEncodesAndDecodes({
             serializer: st.object({
