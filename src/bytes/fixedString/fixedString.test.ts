@@ -10,34 +10,56 @@ export const {
 
 describe("st.fixedString", () => {
     it("encode correctly", () => {
-        assertEncodesAndDecodes(st.fixedString(3), "foo");
+        assertEncodesAndDecodes({
+            serializer: st.fixedString(3),
+            value: "foo",
+        });
     });
 
     it("works on empty strings", () => {
-        assertEncodesAndDecodes(st.fixedString(0), "");
+        assertEncodesAndDecodes({
+            serializer: st.fixedString(0),
+            value: "",
+        });
     });
 
     it("supports characters past UTF-16", () => {
-        assertEncodesAndDecodes(st.fixedString(3 * 4), "𰀇𰀇𰀇");
+        assertEncodesAndDecodes({
+            serializer: st.fixedString(3 * 4),
+            value: "𰀇𰀇𰀇",
+        });
     });
 
     it("errors on invalid type", () => {
-        //@ts-expect-error, intentional mistake
-        assertEncodeThrows(st.fixedString(1), 8);
-        //@ts-expect-error, intentional mistake
-        assertEncodeThrows(st.fixedString(4), true);
+        assertEncodeThrows({
+            serializer: st.fixedString(1),
+            value: 8,
+        });
+        assertEncodeThrows({
+            serializer: st.fixedString(4),
+            value: true,
+        });
     });
 
     it("works on long strings", () => {
         const size = 2 ** 24;
-        assertEncodesAndDecodes(st.fixedString(size), "A".repeat(size));
+        assertEncodesAndDecodes({
+            serializer: st.fixedString(size),
+            value: "A".repeat(size),
+        });
     });
 
     it("errors on shorter strings", () => {
-        assertEncodeThrows(st.fixedString(10), "A".repeat(5));
+        assertEncodeThrows({
+            serializer: st.fixedString(10),
+            value: "A".repeat(5),
+        });
     });
 
     it("errors on too long strings", () => {
-        assertEncodeThrows(st.fixedString(10), "A".repeat(11));
+        assertEncodeThrows({
+            serializer: st.fixedString(10),
+            value: "A".repeat(11),
+        });
     });
 });

@@ -10,19 +10,23 @@ export const {
 
 describe("st.object", () => {
     it("encodes correctly", () => {
-        assertEncodesAndDecodes(
-            st.object({ a: st.u8(), b: st.u8() }), //
-            { b: 2, a: 1 },
-        );
+        assertEncodesAndDecodes({
+            serializer: st.object({
+                a: st.u8(),
+                b: st.u8(),
+            }),
+            value: { b: 2, a: 1 },
+        });
     });
+    
     it("encodes nested correctly", () => {
-        assertEncodesAndDecodes(
-            st.object({
+        assertEncodesAndDecodes({
+            serializer: st.object({
                 a: st.object({ a: st.u8() }),
                 b: st.u8(),
-            }), //
-            { a: { a: 2 }, b: 1 },
-        );
+            }),
+            value: { a: { a: 2 }, b: 1 },
+        });
     });
 
     it("encode in correct order", () => {
@@ -39,22 +43,25 @@ describe("st.object", () => {
     });
 
     it("encodes empty", () => {
-        assertEncodesAndDecodes(st.object({}), {});
+        assertEncodesAndDecodes({
+            serializer: st.object({}),
+            value: {},
+        });
     });
 
     it(`matches snapshots`, () => {
-        assertMatchesSnapshot(
-            st.object({
+        assertMatchesSnapshot({
+            serializer: st.object({
                 number: st.u32(),
                 puppy: st.string(st.s32()),
                 buffer: st.fixedBytes(4),
             }),
-            {
+            value: {
                 number: 1,
                 puppy: "woof woof bark bark",
                 buffer: new Uint8Array([19, 87, 19, 83]),
             },
-        );
+        });
     });
 
     expectTypeOf(

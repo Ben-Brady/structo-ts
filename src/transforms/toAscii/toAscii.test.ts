@@ -10,38 +10,38 @@ export const {
 
 describe("st.toAscii", () => {
     it("encode correctly", () => {
-        assertEncodesAndDecodes(
-            st.pipe(st.fixedBytes(5), st.toAscii()), //
-            "a6534",
-        );
-        assertEncodesAndDecodes(
-            st.pipe(st.fixedBytes(3), st.toAscii()), //
-            "-as",
-        );
+        assertEncodesAndDecodes({
+            serializer: st.pipe(st.fixedBytes(5), st.toAscii()), //
+            value: "a6534",
+        });
+        assertEncodesAndDecodes({
+            serializer: st.pipe(st.fixedBytes(3), st.toAscii()), //
+            value: "-as",
+        });
     });
 
     it("invalid length throws error", () => {
-        assertEncodeThrows(
-            st.pipe(st.fixedBytes(4), st.toAscii()), //
-            "asd",
-        );
+        assertEncodeThrows({
+            serializer: st.pipe(st.fixedBytes(4), st.toAscii()), //
+            value: "asd",
+        });
     });
 
     it("invalid character throws error", () => {
-        assertEncodeThrows(
-            st.pipe(st.fixedBytes(4), st.toAscii()), //
-            "asdé",
-        );
+        assertEncodeThrows({
+            serializer: st.pipe(st.fixedBytes(4), st.toAscii()), //
+            value: "asdé",
+        });
     });
 
     it("snapshots", () => {
-        assertMatchesSnapshot(
-            st.pipe(st.fixedBytes(4), st.toAscii()), //
-            "634f",
-        );
-        assertMatchesSnapshot(
-            st.pipe(st.fixedBytes(6), st.toAscii()), //
-            "hdjdp_",
-        );
+        assertMatchesSnapshot({
+            serializer: st.pipe(st.fixedBytes(4), st.toAscii()), //
+            value: "634f",
+        });
+        assertMatchesSnapshot({
+            serializer: st.pipe(st.fixedBytes(6), st.toAscii()), //
+            value: "hdjdp_",
+        });
     });
 });

@@ -11,17 +11,17 @@ export const {
 describe("st.createReference", () => {
     it("encodes correctly", () => {
         const length = st.createReference<number>();
-        const spec = st.object({
+        const serializer = st.object({
             length: length.pointer(st.u32()),
             numbers: st.array(length.deref(), st.u8()),
         });
 
-        expect(spec.size).toBe(undefined);
-        assertEncodesAndDecodes(
-            spec, //
-            { length: 0, numbers: [1, 3, 4] },
-            { length: 3, numbers: [1, 3, 4] },
-        );
+        expect(serializer.size).toBe(undefined);
+        assertEncodesAndDecodes({
+            serializer,
+            value: { length: 0, numbers: [1, 3, 4] },
+            expected: { length: 3, numbers: [1, 3, 4] },
+        });
     });
 
     it("cant create reference to pointer", () => {
@@ -33,17 +33,16 @@ describe("st.createReference", () => {
 
     it("multiple runs function", () => {
         const v = st.createReference<number>();
-        const spec = st.object({
-            a: v.pointer(st.u32()),
-            b: st.array(v.deref(), st.u8()),
-        });
 
         for (let i = 0; i < 3; i++) {
-            assertEncodesAndDecodes(
-                spec, //
-                { a: NaN, b: [1, 3, 4] },
-                { a: 3, b: [1, 3, 4] },
-            );
+            assertEncodesAndDecodes({
+                serializer: st.object({
+                    a: v.pointer(st.u32()),
+                    b: st.array(v.deref(), st.u8()),
+                }),
+                value: { a: NaN, b: [1, 3, 4] },
+                expected: { a: 3, b: [1, 3, 4] },
+            });
         }
     });
 
@@ -57,36 +56,36 @@ describe("st.createReference", () => {
             }),
         );
 
-        assertEncodesAndDecodes(
-            Node,
-            {
+        assertEncodesAndDecodes({
+            serializer: Node,
+            value: {
                 size: NaN,
                 children: [
                     { size: NaN, children: [] },
                     { size: NaN, children: [{ size: NaN, children: [] }] },
                 ],
             },
-            {
+            expected: {
                 size: 2,
                 children: [
                     { size: 0, children: [] },
                     { size: 1, children: [{ size: 0, children: [] }] },
                 ],
             },
-        );
+        });
     });
 
     it("snapshots are correct", () => {
         const v = st.createReference<number>();
-        assertMatchesSnapshot(
-            st.object({
+        assertMatchesSnapshot({
+            serializer: st.object({
                 a: v.pointer(st.u32()),
                 b: st.array(v.deref(), st.u8()),
             }),
-            {
+            value: {
                 a: 3,
                 b: [1, 3, 4],
             },
-        );
+        });
     });
 });

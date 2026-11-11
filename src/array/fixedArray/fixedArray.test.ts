@@ -10,19 +10,34 @@ export const {
 
 describe("st.fixedArray", () => {
     it("encode correctly", () => {
-        assertEncodesAndDecodes(st.fixedArray(4, st.u16()), [1, 2, 3, 4]);
+        assertEncodesAndDecodes({
+            serializer: st.fixedArray(4, st.u16()),
+            value: [1, 2, 3, 4],
+        });
     });
 
     it("works on empty lists", () => {
-        assertEncodesAndDecodes(st.fixedArray(0, st.u16()), []);
+        assertEncodesAndDecodes({
+            serializer: st.fixedArray(0, st.u16()),
+            value: [],
+        });
     });
 
     it("throws error on invalid size", () => {
-        assertEncodeThrows(st.fixedArray(2, st.u16()), [1]);
+        assertEncodeThrows({
+            serializer: st.fixedArray(2, st.u16()),
+            value: [1],
+        });
     });
 
     it("throws error on invalid value", () => {
-        assertEncodeThrows(st.fixedArray(2, st.u16()), [1, -1]);
-        assertEncodeThrows(st.fixedArray(2, st.u16()), [2 ** 16 + 1, 0]);
+        assertEncodeThrows({
+            serializer: st.fixedArray(2, st.u16()),
+            value: [1, -1],
+        });
+        assertEncodeThrows({
+            serializer: st.fixedArray(2, st.u16()),
+            value: [2 ** 16 + 1, 0],
+        });
     });
 });

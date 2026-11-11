@@ -11,21 +11,21 @@ export const {
 
 describe("st.taggedUnion", () => {
     it("encode correctly", () => {
-        const spec = st.taggedUnion(st.u8(), {
+        const serializer = st.taggedUnion(st.u8(), {
             1: st.string(st.u8()),
             2: st.u8(),
         });
-        assertEncodesAndDecodes(spec, { type: 1, value: "s" });
-        assertEncodesAndDecodes(spec, { type: 2, value: 52 });
+        assertEncodesAndDecodes({ serializer, value: { type: 1, value: "s" } });
+        assertEncodesAndDecodes({ serializer, value: { type: 2, value: 52 } });
     });
 
     it("encode with string tag", () => {
-        const spec = st.taggedUnion(st.string(st.u8()), {
+        const serializer = st.taggedUnion(st.string(st.u8()), {
             foo: st.string(st.u8()),
             bar: st.u8(),
         });
-        assertEncodesAndDecodes(spec, { type: "foo", value: "woof" });
-        assertEncodesAndDecodes(spec, { type: "bar", value: 52 });
+        assertEncodesAndDecodes({ serializer, value: { type: "foo", value: "woof" } });
+        assertEncodesAndDecodes({ serializer, value: { type: "bar", value: 52 } });
     });
 
     it("throws error on invalid tag", () => {
@@ -59,7 +59,11 @@ describe("st.taggedUnion", () => {
             1: st.string(st.u8()),
             2: st.u8(),
         });
-        assertEncodesAndDecodes(serializer, { type: 1, value: "s" });
+
+        assertEncodesAndDecodes({
+            serializer,
+            value: { type: 1, value: "s" },
+        });
         assertEncodesAsSize({
             serializer,
             size: 5,
@@ -73,13 +77,13 @@ describe("st.taggedUnion", () => {
     });
 
     it("encodes snapshots", () => {
-        assertMatchesSnapshot(
-            st.taggedUnion(st.u32(), {
-                0: st.list(st.u8(), st.f64()),
+        assertMatchesSnapshot({
+            serializer: st.taggedUnion(st.u32(), {
+                0: st.array(st.u8(), st.f64()),
                 3: st.u32(),
             }),
-            { type: 0, value: [1] },
-        );
+            value: { type: 0, value: [1] },
+        });
     });
 
     expectTypeOf(
@@ -89,14 +93,8 @@ describe("st.taggedUnion", () => {
         } as const),
     ).toEqualTypeOf<
         st.Serializer<
-            | {
-                  type: 0;
-                  value: number;
-              }
-            | {
-                  type: 1;
-                  value: string;
-              }
+            | { type: 0; value: number } //
+            | { type: 1; value: string }
         >
     >();
 

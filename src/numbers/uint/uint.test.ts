@@ -28,42 +28,38 @@ function runUIntTests(options: {
 
     describe(name, () => {
         it(`works in bounds`, () => {
-            assertEncodesAndDecodes(serializer, start);
+            assertEncodesAndDecodes({ serializer, value: start });
+            assertEncodesAndDecodes({ serializer, value: end });
             for (let i = 0; i < 100; i++) {
-                assertEncodesAndDecodes(serializer, randInt(start, end));
+                assertEncodesAndDecodes({ serializer, value: randInt(start, end) });
             }
-            assertEncodesAndDecodes(serializer, end);
         });
 
         it(`errors outside bounds`, () => {
-            assertEncodeThrows(serializer, start - 1);
+            assertEncodeThrows({ serializer, value: start - 1 });
             if (!disableMaxCheck) {
-                assertEncodeThrows(serializer, end + 1);
+                assertEncodeThrows({ serializer, value: end + 1 });
             }
         });
 
         it(`errors on decimal`, () => {
-            assertEncodeThrows(serializer, 0.1);
+            assertEncodeThrows({ serializer: serializer, value: 0.1 });
         });
 
         it(`is right size`, () => {
-            const expectValueSize = (value: number) => {
-                const data = st.write(serializer, value);
-                expect(data.byteLength).toBe(size);
-            };
+            assertEncodesAsSize({ serializer, size, value: start });
+            assertEncodesAsSize({ serializer, size, value: end });
             for (let i = 0; i < 100; i++) {
-                expectValueSize(randInt(start, end));
+                assertEncodesAsSize({ serializer, size, value: randInt(start, end) });
             }
-            expectValueSize(start);
-            expectValueSize(end);
         });
 
         it(`matches snapshots`, () => {
-            assertMatchesSnapshot(serializer, 0);
-            assertMatchesSnapshot(serializer, start);
-            assertMatchesSnapshot(serializer, start + 10);
-            assertMatchesSnapshot(serializer, end - 10);
-            assertMatchesSnapshot(serializer, end);
+            assertMatchesSnapshot({ serializer, value: 0 });
+            assertMatchesSnapshot({ serializer, value: start });
+            assertMatchesSnapshot({ serializer, value: start + 10 });
+            assertMatchesSnapshot({ serializer, value: end - 10 });
+            assertMatchesSnapshot({ serializer, value: end });
         });
     });
 }

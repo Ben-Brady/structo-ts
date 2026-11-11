@@ -10,14 +10,24 @@ export const {
 
 describe("st.Void", () => {
     it(`write/read test `, () => {
-        assertEncodesAndDecodes(st.Void(), undefined);
+        assertEncodesAndDecodes({
+            serializer: st.Void(),
+            value: undefined,
+        });
     });
 
     it(`encodes to zero bytes`, () => {
-        assertEncodesAs(st.Void(), undefined, []);
+        assertEncodesAs({
+            serializer: st.Void(),
+            value: undefined,
+            expected: [],
+        });
     });
 
     it(`matches snapshots`, () => {
-        assertMatchesSnapshot(st.Void(), undefined);
+        assertMatchesSnapshot({
+            serializer: st.Void(),
+            value: undefined,
+        });
     });
 });

@@ -10,15 +10,25 @@ export const {
 
 describe("st.literal", () => {
     it("encode correctly", () => {
-        assertEncodesAndDecodes(st.pipe(st.u8(), st.literal(0)), 0);
-        assertEncodesAndDecodes(st.pipe(st.string(st.u8()), st.literal("foo")), "foo");
+        assertEncodesAndDecodes({
+            serializer: st.pipe(st.u8(), st.literal(0)),
+            value: 0,
+        });
+        assertEncodesAndDecodes({
+            serializer: st.pipe(st.string(st.u8()), st.literal("foo")),
+            value: "foo",
+        });
     });
 
     it("invalid literal errors", () => {
-        //@ts-expect-error
-        assertEncodeThrows(st.pipe(st.u8(), st.literal(0)), 2);
-        //@ts-expect-error
-        assertEncodeThrows(st.pipe(st.string(st.u8()), st.literal("A")), "B");
+        assertEncodeThrows({
+            serializer: st.pipe(st.u8(), st.literal(0)),
+            value: 2,
+        });
+        assertEncodeThrows({
+            serializer: st.pipe(st.string(st.u8()), st.literal("A")),
+            value: "B",
+        });
     });
 
     () => {

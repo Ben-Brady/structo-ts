@@ -10,34 +10,34 @@ export const {
 
 describe("st.toHex", () => {
     it("encode correctly", () => {
-        assertEncodesAndDecodes(
-            st.pipe(st.fixedBytes(3), st.toHex()), //
-            "FFAB01",
-        );
+        assertEncodesAndDecodes({
+            serializer: st.pipe(st.fixedBytes(3), st.toHex()), //
+            value: "FFAB01",
+        });
     });
 
     it("invalid digits error", () => {
-        assertEncodeThrows(
-            st.pipe(st.fixedBytes(3), st.toHex()), //
-            "00000G",
-        );
+        assertEncodeThrows({
+            serializer: st.pipe(st.fixedBytes(3), st.toHex()), //
+            value: "00000G",
+        });
     });
 
     it("invalid length error", () => {
-        assertEncodeThrows(
-            st.pipe(st.fixedBytes(3), st.toHex()), //
-            "0000",
-        );
+        assertEncodeThrows({
+            serializer: st.pipe(st.fixedBytes(3), st.toHex()), //
+            value: "0000",
+        });
     });
 
     it("snapshots", () => {
-        assertMatchesSnapshot(
-            st.pipe(st.fixedBytes(3), st.toHex()), //
-            "FFAB01",
-        );
-        assertMatchesSnapshot(
-            st.pipe(st.fixedBytes(5), st.toHex()), //
-            "0000000000",
-        );
+        assertMatchesSnapshot({
+            serializer: st.pipe(st.fixedBytes(3), st.toHex()), //
+            value: "FFAB01",
+        });
+        assertMatchesSnapshot({
+            serializer: st.pipe(st.fixedBytes(5), st.toHex()), //
+            value: "0000000000",
+        });
     });
 });

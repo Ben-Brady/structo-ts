@@ -10,26 +10,44 @@ export const {
 
 describe("st.string", () => {
     it("encode correctly", () => {
-        assertEncodesAndDecodes(st.string(st.u8()), "foo");
+        assertEncodesAndDecodes({
+            serializer: st.string(st.u8()),
+            value: "foo",
+        });
     });
 
     it("works on empty strings", () => {
-        assertEncodesAndDecodes(st.string(st.u32()), "");
+        assertEncodesAndDecodes({
+            serializer: st.string(st.u32()),
+            value: "",
+        });
     });
+    
     it("supports characters past UTF-16", () => {
-        assertEncodesAndDecodes(st.string(st.u32()), "𰀇𰀇𰀇");
+        assertEncodesAndDecodes({
+            serializer: st.string(st.u32()),
+            value: "𰀇𰀇𰀇",
+        });
     });
 
     it("errors on numbers", () => {
-        //@ts-expect-error, intentional mistake
-        assertEncodeThrows(st.string(st.u8()), 8);
+        assertEncodeThrows({
+            serializer: st.string(st.u8()),
+            value: 8,
+        });
     });
 
     it("works on long strings", () => {
-        assertEncodesAndDecodes(st.string(st.u32()), "A".repeat(2 ** 24));
+        assertEncodesAndDecodes({
+            serializer: st.string(st.u32()),
+            value: "A".repeat(2 ** 24),
+        });
     });
 
     it("errors on too long strings", () => {
-        assertEncodeThrows(st.string(st.u8()), "A".repeat(256));
+        assertEncodeThrows({
+            serializer: st.string(st.u8()),
+            value: "A".repeat(256),
+        });
     });
 });

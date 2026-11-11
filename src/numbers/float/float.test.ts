@@ -28,17 +28,17 @@ function test_float(options: { name: string; serializer: st.Serializer<number>; 
             }
         });
         it(`works on Infinty`, () => {
-            assertEncodesAndDecodes(serializer, Infinity);
-            assertEncodesAndDecodes(serializer, -Infinity);
+            assertEncodesAndDecodes({ serializer, value: Infinity });
+            assertEncodesAndDecodes({ serializer, value: -Infinity });
         });
         it(`works on NaN`, () => {
-            assertEncodesAndDecodes(serializer, NaN);
+            assertEncodesAndDecodes({ serializer, value: NaN });
         });
         it(`works on 0`, () => {
-            assertEncodesAndDecodes(serializer, 0);
+            assertEncodesAndDecodes({ serializer, value: 0 });
         });
         it(`works on -0`, () => {
-            assertEncodesAndDecodes(serializer, -0);
+            assertEncodesAndDecodes({ serializer, value: -0 });
         });
 
         it(`is right size`, () => {

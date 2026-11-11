@@ -8,12 +8,12 @@ export const {
     assertMatchesSnapshot,
 } = st.createTestingUtils(expect);
 
-const byte = (str: string): number => {
+function byte(str: string): number {
     let bits = Array.from(str).filter((v) => v === "0" || v === "1");
     return parseInt(bits.join(""), 2);
-};
+}
 
-const bytes = (str: string): number[] => {
+function bytes(str: string): number[] {
     let bits = Array.from(str)
         .filter((v) => v === "0" || v === "1")
         .join("");
@@ -28,7 +28,7 @@ const bytes = (str: string): number[] => {
     }
 
     return result;
-};
+}
 
 describe("st.packedBits", () => {
     it("byte test utils function correctly", () => {
@@ -47,115 +47,132 @@ describe("st.packedBits", () => {
     });
 
     it("encodes correctly", () => {
-        assertEncodesAndDecodes(
-            st.packedBits({
+        assertEncodesAndDecodes({
+            serializer: st.packedBits({
                 a: { bits: 3 },
                 b: { bits: 5 },
-            }), //
-            { b: 2, a: 1 },
-        );
+            }),
+            value: { b: 2, a: 1 },
+        });
     });
 
     it("handles not saturating bits", () => {
-        assertEncodesAndDecodes(
-            st.packedBits({
+        assertEncodesAndDecodes({
+            serializer: st.packedBits({
                 a: { bits: 3 },
                 b: { bits: 2 },
             }),
-            { b: 2, a: 1 },
-        );
+            value: { b: 2, a: 1 },
+        });
     });
 
     it("encodes to spec", () => {
-        assertEncodesAs(
-            st.packedBits({ a: { bits: 4 }, b: { bits: 5 }, c: { bits: 7 } }),
-            { a: byte("1101"), b: byte("1001-1"), c: byte("1111-000") },
-            bytes("1101 1001-1 1111-000"),
-        );
-        assertEncodesAs(
-            st.packedBits({ a: { bits: 5 }, b: { bits: 6 }, c: { bits: 3 } }),
-            { a: byte("11010"), b: byte("100110"), c: byte("010") },
-            bytes("11010 100110 010"),
-        );
+        assertEncodesAs({
+            serializer: st.packedBits({ a: { bits: 4 }, b: { bits: 5 }, c: { bits: 7 } }),
+            value: { a: byte("1101"), b: byte("1001-1"), c: byte("1111-000") },
+            expected: bytes("1101 1001-1 1111-000"),
+        });
+        assertEncodesAs({
+            serializer: st.packedBits({ a: { bits: 5 }, b: { bits: 6 }, c: { bits: 3 } }),
+            value: { a: byte("11010"), b: byte("100110"), c: byte("010") },
+            expected: bytes("11010 100110 010"),
+        });
     });
 
     it("encodes empty", () => {
-        assertEncodesAndDecodes(st.packedBits({}), {});
+        assertEncodesAndDecodes({
+            serializer: st.packedBits({}),
+            value: {},
+        });
     });
 
     it("encodes large sizes", () => {
-        assertEncodesAndDecodes(
-            st.packedBits({
+        assertEncodesAndDecodes({
+            serializer: st.packedBits({
                 a: { bits: 48 },
                 b: { bits: 48 },
                 c: { bits: 48 },
                 d: { bits: 48 },
                 e: { bits: 39 },
             }),
-            { a: 63431254, b: 6345323, c: 6345123, d: 5675923, e: 124567423 },
-        );
+            value: {
+                a: 63431254,
+                b: 6345323,
+                c: 6345123,
+                d: 5675923,
+                e: 124567423,
+            },
+        });
     });
 
     it("encodes to correct size", () => {
-        {
-            const data = st.write(st.packedBits({ a: { bits: 8 } }), { a: 255 });
-            expect(data.byteLength).toBe(1);
-        }
-        {
-            const data = st.write(
-                st.packedBits({ a: { bits: 8 }, b: { bits: 3 }, c: { bits: 5 } }),
-                { a: 255, b: 1, c: 1 },
-            );
-            expect(data.byteLength).toBe(2);
-        }
-        {
-            const data = st.write(
-                st.packedBits({ a: { bits: 8 }, b: { bits: 5 }, c: { bits: 6 } }),
-                { a: 255, b: 1, c: 1 },
-            );
-            expect(data.byteLength).toBe(3);
-        }
+        assertEncodesAsSize({
+            serializer: st.packedBits({ a: { bits: 8 } }),
+            value: { a: 255 },
+            size: 1,
+        });
+        assertEncodesAsSize({
+            serializer: st.packedBits({
+                a: { bits: 8 },
+                b: { bits: 3 },
+                c: { bits: 5 },
+            }),
+            value: { a: 255, b: 1, c: 1 },
+            size: 2,
+        });
+        assertEncodesAsSize({
+            serializer: st.packedBits({
+                a: { bits: 8 },
+                b: { bits: 5 },
+                c: { bits: 6 },
+            }),
+            value: { a: 255, b: 1, c: 1 },
+            size: 3,
+        });
     });
 
     it("encodes at max value", () => {
-        assertEncodesAndDecodes(st.packedBits({ a: { bits: 8 } }), { a: 255 });
+        assertEncodesAndDecodes({
+            serializer: st.packedBits({ a: { bits: 8 } }),
+            value: { a: 255 },
+        });
     });
 
     it("too large throws error", () => {
-        assertEncodeThrows(
-            st.packedBits({ a: { bits: 3 } }), //
-            { a: byte("1000") },
-        );
+        assertEncodeThrows({
+            serializer: st.packedBits({ a: { bits: 3 } }),
+            value: { a: byte("1000") },
+        });
     });
 
     it("smaller than zero throws error", () => {
-        assertEncodeThrows(
-            st.packedBits({ a: { bits: 8 } }), //
-            { a: -1 },
-        );
+        assertEncodeThrows({
+            serializer: st.packedBits({ a: { bits: 8 } }),
+            value: { a: -1 },
+        });
     });
 
     it(`matches snapshots`, () => {
-        assertMatchesSnapshot(
-            st.packedBits({
+        assertMatchesSnapshot({
+            serializer: st.packedBits({
                 a: { bits: 5 },
                 b: { bits: 2 },
                 c: { bits: 1 },
             }),
-            { a: 1, b: 3, c: 0 },
-        );
+            value: { a: 1, b: 3, c: 0 },
+        });
 
-        assertMatchesSnapshot(
-            st.packedBits({
+        assertMatchesSnapshot({
+            serializer: st.packedBits({
                 number: { bits: 5 },
                 puppy: { bits: 5 },
                 buffer: { bits: 11 },
             }),
-            { number: 1, puppy: 3, buffer: 510 },
-        );
+            value: { number: 1, puppy: 3, buffer: 510 },
+        });
 
-        assertMatchesSnapshot(
-            st.packedBits({
+        assertMatchesSnapshot({
+            serializer: st.packedBits({
                 isA: { bits: 1 },
                 isB: { bits: 1 },
                 a: { bits: 5 },
@@ -163,8 +180,8 @@ describe("st.packedBits", () => {
                 isD: { bits: 1 },
                 b: { bits: 3 },
             }),
-            { isA: 0, isB: 1, a: 13, isC: 1, isD: 0, b: 5 },
-        );
+            value: { isA: 0, isB: 1, a: 13, isC: 1, isD: 0, b: 5 },
+        });
     });
 
     // Type Tests

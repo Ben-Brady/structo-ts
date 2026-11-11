@@ -10,30 +10,37 @@ export const {
 
 describe("st.array", () => {
     it("encode correctly", () => {
-        const spec = st.array(st.u8(), st.u32());
-        assertEncodesAndDecodes(spec, [1, 2, 3, 4]);
+        assertEncodesAndDecodes({
+            serializer: st.array(st.u8(), st.u32()),
+            value: [1, 2, 3, 4],
+        });
     });
 
     it("works on empty lists", () => {
-        const spec = st.array(st.u8(), st.u32());
-        assertEncodesAndDecodes(spec, []);
+        assertEncodesAndDecodes({
+            serializer: st.array(st.u8(), st.u32()),
+            value: [],
+        });
     });
 
     it("throws error on too large array", () => {
-        assertEncodeThrows(
-            st.array(st.u8(), st.u32()),
-            Array.from({ length: 10000 }, () => 0),
-        );
+        assertEncodeThrows({
+            serializer: st.array(st.u8(), st.u32()),
+            value: Array.from({ length: 1000 }, () => 0),
+        });
     });
 
     it("throws error on invalid value", () => {
-        assertEncodeThrows(st.array(st.u8(), st.u16()), [-1]);
+        assertEncodeThrows({
+            serializer: st.array(st.u8(), st.u16()),
+            value: [-1],
+        });
     });
 
     it(`matches snapshots`, () => {
-        assertMatchesSnapshot(
-            st.array(st.s32(), st.string(st.u16())), //
-            ["foo", "bar", "baz"],
-        );
+        assertMatchesSnapshot({
+            serializer: st.array(st.s32(), st.string(st.u16())), //
+            value: ["foo", "bar", "baz"],
+        });
     });
 });

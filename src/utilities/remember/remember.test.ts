@@ -11,25 +11,28 @@ export const {
 describe("st.remember", () => {
     it("encodes correctly", () => {
         const v = st.createRememberedValue<number>();
-        const spec = st.object({
+        const serializer = st.object({
             a: v.save(st.u32()),
-            b: st.list(v.load(), st.u8()),
+            b: st.array(v.load(), st.u8()),
         });
-        assertEncodesAndDecodes(spec, {
-            a: 3,
-            b: [1, 3, 4],
+        assertEncodesAndDecodes({
+            serializer,
+            value: {
+                a: 3,
+                b: [1, 3, 4],
+            },
         });
     });
 
     it("multiple runs function", () => {
         const v = st.createRememberedValue<number>();
-        const spec = st.object({
+        const serializer = st.object({
             a: v.save(st.u32()),
-            b: st.list(v.load(), st.u8()),
+            b: st.array(v.load(), st.u8()),
         });
-        assertEncodesAndDecodes(spec, { a: 3, b: [1, 3, 4] });
-        assertEncodesAndDecodes(spec, { a: 3, b: [1, 3, 4] });
-        assertEncodesAndDecodes(spec, { a: 3, b: [1, 3, 4] });
+        assertEncodesAndDecodes({ serializer, value: { a: 3, b: [1, 3, 4] } });
+        assertEncodesAndDecodes({ serializer, value: { a: 3, b: [1, 3, 4] } });
+        assertEncodesAndDecodes({ serializer, value: { a: 3, b: [1, 3, 4] } });
     });
 
     it("omitted serializer doesn't write data ", () => {
@@ -45,11 +48,14 @@ describe("st.remember", () => {
 
     it("serializer is used write data ", () => {
         const v = st.createRememberedValue<number>();
-        const spec = st.object({
-            a: v.save(st.u32()),
-            b: v.load(),
+        assertEncodesAndDecodes({
+            serializer: st.object({
+                a: v.save(st.u32()),
+                b: v.load(),
+            }),
+            value: { a: 3, b: 0 },
+            expected: { a: 3, b: 3 },
         });
-        assertEncodesAndDecodes(spec, { a: 3, b: 0 }, { a: 3, b: 3 });
     });
 
     it("handles recursive objects", () => {
@@ -58,33 +64,36 @@ describe("st.remember", () => {
         const Node = st.lazy(() =>
             st.object({
                 size: size.save(st.u32()),
-                children: st.list(size.load(), Node),
+                children: st.array(size.load(), Node),
             }),
         );
 
-        assertEncodesAndDecodes(Node, {
-            size: 2,
-            children: [
-                { size: 0, children: [] },
-                {
-                    size: 1,
-                    children: [{ size: 0, children: [] }],
-                },
-            ],
+        assertEncodesAndDecodes({
+            serializer: Node,
+            value: {
+                size: 2,
+                children: [
+                    { size: 0, children: [] },
+                    {
+                        size: 1,
+                        children: [{ size: 0, children: [] }],
+                    },
+                ],
+            },
         });
     });
 
     it("snapshots are correct", () => {
         const v = st.createRememberedValue<number>();
-        assertMatchesSnapshot(
-            st.object({
+        assertMatchesSnapshot({
+            serializer: st.object({
                 a: v.save(st.u32()),
-                b: st.list(v.load(), st.u8()),
+                b: st.array(v.load(), st.u8()),
             }),
-            {
+            value: {
                 a: 3,
                 b: [1, 3, 4],
             },
-        );
+        });
     });
 });

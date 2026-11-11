@@ -10,14 +10,14 @@ export const {
 
 describe("st.enum", () => {
     it("encode correctly", () => {
-        assertEncodesAndDecodes(
-            st.pipe(st.u8(), st.enum([0, 1, 2])), //
-            1,
-        );
-        assertEncodesAndDecodes(
-            st.pipe(st.string(st.u8()), st.enum(["foo", "bar", "woof"])), //
-            "foo",
-        );
+        assertEncodesAndDecodes({
+            serializer: st.pipe(st.u8(), st.enum([0, 1, 2])), //
+            value: 1,
+        });
+        assertEncodesAndDecodes({
+            serializer: st.pipe(st.string(st.u8()), st.enum(["foo", "bar", "woof"])), //
+            value: "foo",
+        });
     });
     it("invalid union variants error", () => {
         //@ts-expect-error

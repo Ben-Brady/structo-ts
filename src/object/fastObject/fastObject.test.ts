@@ -62,21 +62,21 @@ describe("st.fastObject", () => {
     });
 
     it("encodes empty", () => {
-        assertEncodesAndDecodes(st.fastObject({}), {});
+        assertEncodesAndDecodes({ serializer: st.fastObject({}), value: {} });
     });
 
     it(`matches snapshots`, () => {
-        assertMatchesSnapshot(
-            st.fastObject({
+        assertMatchesSnapshot({
+            serializer: st.fastObject({
                 number: st.u32(),
                 puppy: st.string(st.s32()),
                 buffer: st.fixedBytes(4),
             }),
-            {
+            value: {
                 number: 1,
                 puppy: "woof woof bark bark",
                 buffer: new Uint8Array([19, 87, 19, 83]),
             },
-        );
+        });
     });
 });

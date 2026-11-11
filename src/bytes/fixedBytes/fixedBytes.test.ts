@@ -9,47 +9,52 @@ export const {
 } = st.createTestingUtils(expect);
 
 describe("st.fixedBytes", () => {
-    const buffer = st.fixedBytes(2);
-
     it("encode correctly", () => {
-        assertEncodesAndDecodes(buffer, new Uint8Array([1, 2]));
+        assertEncodesAndDecodes({
+            serializer: st.fixedBytes(2),
+            value: new Uint8Array([1, 2]),
+        });
     });
 
     it("encodes empty correctly", () => {
-        const spec = st.fixedBytes(0);
-        assertEncodesAndDecodes(spec, new Uint8Array([]));
+        assertEncodesAndDecodes({
+            serializer: st.fixedBytes(0),
+            value: new Uint8Array([]),
+        });
     });
 
     it("holds large data", () => {
-        const size = 1024 * 1024 * 8; // 8MB
-        const spec = st.fixedBytes(size);
-
-        const data = new Uint8Array(size);
+        const size = 1024 * 1024 * 8;
+        const data = new Uint8Array(size); // 8MB
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-        assertEncodesAndDecodes(spec, data);
+
+        assertEncodesAndDecodes({
+            serializer: st.fixedBytes(size),
+            value: data,
+        });
     });
 
     it("large data writes work", () => {
-        const size = 1024 * 1024 * 8; // 8MB
-        const spec = st.object({
-            before: st.u8(),
-            data: st.fixedBytes(size),
-            after: st.u8(),
-        });
-
-        const data = new Uint8Array(size);
+        const size = 1024 * 1024 * 8;
+        const data = new Uint8Array(size); // 8MB
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-        assertEncodesAndDecodes(spec, {
-            before: 1,
-            data,
-            after: 2,
+
+        assertEncodesAndDecodes({
+            serializer: st.object({
+                before: st.u8(),
+                data: st.fixedBytes(size),
+                after: st.u8(),
+            }),
+            value: { before: 1, data, after: 2 },
         });
     });
 
     it("errors on invalid length", () => {
-        const spec = st.fixedBytes(5);
-        assertEncodeThrows(spec, new Uint8Array([1, 2, 3, 4]));
+        assertEncodeThrows({
+            serializer: st.fixedBytes(5),
+            value: new Uint8Array([1, 2, 3, 4]),
+        });
     });
 });

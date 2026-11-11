@@ -26,36 +26,35 @@ function runBigintTests(options: {
     } = options;
     describe(name, () => {
         it("works in bounds", () => {
-            assertEncodesAndDecodes(serializer, start);
+            assertEncodesAndDecodes({ serializer, value: start });
+            assertEncodesAndDecodes({ serializer, value: end });
             for (let i = 0; i < 100; i++) {
-                assertEncodesAndDecodes(serializer, randBigInt(start, end));
+                assertEncodesAndDecodes({
+                    serializer,
+                    value: randBigInt(start, end),
+                });
             }
-            assertEncodesAndDecodes(serializer, end);
         });
 
         it("outside bounds", () => {
-            assertEncodeThrows(serializer, start - 1n);
-            assertEncodeThrows(serializer, end + 1n);
+            assertEncodeThrows({ serializer, value: start - 1n });
+            assertEncodeThrows({ serializer, value: end + 1n });
         });
 
         it(`is right size`, () => {
-            const expectValueSize = (value: bigint) => {
-                const data = st.write(serializer, value);
-                expect(data.byteLength).toBe(size);
-            };
+            assertEncodesAsSize({ serializer, value: start, size });
+            assertEncodesAsSize({ serializer, value: end, size });
             for (let i = 0; i < 100; i++) {
-                expectValueSize(randBigInt(start, end));
+                assertEncodesAsSize({ serializer, value: randBigInt(start, end), size });
             }
-            expectValueSize(start);
-            expectValueSize(end);
         });
 
         it(`matches snapshots`, () => {
-            assertMatchesSnapshot(serializer, 0n);
-            assertMatchesSnapshot(serializer, start);
-            assertMatchesSnapshot(serializer, start + 10n);
-            assertMatchesSnapshot(serializer, end - 10n);
-            assertMatchesSnapshot(serializer, end);
+            assertMatchesSnapshot({ serializer, value: 0n });
+            assertMatchesSnapshot({ serializer, value: start });
+            assertMatchesSnapshot({ serializer, value: start + 10n });
+            assertMatchesSnapshot({ serializer, value: end - 10n });
+            assertMatchesSnapshot({ serializer, value: end });
         });
     });
 }
