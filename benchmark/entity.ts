@@ -1,4 +1,4 @@
-import * as st from "../src/index.js";
+import { st } from "../src/index.js";
 import { benchmark } from "./utils.js";
 
 const generateData = (size: number): Entity[] => {
