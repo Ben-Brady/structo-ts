@@ -32,7 +32,7 @@ const generateData = (size: number): User[] => {
 
 function serializeUsingLibrary(users: User[]) {
     const UserList = st.fixedArray(users.length, User);
-    return st.write(UserList, users);
+    return st.write(UserList, users, { disableErrorReporting: true });
 }
 
 function serializeUsingHandwritten(users: User[]) {

@@ -51,7 +51,7 @@ const Entity = st.fastObject({
 
 function serializeUsingLibrary(entities: Entity[]) {
     const EntityList = st.fixedArray(entities.length, Entity);
-    return st.write(EntityList, entities);
+    return st.write(EntityList, entities, { disableErrorReporting: true });
 }
 
 function serializeUsingHandwritten(entities: Entity[]) {

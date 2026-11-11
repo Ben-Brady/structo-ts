@@ -38,8 +38,10 @@ export function benchmark<T>(options: {
         summary(() => {
             group(`\n\n${name} x${size}`, () => {
                 const data = generateData(size);
-                bench(`handwritten`, () => handwritten(data));
-                bench(`library`, () => library(data)).baseline(true);
+                bench(`handwritten`, () => handwritten(data)).gc("once");
+                bench(`library`, () => library(data))
+                    .baseline(true)
+                    .gc("once");
             });
         });
     }
