@@ -21,12 +21,12 @@ export function createTestingUtils(expect: ExpectType) {
     function assertEncodesAs<TIn>(options: {
         serializer: st.Serializer<TIn, any>;
         value: TIn;
-        expected: number[];
+        expected: number[] | Uint8Array;
     }) {
         const { serializer, value, expected } = options;
         const data = st.write(serializer, value);
         const bytes = Array.from(new Uint8Array(data));
-        expect(bytes).toEqual(expected);
+        expect(bytes).toEqual(Array.from(expected));
     }
 
     function assertSerializerSize<TIn, TOut>(options: {
