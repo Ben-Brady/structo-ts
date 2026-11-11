@@ -1,7 +1,12 @@
-import { describe, it, expect } from "bun:test";
-import { bytes, expectEncode, encodeSnapshotTest } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.fastObject", () => {
     it("encodes correctly", () => {
@@ -57,11 +62,11 @@ describe("st.fastObject", () => {
     });
 
     it("encodes empty", () => {
-        expectEncode(st.fastObject({}), {});
+        assertEncodesAndDecodes(st.fastObject({}), {});
     });
 
     it(`matches snapshots`, () => {
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.fastObject({
                 number: st.u32(),
                 puppy: st.string(st.s32()),
@@ -70,7 +75,7 @@ describe("st.fastObject", () => {
             {
                 number: 1,
                 puppy: "woof woof bark bark",
-                buffer: bytes([19, 87, 19, 83]),
+                buffer: new Uint8Array([19, 87, 19, 83]),
             },
         );
     });

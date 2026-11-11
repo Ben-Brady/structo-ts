@@ -1,18 +1,23 @@
-import { describe, it } from "bun:test";
-import { bytes, expectEncodeErrors, expectEncode } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.fixedBytes", () => {
     const buffer = st.fixedBytes(2);
 
     it("encode correctly", () => {
-        expectEncode(buffer, bytes([1, 2]));
+        assertEncodesAndDecodes(buffer, new Uint8Array([1, 2]));
     });
 
     it("encodes empty correctly", () => {
         const spec = st.fixedBytes(0);
-        expectEncode(spec, bytes([]));
+        assertEncodesAndDecodes(spec, new Uint8Array([]));
     });
 
     it("holds large data", () => {
@@ -22,7 +27,7 @@ describe("st.fixedBytes", () => {
         const data = new Uint8Array(size);
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-        expectEncode(spec, data);
+        assertEncodesAndDecodes(spec, data);
     });
 
     it("large data writes work", () => {
@@ -36,7 +41,7 @@ describe("st.fixedBytes", () => {
         const data = new Uint8Array(size);
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-        expectEncode(spec, {
+        assertEncodesAndDecodes(spec, {
             before: 1,
             data,
             after: 2,
@@ -45,6 +50,6 @@ describe("st.fixedBytes", () => {
 
     it("errors on invalid length", () => {
         const spec = st.fixedBytes(5);
-        expectEncodeErrors(spec, bytes([1, 2, 3, 4]));
+        assertEncodeThrows(spec, new Uint8Array([1, 2, 3, 4]));
     });
 });

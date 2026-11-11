@@ -1,7 +1,12 @@
-import { describe, expect, it } from "bun:test";
-import { expectEncodeErrors } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.modify", () => {
     it("encodes correctly", () => {
@@ -18,7 +23,7 @@ describe("st.modify", () => {
     });
 
     it("cannot be written", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.pipe(
                 st.u32(),
                 st.modify((v) => v + 8),

@@ -1,13 +1,15 @@
-import { describe, it, expect } from "bun:test";
-import {
-    expectEncode,
-    encodeSnapshotTest,
-    expectError,
-    randint,
-    expectEncodeErrors,
-} from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+import { faker } from "@faker-js/faker";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
+
+const randInt = (min: number, max: number) => faker.number.int({ min, max });
 
 function runSIntTests(options: {
     name: string;
@@ -26,22 +28,22 @@ function runSIntTests(options: {
 
     describe(name, () => {
         it(`works in bounds`, () => {
-            expectEncode(serializer, start);
+            assertEncodesAndDecodes(serializer, start);
             for (let i = 0; i < 100; i++) {
-                expectEncode(serializer, randint(start, end));
+                assertEncodesAndDecodes(serializer, randInt(start, end));
             }
-            expectEncode(serializer, end);
+            assertEncodesAndDecodes(serializer, end);
         });
 
         if (!disableRangeCheck) {
             it(`errors outside bounds`, () => {
-                expectEncodeErrors(serializer, start - 1);
-                expectEncodeErrors(serializer, end + 1);
+                assertEncodeThrows(serializer, start - 1);
+                assertEncodeThrows(serializer, end + 1);
             });
         }
 
         it(`errors on decimal`, () => {
-            expectError(() => st.write(serializer, 0.1));
+            assertEncodeThrows(serializer, 0.1);
         });
 
         it(`is right size`, () => {
@@ -50,18 +52,18 @@ function runSIntTests(options: {
                 expect(data.byteLength).toBe(size);
             };
             for (let i = 0; i < 100; i++) {
-                expectValueSize(randint(start, end));
+                expectValueSize(randInt(start, end));
             }
             expectValueSize(start);
             expectValueSize(end);
         });
 
         it(`matches snapshots`, () => {
-            encodeSnapshotTest(serializer, 0);
-            encodeSnapshotTest(serializer, start);
-            encodeSnapshotTest(serializer, start + 10);
-            encodeSnapshotTest(serializer, end - 10);
-            encodeSnapshotTest(serializer, end);
+            assertMatchesSnapshot(serializer, 0);
+            assertMatchesSnapshot(serializer, start);
+            assertMatchesSnapshot(serializer, start + 10);
+            assertMatchesSnapshot(serializer, end - 10);
+            assertMatchesSnapshot(serializer, end);
         });
     });
 }

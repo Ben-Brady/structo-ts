@@ -1,44 +1,49 @@
-import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.toBase64", () => {
     it("encode correctly", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.pipe(st.fixedBytes(1), st.toBase64()), //
             "rw==",
         );
-        expectEncode(
+        assertEncodesAndDecodes(
             st.pipe(st.fixedBytes(2), st.toBase64()), //
             "rx8=",
         );
-        expectEncode(
+        assertEncodesAndDecodes(
             st.pipe(st.fixedBytes(3), st.toBase64()), //
             "rx9K",
         );
     });
 
     it("invalid character error", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.pipe(st.fixedBytes(3), st.toBase64()), //
             "rx9-",
         );
     });
 
     it("invalid length error", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.pipe(st.fixedBytes(4), st.toBase64()), //
             "rx9L",
         );
     });
 
     it("snapshots", () => {
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.pipe(st.fixedBytes(3), st.toBase64()), //
             "rx9K",
         );
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.pipe(st.fixedBytes(6), st.toBase64()), //
             "fR9KIj8V",
         );

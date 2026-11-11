@@ -1,7 +1,12 @@
-import { describe, it, expect } from "bun:test";
-import { expectEncode, expectEncodeSize } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 function test_float(options: { name: string; serializer: st.Serializer<number>; size: number }) {
     const { name, serializer, size } = options;
@@ -23,22 +28,26 @@ function test_float(options: { name: string; serializer: st.Serializer<number>; 
             }
         });
         it(`works on Infinty`, () => {
-            expectEncode(serializer, Infinity);
-            expectEncode(serializer, -Infinity);
+            assertEncodesAndDecodes(serializer, Infinity);
+            assertEncodesAndDecodes(serializer, -Infinity);
         });
         it(`works on NaN`, () => {
-            expectEncode(serializer, NaN);
+            assertEncodesAndDecodes(serializer, NaN);
         });
         it(`works on 0`, () => {
-            expectEncode(serializer, 0);
+            assertEncodesAndDecodes(serializer, 0);
         });
         it(`works on -0`, () => {
-            expectEncode(serializer, -0);
+            assertEncodesAndDecodes(serializer, -0);
         });
 
         it(`is right size`, () => {
             for (let i = 0; i < 100; i++) {
-                expectEncodeSize(serializer, size, Math.random());
+                assertEncodesAsSize({
+                    serializer,
+                    size,
+                    value: Math.random(),
+                });
             }
         });
     });

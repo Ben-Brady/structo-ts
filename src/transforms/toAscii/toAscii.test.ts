@@ -1,40 +1,45 @@
-import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.toAscii", () => {
     it("encode correctly", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.pipe(st.fixedBytes(5), st.toAscii()), //
             "a6534",
         );
-        expectEncode(
+        assertEncodesAndDecodes(
             st.pipe(st.fixedBytes(3), st.toAscii()), //
             "-as",
         );
     });
 
     it("invalid length throws error", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.pipe(st.fixedBytes(4), st.toAscii()), //
             "asd",
         );
     });
 
     it("invalid character throws error", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.pipe(st.fixedBytes(4), st.toAscii()), //
             "asdé",
         );
     });
 
     it("snapshots", () => {
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.pipe(st.fixedBytes(4), st.toAscii()), //
             "634f",
         );
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.pipe(st.fixedBytes(6), st.toAscii()), //
             "hdjdp_",
         );

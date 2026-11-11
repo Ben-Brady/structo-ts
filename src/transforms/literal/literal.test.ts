@@ -1,18 +1,24 @@
-import { describe, it } from "node:test";
 import * as st from "../../index.ts";
-import { expectEncode, expectEncodeErrors } from "../../utils.test.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.literal", () => {
     it("encode correctly", () => {
-        expectEncode(st.pipe(st.u8(), st.literal(0)), 0);
-        expectEncode(st.pipe(st.string(st.u8()), st.literal("foo")), "foo");
+        assertEncodesAndDecodes(st.pipe(st.u8(), st.literal(0)), 0);
+        assertEncodesAndDecodes(st.pipe(st.string(st.u8()), st.literal("foo")), "foo");
     });
 
     it("invalid literal errors", () => {
         //@ts-expect-error
-        expectEncodeErrors(st.pipe(st.u8(), st.literal(0)), 2);
+        assertEncodeThrows(st.pipe(st.u8(), st.literal(0)), 2);
         //@ts-expect-error
-        expectEncodeErrors(st.pipe(st.string(st.u8()), st.literal("A")), "B");
+        assertEncodeThrows(st.pipe(st.string(st.u8()), st.literal("A")), "B");
     });
 
     () => {

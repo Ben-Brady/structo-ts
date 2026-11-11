@@ -1,7 +1,12 @@
 import { describe, expect, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.remember", () => {
     it("encodes correctly", () => {
@@ -10,7 +15,7 @@ describe("st.remember", () => {
             a: v.save(st.u32()),
             b: st.list(v.load(), st.u8()),
         });
-        expectEncode(spec, {
+        assertEncodesAndDecodes(spec, {
             a: 3,
             b: [1, 3, 4],
         });
@@ -22,9 +27,9 @@ describe("st.remember", () => {
             a: v.save(st.u32()),
             b: st.list(v.load(), st.u8()),
         });
-        expectEncode(spec, { a: 3, b: [1, 3, 4] });
-        expectEncode(spec, { a: 3, b: [1, 3, 4] });
-        expectEncode(spec, { a: 3, b: [1, 3, 4] });
+        assertEncodesAndDecodes(spec, { a: 3, b: [1, 3, 4] });
+        assertEncodesAndDecodes(spec, { a: 3, b: [1, 3, 4] });
+        assertEncodesAndDecodes(spec, { a: 3, b: [1, 3, 4] });
     });
 
     it("omitted serializer doesn't write data ", () => {
@@ -44,7 +49,7 @@ describe("st.remember", () => {
             a: v.save(st.u32()),
             b: v.load(),
         });
-        expectEncode(spec, { a: 3, b: 0 }, { a: 3, b: 3 });
+        assertEncodesAndDecodes(spec, { a: 3, b: 0 }, { a: 3, b: 3 });
     });
 
     it("handles recursive objects", () => {
@@ -57,7 +62,7 @@ describe("st.remember", () => {
             }),
         );
 
-        expectEncode(Node, {
+        assertEncodesAndDecodes(Node, {
             size: 2,
             children: [
                 { size: 0, children: [] },
@@ -71,7 +76,7 @@ describe("st.remember", () => {
 
     it("snapshots are correct", () => {
         const v = st.createRememberedValue<number>();
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.object({
                 a: v.save(st.u32()),
                 b: st.list(v.load(), st.u8()),

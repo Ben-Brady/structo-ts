@@ -1,12 +1,13 @@
-import { describe, expectTypeOf, it } from "bun:test";
-import {
-    expectEncode,
-    expectEncodeSize,
-    encodeSnapshotTest,
-    expectEncodeErrors,
-} from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, expectTypeOf, it } from "bun:test";
+
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.taggedUnion", () => {
     it("encode correctly", () => {
@@ -14,8 +15,8 @@ describe("st.taggedUnion", () => {
             1: st.string(st.u8()),
             2: st.u8(),
         });
-        expectEncode(spec, { type: 1, value: "s" });
-        expectEncode(spec, { type: 2, value: 52 });
+        assertEncodesAndDecodes(spec, { type: 1, value: "s" });
+        assertEncodesAndDecodes(spec, { type: 2, value: 52 });
     });
 
     it("encode with string tag", () => {
@@ -23,8 +24,8 @@ describe("st.taggedUnion", () => {
             foo: st.string(st.u8()),
             bar: st.u8(),
         });
-        expectEncode(spec, { type: "foo", value: "woof" });
-        expectEncode(spec, { type: "bar", value: 52 });
+        assertEncodesAndDecodes(spec, { type: "foo", value: "woof" });
+        assertEncodesAndDecodes(spec, { type: "bar", value: 52 });
     });
 
     it("throws error on invalid tag", () => {
@@ -33,7 +34,7 @@ describe("st.taggedUnion", () => {
             bar: st.u8(),
         });
         //@ts-expect-error, intended
-        expectEncodeErrors(spec, { type: "unknown", value: "woof" });
+        assertEncodeThrows(spec, { type: "unknown", value: "woof" });
     });
 
     it("throws error on invalid type", () => {
@@ -42,7 +43,7 @@ describe("st.taggedUnion", () => {
             bar: st.u8(),
         });
         //@ts-expect-error, intended
-        expectEncodeErrors(spec, { type: "unknown", value: "woof" });
+        assertEncodeThrows(spec, { type: "unknown", value: "woof" });
     });
 
     it("throws error on invalid value", () => {
@@ -50,22 +51,29 @@ describe("st.taggedUnion", () => {
             foo: st.string(st.u8()),
         });
         //@ts-expect-error, intended
-        expectEncodeErrors(spec, { type: "foo", value: 0 });
+        assertEncodeThrows(spec, { type: "foo", value: 0 });
     });
 
     it("encodes varying sizes", () => {
-        type spec = st.InferOutput<typeof spec>["value"];
-        const spec = st.taggedUnion(st.u8(), {
+        const serializer = st.taggedUnion(st.u8(), {
             1: st.string(st.u8()),
             2: st.u8(),
         });
-        expectEncode(spec, { type: 1, value: "s" });
-        expectEncodeSize(spec, 5, { type: 1, value: "foo" });
-        expectEncodeSize(spec, 2, { type: 2, value: 52 });
+        assertEncodesAndDecodes(serializer, { type: 1, value: "s" });
+        assertEncodesAsSize({
+            serializer,
+            size: 5,
+            value: { type: 1, value: "foo" },
+        });
+        assertEncodesAsSize({
+            serializer,
+            size: 2,
+            value: { type: 2, value: 52 },
+        });
     });
 
     it("encodes snapshots", () => {
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.taggedUnion(st.u32(), {
                 0: st.list(st.u8(), st.f64()),
                 3: st.u32(),

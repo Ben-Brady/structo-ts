@@ -1,11 +1,16 @@
-import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectError } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.toTypedArray", () => {
     it("encode correctly", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.pipe(
                 st.fixedBytes(6), //
                 st.toTypedArray(Uint8Array),
@@ -15,7 +20,7 @@ describe("st.toTypedArray", () => {
     });
 
     it("encode different types correctly", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.object({
                 padding: st.u64(),
                 data: st.pipe(
@@ -25,7 +30,7 @@ describe("st.toTypedArray", () => {
             }),
             { padding: 0, data: new Uint8Array([1, 2, 3]) },
         );
-        expectEncode(
+        assertEncodesAndDecodes(
             st.object({
                 padding: st.u64(),
                 data: st.pipe(
@@ -35,7 +40,7 @@ describe("st.toTypedArray", () => {
             }),
             { padding: 0, data: new Uint16Array([1, 2, 3, 63, 74]) },
         );
-        expectEncode(
+        assertEncodesAndDecodes(
             st.object({
                 padding: st.u64(),
                 data: st.pipe(
@@ -48,26 +53,24 @@ describe("st.toTypedArray", () => {
     });
 
     it("errors when non-standard size", () => {
-        expectError(() => {
-            st.write(
-                st.pipe(
-                    st.fixedBytes(3), //
-                    st.toTypedArray(Uint16Array),
-                ),
-                new Uint16Array([1, 2]),
-            );
-        });
+        assertEncodeThrows(
+            st.pipe(
+                st.fixedBytes(3), //
+                st.toTypedArray(Uint16Array),
+            ),
+            new Uint16Array([1, 2]),
+        );
     });
 
     it("snapshot tests", () => {
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.pipe(
                 st.fixedBytes(4 * 2), //
                 st.toTypedArray(Uint16Array),
             ),
             new Uint16Array([1, 6, 3, 12]),
         );
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.pipe(
                 st.fixedBytes(3 * 8), //
                 st.toTypedArray(Float64Array),

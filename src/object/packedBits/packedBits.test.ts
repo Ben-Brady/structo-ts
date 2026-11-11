@@ -1,12 +1,12 @@
-import { describe, it, expectTypeOf, expect } from "bun:test";
-import {
-    expectEncode,
-    encodeSnapshotTest,
-    expectEncodedAs,
-    expectEncodeErrors,
-} from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, expectTypeOf, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 const byte = (str: string): number => {
     let bits = Array.from(str).filter((v) => v === "0" || v === "1");
@@ -47,7 +47,7 @@ describe("st.packedBits", () => {
     });
 
     it("encodes correctly", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.packedBits({
                 a: { bits: 3 },
                 b: { bits: 5 },
@@ -57,7 +57,7 @@ describe("st.packedBits", () => {
     });
 
     it("handles not saturating bits", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.packedBits({
                 a: { bits: 3 },
                 b: { bits: 2 },
@@ -67,12 +67,12 @@ describe("st.packedBits", () => {
     });
 
     it("encodes to spec", () => {
-        expectEncodedAs(
+        assertEncodesAs(
             st.packedBits({ a: { bits: 4 }, b: { bits: 5 }, c: { bits: 7 } }),
             { a: byte("1101"), b: byte("1001-1"), c: byte("1111-000") },
             bytes("1101 1001-1 1111-000"),
         );
-        expectEncodedAs(
+        assertEncodesAs(
             st.packedBits({ a: { bits: 5 }, b: { bits: 6 }, c: { bits: 3 } }),
             { a: byte("11010"), b: byte("100110"), c: byte("010") },
             bytes("11010 100110 010"),
@@ -80,11 +80,11 @@ describe("st.packedBits", () => {
     });
 
     it("encodes empty", () => {
-        expectEncode(st.packedBits({}), {});
+        assertEncodesAndDecodes(st.packedBits({}), {});
     });
 
     it("encodes large sizes", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.packedBits({
                 a: { bits: 48 },
                 b: { bits: 48 },
@@ -118,25 +118,25 @@ describe("st.packedBits", () => {
     });
 
     it("encodes at max value", () => {
-        expectEncode(st.packedBits({ a: { bits: 8 } }), { a: 255 });
+        assertEncodesAndDecodes(st.packedBits({ a: { bits: 8 } }), { a: 255 });
     });
 
     it("too large throws error", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.packedBits({ a: { bits: 3 } }), //
             { a: byte("1000") },
         );
     });
 
     it("smaller than zero throws error", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.packedBits({ a: { bits: 8 } }), //
             { a: -1 },
         );
     });
 
     it(`matches snapshots`, () => {
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.packedBits({
                 a: { bits: 5 },
                 b: { bits: 2 },
@@ -145,7 +145,7 @@ describe("st.packedBits", () => {
             { a: 1, b: 3, c: 0 },
         );
 
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.packedBits({
                 number: { bits: 5 },
                 puppy: { bits: 5 },
@@ -154,7 +154,7 @@ describe("st.packedBits", () => {
             { number: 1, puppy: 3, buffer: 510 },
         );
 
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.packedBits({
                 isA: { bits: 1 },
                 isB: { bits: 1 },

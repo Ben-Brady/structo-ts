@@ -1,17 +1,22 @@
-import { describe, it, expect, expectTypeOf } from "bun:test";
-import { bytes, expectEncode, encodeSnapshotTest } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, expectTypeOf, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.object", () => {
     it("encodes correctly", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.object({ a: st.u8(), b: st.u8() }), //
             { b: 2, a: 1 },
         );
     });
     it("encodes nested correctly", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.object({
                 a: st.object({ a: st.u8() }),
                 b: st.u8(),
@@ -34,11 +39,11 @@ describe("st.object", () => {
     });
 
     it("encodes empty", () => {
-        expectEncode(st.object({}), {});
+        assertEncodesAndDecodes(st.object({}), {});
     });
 
     it(`matches snapshots`, () => {
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.object({
                 number: st.u32(),
                 puppy: st.string(st.s32()),
@@ -47,12 +52,11 @@ describe("st.object", () => {
             {
                 number: 1,
                 puppy: "woof woof bark bark",
-                buffer: bytes([19, 87, 19, 83]),
+                buffer: new Uint8Array([19, 87, 19, 83]),
             },
         );
     });
 
-    // Type Tests
     expectTypeOf(
         st.object({
             number: st.u32(),

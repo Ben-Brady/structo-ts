@@ -1,22 +1,23 @@
-import { describe, it } from "bun:test";
-import {
-    expectEncode,
-    encodeSnapshotTest,
-    expectEncodedAs,
-} from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.Void", () => {
     it(`write/read test `, () => {
-        expectEncode(st.Void(), undefined);
+        assertEncodesAndDecodes(st.Void(), undefined);
     });
 
     it(`encodes to zero bytes`, () => {
-        expectEncodedAs(st.Void(), undefined, []);
+        assertEncodesAs(st.Void(), undefined, []);
     });
 
     it(`matches snapshots`, () => {
-        encodeSnapshotTest(st.Void(), undefined);
+        assertMatchesSnapshot(st.Void(), undefined);
     });
 });

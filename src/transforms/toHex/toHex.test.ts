@@ -1,36 +1,41 @@
-import { describe, it } from "bun:test";
-import { expectEncode, encodeSnapshotTest, expectEncodeErrors } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.toHex", () => {
     it("encode correctly", () => {
-        expectEncode(
+        assertEncodesAndDecodes(
             st.pipe(st.fixedBytes(3), st.toHex()), //
             "FFAB01",
         );
     });
 
     it("invalid digits error", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.pipe(st.fixedBytes(3), st.toHex()), //
             "00000G",
         );
     });
 
     it("invalid length error", () => {
-        expectEncodeErrors(
+        assertEncodeThrows(
             st.pipe(st.fixedBytes(3), st.toHex()), //
             "0000",
         );
     });
 
     it("snapshots", () => {
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.pipe(st.fixedBytes(3), st.toHex()), //
             "FFAB01",
         );
-        encodeSnapshotTest(
+        assertMatchesSnapshot(
             st.pipe(st.fixedBytes(5), st.toHex()), //
             "0000000000",
         );

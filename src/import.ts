@@ -7,7 +7,8 @@ export type {
     Serializer,
 } from "./types.ts";
 export { read } from "./read.ts";
-export { write, writeInto } from "./write.ts";
+export { write, writeInto, type WriteOptions } from "./write.ts";
+export { createTestingUtils } from "./testing-utils.ts";
 
 export * from "./transforms/index.ts";
 export * from "./utilities/index.ts";

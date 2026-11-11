@@ -1,7 +1,12 @@
-import { describe, expect, it } from "bun:test";
-import { expectEncode } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.lazy", () => {
     it("encodes correctly", () => {
@@ -11,7 +16,7 @@ describe("st.lazy", () => {
                 b: st.u16(),
             }),
         );
-        expectEncode(spec, {
+        assertEncodesAndDecodes(spec, {
             a: [1, 2, 3, 4],
             b: 2,
         });
@@ -26,7 +31,7 @@ describe("st.lazy", () => {
                 }),
             ),
         });
-        expectEncode(spec, {
+        assertEncodesAndDecodes(spec, {
             a: [1, 2, 3, 4],
             b: { a: 1 },
         });

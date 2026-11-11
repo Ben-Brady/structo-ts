@@ -1,12 +1,16 @@
-import { describe, it, expect } from "bun:test";
-import {
-    expectEncode,
-    encodeSnapshotTest,
-    randbigint,
-    expectEncodeErrors,
-} from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+import { faker } from "@faker-js/faker";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
+
+const randBigInt = (min: number | bigint, max: number | bigint) =>
+    faker.number.bigInt({ min, max });
 
 function runBigintTests(options: {
     name: string;
@@ -22,16 +26,16 @@ function runBigintTests(options: {
     } = options;
     describe(name, () => {
         it("works in bounds", () => {
-            expectEncode(serializer, start);
+            assertEncodesAndDecodes(serializer, start);
             for (let i = 0; i < 100; i++) {
-                expectEncode(serializer, randbigint(start, end));
+                assertEncodesAndDecodes(serializer, randBigInt(start, end));
             }
-            expectEncode(serializer, end);
+            assertEncodesAndDecodes(serializer, end);
         });
 
         it("outside bounds", () => {
-            expectEncodeErrors(serializer, start - 1n);
-            expectEncodeErrors(serializer, end + 1n);
+            assertEncodeThrows(serializer, start - 1n);
+            assertEncodeThrows(serializer, end + 1n);
         });
 
         it(`is right size`, () => {
@@ -40,18 +44,18 @@ function runBigintTests(options: {
                 expect(data.byteLength).toBe(size);
             };
             for (let i = 0; i < 100; i++) {
-                expectValueSize(randbigint(start, end));
+                expectValueSize(randBigInt(start, end));
             }
             expectValueSize(start);
             expectValueSize(end);
         });
 
         it(`matches snapshots`, () => {
-            encodeSnapshotTest(serializer, 0n);
-            encodeSnapshotTest(serializer, start);
-            encodeSnapshotTest(serializer, start + 10n);
-            encodeSnapshotTest(serializer, end - 10n);
-            encodeSnapshotTest(serializer, end);
+            assertMatchesSnapshot(serializer, 0n);
+            assertMatchesSnapshot(serializer, start);
+            assertMatchesSnapshot(serializer, start + 10n);
+            assertMatchesSnapshot(serializer, end - 10n);
+            assertMatchesSnapshot(serializer, end);
         });
     });
 }

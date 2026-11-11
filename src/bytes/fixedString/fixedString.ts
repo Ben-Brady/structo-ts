@@ -18,7 +18,7 @@ export function fixedString(size: number): Serializer<string> {
 
     return {
         size,
-        write(ctx, value) {
+        write: (ctx, value) => {
             if (typeof value !== "string") throw new Error("Expected String");
 
             const data = encoder.encode(value);
@@ -29,7 +29,7 @@ export function fixedString(size: number): Serializer<string> {
             ctx.bytes.set(data, ctx.offset);
             ctx.offset += size;
         },
-        read(ctx) {
+        read: (ctx) => {
             const section = new Uint8Array(ctx.buffer, ctx.offset, size);
             ctx.offset += size;
             return decoder.decode(section);

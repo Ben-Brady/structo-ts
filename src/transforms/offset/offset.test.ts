@@ -1,7 +1,12 @@
-import { describe, it } from "bun:test";
-import { expectEncode } from "../../utils.test.ts";
-
 import * as st from "../../index.ts";
+import { describe, expect, it } from "bun:test";
+export const {
+    assertEncodesAndDecodes,
+    assertEncodesAs,
+    assertEncodeThrows,
+    assertEncodesAsSize,
+    assertMatchesSnapshot,
+} = st.createTestingUtils(expect);
 
 describe("st.offset(relative)", () => {
     it("encodes correctly with fixed offset", () => {
@@ -12,7 +17,7 @@ describe("st.offset(relative)", () => {
                 st.offset("relative", -4), //
             ),
         });
-        expectEncode(
+        assertEncodesAndDecodes(
             spec,
             { foo: 1, bar: 5 },
             { foo: 5, bar: 5 }, //
@@ -29,7 +34,7 @@ describe("st.offset(relative)", () => {
                 st.offset("relative", offset.load()), //
             ),
         });
-        expectEncode(
+        assertEncodesAndDecodes(
             spec,
             { foo: 0, offset: -6, bar: 5 },
             { foo: 5, offset: -6, bar: 5 }, //
@@ -46,7 +51,7 @@ describe("st.offset(absolute)", () => {
                 st.offset("absolute", 0), //
             ),
         });
-        expectEncode(
+        assertEncodesAndDecodes(
             spec,
             { foo: 0, bar: 5 },
             { foo: 5, bar: 5 }, //
@@ -63,7 +68,7 @@ describe("st.offset(absolute)", () => {
                 st.offset("absolute", offset.load()), //
             ),
         });
-        expectEncode(
+        assertEncodesAndDecodes(
             spec,
             { foo: 0, offset: 0, bar: 5 },
             { foo: 5, offset: 0, bar: 5 }, //
