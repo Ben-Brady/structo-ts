@@ -1,4 +1,4 @@
-import * as st from "../../index.ts";
+import { st } from "../../index.ts";
 
 /**
  * `st.fixedBytes(16)`, a fixed amount of bytes

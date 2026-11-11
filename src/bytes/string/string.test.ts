@@ -1,4 +1,4 @@
-import * as st from "../../index.ts";
+import { st } from "../../index.ts";
 import { describe, expect, it } from "bun:test";
 export const {
     assertEncodesAndDecodes,
@@ -22,7 +22,7 @@ describe("st.string", () => {
             value: "",
         });
     });
-    
+
     it("supports characters past UTF-16", () => {
         assertEncodesAndDecodes({
             serializer: st.string(st.u32()),

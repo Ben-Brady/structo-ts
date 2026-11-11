@@ -1,4 +1,4 @@
-import * as st from "../../index.ts";
+import { st } from "../../index.ts";
 import { describe, expect, it } from "bun:test";
 export const {
     assertEncodesAndDecodes,
@@ -23,13 +23,13 @@ describe("st.modify", () => {
     });
 
     it("cannot be written", () => {
-        assertEncodeThrows(
-            st.pipe(
+        assertEncodeThrows({
+            serializer: st.pipe(
                 st.u32(),
                 st.modify((v) => v + 8),
             ),
-            3,
-        );
+            value: 3,
+        });
     });
 
     it("does not modify size", () => {

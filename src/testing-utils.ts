@@ -1,4 +1,4 @@
-import * as st from "./index.ts";
+import { st } from "./index.ts";
 
 type ExpectType = <T>(actual: T) => {
     toEqual: (expected: T) => void;

@@ -1,4 +1,4 @@
-import * as st from "../../index.ts";
+import { st } from "../../index.ts";
 
 /**
  * `st.exhuastiveArray` does not store it's size, instead reading until the end of the `ArrayBuffer`

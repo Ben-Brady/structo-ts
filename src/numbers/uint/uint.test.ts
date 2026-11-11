@@ -1,4 +1,4 @@
-import * as st from "../../index.ts";
+import { st } from "../../index.ts";
 import { describe, expect, it } from "bun:test";
 import { faker } from "@faker-js/faker";
 export const {

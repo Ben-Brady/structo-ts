@@ -1,4 +1,4 @@
-import * as st from "../src";
+import { st } from "../src";
 
 const WadFile = st.lazy(() =>
     st.object({

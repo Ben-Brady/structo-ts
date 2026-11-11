@@ -1,4 +1,4 @@
-import * as st from "../src";
+import { st } from "../src";
 
 export type Entity = st.InferOutput<typeof Entity>;
 export const Entity = st.object({

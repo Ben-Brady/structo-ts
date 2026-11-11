@@ -1,4 +1,4 @@
-import * as st from "../src";
+import { st } from "../src";
 
 const PacketType = {
     MOVEMENT: 0,

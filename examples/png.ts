@@ -1,4 +1,4 @@
-import * as st from "../src";
+import { st } from "../src";
 
 //@ts-expect-error node import
 import { readFileSync } from "node:fs";

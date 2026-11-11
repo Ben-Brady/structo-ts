@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import * as st from "../../index.ts";
+import { st } from "../../index.ts";
 export const {
     assertEncodesAndDecodes,
     assertEncodesAs,

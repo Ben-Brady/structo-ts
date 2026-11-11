@@ -10,7 +10,7 @@ npm install @nnilky/structo
 Use zod style schemas to serialise/deserialize binary objects
 
 ```ts
-import * as st from "@nnilky/structo";
+import { st } from "@nnilky/structo";
 
 type Vec3 = st.InferOutput<typeof Vec3>
 const Vec3 = st.object({
@@ -129,7 +129,7 @@ export function transform<T>(callback: (value: T) => T) {
 
 ## FaQ
 
-- Why do I have to do `import * as st from "@nnilky/structo"`?
+- Why do I have to do `import { st } from "@nnilky/structo"`?
   - By using an `* as` import, bundles can erase the names as runtime without having to worry about runtime effects
   - additionally, by putting it under a namespace it reduces con
 - Will data streaming be implemented?
