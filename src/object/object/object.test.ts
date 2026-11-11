@@ -26,8 +26,8 @@ describe("st.object", () => {
                 b: st.u16("little"),
                 c: st.u16("big"),
             }),
-            value: { a: 1, b: 2, c: 2 },
-            expected: new Uint8Array([1, 2, 0, 0, 2]),
+            value: { a: 1, b: 2, c: 3 },
+            expected: new Uint8Array([1, 2, 0, 0, 3]),
         });
     });
 
