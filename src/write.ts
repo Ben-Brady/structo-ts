@@ -1,6 +1,38 @@
 import type { WriterContext, Serializer } from "./types.ts";
 
 /**
+ * The options used for `write`
+ *
+ * @group Functions
+ */
+export interface WriteOptions {
+    /**
+     * The amount of space to allocate in advance
+     *
+     * This is overriden if the full size is statically known
+     */
+    initialSize?: number;
+
+    /**
+     * Disable error reporting
+     *
+     * This can be useful to gain a small amount of performance
+     */
+    disableErrorReporting?: boolean;
+}
+/**
+ * The options used for `writeInto`
+ *
+ * @group Functions
+ */
+export interface WriteIntoOptions {
+    /**
+     * Disable error reporting
+     */
+    disabledErrorReporting?: boolean;
+}
+
+/**
  * Writes a schema into a newly allocated `ArrayBuffer`.
  *
  * ---
@@ -16,13 +48,18 @@ import type { WriterContext, Serializer } from "./types.ts";
  *     age: 26,
  * })
  * ```
+ *
+ * @group Functions
  */
-export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn): ArrayBuffer {
-    let byteLength = serializer.size ?? 4096;
-    let buffer = new ArrayBuffer(byteLength);
+export function write<TIn, TOut>(
+    serializer: Serializer<TIn, TOut>,
+    value: TIn,
+    options?: WriteOptions,
+): ArrayBuffer {
+    let byteLength = serializer.size ?? options?.initialSize ?? 4096;
 
     const path: (string | number)[] = [];
-
+    let buffer = new ArrayBuffer(byteLength);
     let ctx: WriterContext<ArrayBuffer> = {
         buffer,
         bytes: new Uint8Array(buffer),
@@ -34,9 +71,10 @@ export function write<TIn, TOut>(serializer: Serializer<TIn, TOut>, value: TIn):
             if (length <= 0) return;
             while (ctx.offset + length > byteLength) {
                 byteLength *= 2;
-                ctx.buffer = ctx.buffer.transfer(byteLength);
-                ctx.view = new DataView(ctx.buffer);
-                ctx.bytes = new Uint8Array(ctx.buffer);
+                buffer = buffer.transfer(byteLength);
+                ctx.buffer = buffer;
+                ctx.view = new DataView(buffer);
+                ctx.bytes = new Uint8Array(buffer);
             }
         },
     };

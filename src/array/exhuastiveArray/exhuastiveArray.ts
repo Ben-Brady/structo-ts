@@ -17,21 +17,21 @@ export function exhuastiveArray<TIn, TOut>(
     type: st.Serializer<TIn, TOut>,
 ): st.Serializer<TIn[], TOut[]> {
     return {
-        read(ctx) {
+        read: (ctx) => {
             let arr: TOut[] = [];
 
             while (ctx.offset < ctx.view.byteLength) {
-                ctx.pushPath?.(arr.length - 1);
+                ctx.pushPath(arr.length - 1);
                 arr.push(type.read(ctx));
-                ctx.popPath?.();
+                ctx.popPath();
             }
             return arr;
         },
-        write(ctx, value) {
+        write: (ctx, value) => {
             for (let i = 0; i < value.length; i++) {
-                ctx.pushPath?.(i);
+                ctx.pushPath(i);
                 type.write(ctx, value[i]);
-                ctx.popPath?.();
+                ctx.popPath();
             }
         },
     };

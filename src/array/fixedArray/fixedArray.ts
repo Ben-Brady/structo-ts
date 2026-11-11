@@ -18,18 +18,18 @@ export function fixedArray<T>(size: number, type: Serializer<T>): Serializer<T[]
 
             if (type.size) ctx.reserve(size * type.size);
             for (let i = 0; i < size; i++) {
-                ctx.pushPath?.(i);
+                ctx.pushPath(i);
                 type.write(ctx, value[i]);
-                ctx.popPath?.();
+                ctx.popPath();
             }
         },
         read: (ctx) => {
             const arr = new Array(size);
 
             for (let i = 0; i < size; i++) {
-                ctx.pushPath?.(i);
+                ctx.pushPath(i);
                 arr[i] = type.read(ctx);
-                ctx.popPath?.();
+                ctx.popPath();
             }
             return arr;
         },

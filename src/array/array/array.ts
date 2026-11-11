@@ -24,19 +24,18 @@ export function array<TIn, TOut>(
             }
 
             for (let i = 0; i < value.length; i++) {
-                ctx.pushPath?.(i);
-                const v = value[i];
-                type.write(ctx, v);
-                ctx.popPath?.();
+                ctx.pushPath(i);
+                type.write(ctx, value[i]);
+                ctx.popPath();
             }
         },
         read: (ctx) => {
             const size = length.read(ctx);
             const arr = new Array(size);
             for (let i = 0; i < size; i++) {
-                ctx.pushPath?.(i);
+                ctx.pushPath(i);
                 arr[i] = type.read(ctx);
-                ctx.popPath?.();
+                ctx.popPath();
             }
             return arr;
         },

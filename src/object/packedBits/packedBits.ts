@@ -42,11 +42,11 @@ export function packedBits<T extends string>(
 
             let bytesString = "";
             for (const [key, { bits }] of entries) {
-                ctx.pushPath?.(key);
+                ctx.pushPath(key);
                 const keyValue = BigInt(value[key]);
                 assertInRange(keyValue, 0n, BigInt(2 ** bits));
                 bytesString += keyValue.toString(2).padStart(bits, "0");
-                ctx.popPath?.();
+                ctx.popPath();
             }
 
             ctx.reserve(size);

@@ -24,7 +24,7 @@ type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
 export function object<T extends Record<string, Serializer<any>>>(
     definition: T,
 ): Serializer<InferObjectInput<T>, InferObjectOutput<T>> {
-    const entires = Object.entries(definition);
+    const entries = Object.entries(definition);
 
     // Use the fact: number + undefined = NaN
     // Check for NaN afterwards
@@ -39,9 +39,8 @@ export function object<T extends Record<string, Serializer<any>>>(
         write: (ctx, value) => {
             if (size) ctx.reserve(size);
 
-            for (let i = 0; i < entires.length; i++) {
-                const [key, serializer] = entires[i];
-
+            for (let i = 0; i < entries.length; i++) {
+                const [key, serializer] = entries[i];
                 ctx.pushPath?.(key);
                 serializer.write(ctx, value[key]);
                 ctx.popPath?.();
@@ -50,9 +49,8 @@ export function object<T extends Record<string, Serializer<any>>>(
         read: (ctx) => {
             const output = {} as InferObjectOutput<T>;
 
-            for (let i = 0; i < entires.length; i++) {
-                const [key, serializer] = entires[i];
-
+            for (let i = 0; i < entries.length; i++) {
+                const [key, serializer] = entries[i];
                 ctx.pushPath?.(key);
                 //@ts-expect-error
                 output[key] = serializer.read(ctx);
