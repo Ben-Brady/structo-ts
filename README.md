@@ -126,13 +126,3 @@ export function transform<T>(callback: (value: T) => T) {
     });
 }
 ```
-
-## FaQ
-
-- Why do I have to do `import { st } from "@nnilky/structo"`?
-  - By using an `* as` import, bundles can erase the names as runtime without having to worry about runtime effects
-  - additionally, by putting it under a namespace it reduces con
-- Will data streaming be implemented?
-  - Sadly this library isn't built for data streaming, the exposed API for serializers need the full array to be accessible
-  - If you want data streaming, your going to have to fork this and re-implement the standard types
-- What's the difference`
