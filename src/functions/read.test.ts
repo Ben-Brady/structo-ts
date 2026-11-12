@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { st } from "./index.ts";
+import { st } from "../index.ts";
 
 const bytes = (bytes: number[]) => new Uint8Array(bytes).buffer;
 

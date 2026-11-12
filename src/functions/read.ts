@@ -1,4 +1,5 @@
-import type { Serializer, ReaderContext } from "./types.ts";
+import type { Serializer, ReaderContext } from "../types.ts";
+import { throwSerializationError } from "./utils.ts";
 
 /**
  * Read a schema from an `ArrayBuffer`.
@@ -37,10 +38,6 @@ export function read<TIn, TOut>(
     try {
         return serializer.read(ctx);
     } catch (e) {
-        let pathStr = path.map((v) => `[${v}]`).join("");
-        throw new Error(
-            `Deserialization error at value${pathStr}:\n${e}`, //
-            { cause: e },
-        );
+        throwSerializationError(e, path);
     }
 }
