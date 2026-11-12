@@ -22,6 +22,18 @@ describe("st.string", () => {
             value: "",
         });
     });
+    
+    it("works with variable length values for length", () => {
+        const VAR_INT: st.Serializer<number> = {
+            size: undefined,
+            read: (ctx) => st.u8().read(ctx),
+            write: (ctx, value) => st.u8().write(ctx, value),
+        };
+        assertEncodesAndDecodes({
+            serializer: st.string(VAR_INT),
+            value: "345345",
+        });
+    });
 
     it("supports characters past UTF-16", () => {
         assertEncodesAndDecodes({
