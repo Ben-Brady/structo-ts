@@ -32,11 +32,13 @@ const definitionSymbol = Symbol();
 export function fastObject<T extends Record<string, Serializer<any>>>(
     definition: T,
 ): Serializer<InferObjectInput<T>, InferObjectOutput<T>> {
-    let serializers: [string, Serializer<any>][] = [];
+    let ids: string[] = [];
+    let serializers: Serializer<any>[] = [];
+
     let writeBody = "";
     let readBody = "";
 
-    const isIdent = (key: string) => key.match(/[a-zA-Z_][a-zA-Z0-9_]+/);
+    const isIdent = (key: string) => key.match(/[a-zA-Z_][a-zA-Z0-9_]*/);
     const asDefKey = (key: string) => {
         if (isIdent(key)) {
             return key;
@@ -47,7 +49,6 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
             return `["${key}"]`;
         }
     };
-
     function generateSerializers(serializer: Serializer<any>, keys: string[]) {
         if (definitionSymbol in serializer) {
             const definition = serializer[definitionSymbol] as any;
@@ -70,9 +71,10 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
             const id = `s${Object.keys(serializers).length}`;
             const key = asDefKey(keys.at(-1)!);
 
-            serializers.push([id, serializer]);
-            writeBody += `${id}(c, v${path});`;
-            readBody += `${key}: ${id}(c),`;
+            ids.push(id);
+            serializers.push(serializer);
+            writeBody += `${id}.write(c, v${path});`;
+            readBody += `${key}: ${id}.read(c),`;
         }
     }
 
@@ -80,19 +82,9 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
         generateSerializers(definition[key], [key]);
     }
 
-    const writeFactory = new Function(
-        ...serializers.map((v) => v[0]),
-        `return (c, v) => {${writeBody}}`,
-    );
-    const readFactory = new Function(
-        ...serializers.map((v) => v[0]),
-        `return (c, v) => ({${readBody}})`,
-    );
-
-    const write = writeFactory(...serializers.map((v) => v[1].write));
-    const read = readFactory(...serializers.map((v) => v[1].read));
-
-    let size = Object.values(definition).reduce((total, v) => total + (v.size as number), 0);
+    const factory = new Function(...ids, `return [(c)=>({${readBody}}),(c,v)=>{${writeBody}}]`);
+    const size = Object.values(definition).reduce((total, v) => total + (v.size as number), 0);
+    const [read, write] = factory(...serializers);
 
     return {
         //@ts-expect-error, this doesn't match the type
