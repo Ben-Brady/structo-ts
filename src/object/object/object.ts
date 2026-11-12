@@ -24,40 +24,38 @@ type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
 export function object<T extends Record<string, Serializer<any>>>(
     definition: T,
 ): Serializer<InferObjectInput<T>, InferObjectOutput<T>> {
-    const entries = Object.entries(definition);
-
-    // Use the fact: number + undefined = NaN
-    // Check for NaN afterwards
-    let computedSize = Object.values(definition).reduce(
-        (total, v) => total + (v.size as number),
-        0,
-    );
-    const size = isNaN(computedSize) ? undefined : computedSize;
-
+    const size = computeSize(definition);
     return {
         size,
-        write: (ctx, value) => {
+        write(ctx, value) {
             if (size) ctx.reserve(size);
 
-            for (let i = 0; i < entries.length; i++) {
-                const [key, serializer] = entries[i];
-                ctx.pushPath?.(key);
-                serializer.write(ctx, value[key]);
-                ctx.popPath?.();
+            for (const key in definition) {
+                ctx.pushPath(key);
+                definition[key].write(ctx, value[key]);
+                ctx.popPath();
             }
         },
-        read: (ctx) => {
-            const output = {} as InferObjectOutput<T>;
+        read(ctx) {
+            const output: Record<string, any> = {};
 
-            for (let i = 0; i < entries.length; i++) {
-                const [key, serializer] = entries[i];
-                ctx.pushPath?.(key);
-                //@ts-expect-error
-                output[key] = serializer.read(ctx);
-                ctx.popPath?.();
+            for (const key in definition) {
+                ctx.pushPath(key);
+                output[key] = definition[key].read(ctx);
+                ctx.popPath();
             }
 
-            return output;
+            return output as InferObjectOutput<T>;
         },
     };
+}
+
+function computeSize(definition: Record<string, Serializer<any>>): number | undefined {
+    let total = 0;
+    for (const serializer of Object.values(definition)) {
+        if (!serializer.size) return undefined;
+        total += serializer.size;
+    }
+
+    return total;
 }
