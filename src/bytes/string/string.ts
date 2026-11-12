@@ -22,10 +22,21 @@ export function string(length: Serializer<number>): Serializer<string> {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
+    // use a scratch buffer to avoid creating garbage
+    // Note: update tests when modifying scratch length
+    const scratch = new Uint8Array(1024);
+
     return {
         write: (ctx, value) => {
             if (typeof value !== "string") throw new Error("Expected String");
-            const bytes = encoder.encode(value);
+
+            let bytes: Uint8Array;
+            if (value.length * 2 < scratch.length) {
+                bytes = encoder.encode(value);
+            } else {
+                const { written } = encoder.encodeInto(value, scratch);
+                bytes = scratch.subarray(0, written);
+            }
 
             const size = bytes.byteLength;
             const lengthSize = length.size ?? 0;
