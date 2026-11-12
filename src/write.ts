@@ -105,6 +105,8 @@ export function write<TIn, TOut>(
  *
  * Additionally, it can be used to reduce garbage collection by reusing a buffer.
  *
+ * @returns {numbers} The number of bytes written
+ *
  * ---
  *
  * ```ts
@@ -113,14 +115,15 @@ export function write<TIn, TOut>(
  *     age: st.u32(),
  * })
  *
- * const buffer = new ArrayBuffer(32)
- * st.writeInto(buffer, 0, User, {
+ * const buffer = new ArrayBuffer(32);
+ * let offset = 0;
+ * offset += st.writeInto(buffer, offset, User, {
  *     name: "nnilky",
  *     age: 26
  * })
- * st.writeInto(buffer, 16, User, {
- *     name: "August",
- *     age: 22
+ * offset += st.writeInto(buffer, offset, User, {
+ *     name: "nnilky",
+ *     age: 26
  * })
  * ```
  */
@@ -129,7 +132,7 @@ export function writeInto<TIn, TOut, TBuffer extends ArrayBuffer | SharedArrayBu
     offset: number,
     serializer: Serializer<TIn, TOut>,
     value: TIn,
-) {
+): number {
     const path: (string | number)[] = [];
     let ctx = {
         offset: offset,
@@ -150,6 +153,8 @@ export function writeInto<TIn, TOut, TBuffer extends ArrayBuffer | SharedArrayBu
     } catch (err) {
         throwSerializationError(err, path);
     }
+
+    return ctx.offset - offset;
 }
 
 function throwSerializationError(err: any, path: (string | number)[]) {
