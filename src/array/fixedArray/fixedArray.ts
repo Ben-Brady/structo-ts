@@ -13,8 +13,9 @@ export function fixedArray<T>(size: number, type: Serializer<T>): Serializer<T[]
     return {
         size: type.size ? size * type.size : undefined,
         write: (ctx, value) => {
-            if (value.length !== size)
+            if (value.length !== size) {
                 throw new Error(`Expected ${size} length, got ${value.length}`);
+            }
 
             if (type.size) ctx.reserve(size * type.size);
             for (let i = 0; i < size; i++) {
