@@ -14,7 +14,7 @@
 
     "out": "../docs",
     "readme": "./README.md",
-    // "projectDocuments": ["./documents/*.md"],
+    "projectDocuments": ["./documents/*.md"],
 
     "sort": ["kind", "source-order", "alphabetical"],
     "groupOrder": [
@@ -32,6 +32,7 @@
         "InferUnionInput",
         "InferUnionOutput",
         "TypedArray",
-        "TypedArrayLike"
+        "TypedArrayLike",
+        "ExpectType"
     ]
 }

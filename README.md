@@ -1,30 +1,24 @@
 # Structo
 
-```
-npm install @nnilky/structo
-```
+Use zod style schemas to serialise/deserialize binary objects
 
-| [Repository](https://github.com/Ben-Brady/structo-ts) | [API Reference](https://ben-brady.github.io/structo-ts/) |
+| [Repository](https://github.com/Ben-Brady/structo-ts) | [Documentation](https://ben-brady.github.io/structo-ts/) |
 | - | - |
 
-Use zod style schemas to serialise/deserialize binary objects
+```bash
+npm install @nnilky/structo
+```
 
 ```ts
 import { st } from "@nnilky/structo";
 
-type Vec3 = st.InferOutput<typeof Vec3>
-const Vec3 = st.object({
-    x: st.f64(),
-    y: st.f64(),
-    z: st.f64(),
-});
+const User = st.object({
+    name: st.string(st.u32()),
+    age: st.f32(),
+})
 
-type Entity = st.InferOutput<typeof Entity>
-const Entity = st.object({
-    id: st.u64(),
-    position: Vec3,
-});
-
+const bytes = st.write(User, { name: "foo", age: 2.3 })
+const user = st.read(User, bytes)
 ```
 
 - Extremely Fast! [benchmarks](./benchmark) show equivelent performance to hand written serializers

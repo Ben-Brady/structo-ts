@@ -2,7 +2,15 @@
  * @group Types
  */
 export type Serializer<TIn, TOut = TIn> = {
+    /**
+     * When this is set, the type has a statically known size
+     *
+     * This can be used to preallocate
+     */
     size?: number | undefined;
+
+    // TODO: add sizeHint support
+
     write: (ctx: WriterContext, value: TIn) => void;
     read: (ctx: ReaderContext) => TOut;
 };
