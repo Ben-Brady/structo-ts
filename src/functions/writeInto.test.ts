@@ -18,6 +18,7 @@ describe("st.writeInto", () => {
                 .toEqual([10, 0, 0, 0]);
         }
     });
+
     it("SharedArrayBuffer works", () => {
         {
             const buffer = new SharedArrayBuffer(32);
