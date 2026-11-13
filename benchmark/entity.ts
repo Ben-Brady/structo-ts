@@ -1,7 +1,7 @@
 import { st } from "../src/index.js";
 import { benchmark } from "./utils.js";
 
-const generateData = (size: number): Entity[] => {
+export function generateEntityData(size: number): Entity[] {
     const randint = (max: number) => Math.floor(Math.random() * max);
     const arr = new Array<Entity>(size);
     for (let i = 0; i < size; i++) {
@@ -23,7 +23,7 @@ const generateData = (size: number): Entity[] => {
         };
     }
     return arr;
-};
+}
 
 type Quaternion = st.InferOutput<typeof Quaternion>;
 const Quaternion = st.fastObject({
@@ -49,7 +49,7 @@ const Entity = st.fastObject({
     rotation: Quaternion,
 });
 
-function serializeUsingLibrary(entities: Entity[]) {
+export function serializeUsingLibrary(entities: Entity[]) {
     const EntityList = st.fixedArray(entities.length, Entity);
     return st.write(EntityList, entities, { disableErrorReporting: true });
 }
@@ -104,7 +104,7 @@ export async function generateBenchmarks() {
     await benchmark({
         name: "Entities",
         range: [1, 250_000],
-        generateData,
+        generateData: generateEntityData,
         library: serializeUsingLibrary,
         handwritten: serializeUsingHandwritten,
     });

@@ -3,8 +3,8 @@ import { benchmark } from "./utils.js";
 
 type User = st.InferOutput<typeof User>;
 const User = st.fastObject({
-    id: st.u64(),
-    name: st.string(st.u32()),
+    id: st.string(st.u16()),
+    name: st.string(st.u16()),
     createdAt: st.pipe(
         st.f64(),
         st.encode({
@@ -14,23 +14,19 @@ const User = st.fastObject({
     ),
 });
 
-const generateData = (size: number): User[] => {
-    const randint = (max: number) => Math.floor(Math.random() * max);
-    const randstring = (length: number) =>
-        Array.from({ length }, () => String.fromCharCode(Math.floor(Math.random() * 255))).join("");
-
+export function generateUserData(size: number): User[] {
     const arr = new Array<User>(size);
     for (let i = 0; i < size; i++) {
         arr[i] = {
-            id: randint(2 ** 32),
-            name: randstring(randint(32)),
-            createdAt: new Date(),
+            id: faker.string.uuid(),
+            name: faker.person.fullName(),
+            createdAt: faker.date.anytime(),
         };
     }
     return arr;
-};
+}
 
-function serializeUsingLibrary(users: User[]) {
+export function serializeUsingLibrary(users: User[]) {
     const UserList = st.fixedArray(users.length, User);
     return st.write(UserList, users, { disableErrorReporting: true });
 }
@@ -38,29 +34,25 @@ function serializeUsingLibrary(users: User[]) {
 function serializeUsingHandwritten(users: User[]) {
     const encoder = new TextEncoder();
 
-    let totalSize = 0;
-    let names: Uint8Array[] = new Array(users.length);
-    for (let i = 0; i < users.length; i++) {
-        let data = encoder.encode(users[i].name);
-        names[i] = data;
-        totalSize += 8 + 4 + data.byteLength + 8;
+    let maxSize = 0;
+    for (const user of users) {
+        maxSize += 2;
+        maxSize += user.name.length * 2;
+        maxSize += 2;
+        maxSize += user.id.length * 2;
+        maxSize += 8;
     }
 
-    const buffer = new ArrayBuffer(totalSize);
-    const arr = new Uint8Array(buffer);
+    const buffer = new ArrayBuffer(maxSize);
     const view = new DataView(buffer);
 
-    const bytes = (value: Uint8Array) => {
-        arr.set(value, offset);
-        offset += value.byteLength;
-    };
-    const u32 = (value: number) => {
-        view.setUint32(offset, value, true);
-        offset += 4;
-    };
-    const u64 = (value: number) => {
-        view.setBigUint64(offset, BigInt(value), true);
-        offset += 8;
+    const string = (text: string) => {
+        const result = encoder.encodeInto(
+            text,
+            new Uint8Array(buffer, offset + 2, text.length * 2),
+        );
+        view.setUint16(offset, result.written, true);
+        offset += 2 + result.written;
     };
     const f64 = (value: number) => {
         view.setFloat64(offset, value, true);
@@ -68,24 +60,20 @@ function serializeUsingHandwritten(users: User[]) {
     };
 
     let offset = 0;
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        const name = names[i];
-
-        u64(user.id);
-        u32(name.byteLength);
-        bytes(name);
+    for (const user of users) {
+        string(user.id);
+        string(user.name);
         f64(user.createdAt.getTime());
     }
 
-    return buffer;
+    return buffer.transferToFixedLength(offset);
 }
 
 export async function generateBenchmarks() {
     await benchmark({
         name: "Users",
         range: [1, 250_000],
-        generateData,
+        generateData: generateUserData,
         library: serializeUsingLibrary,
         handwritten: serializeUsingHandwritten,
     });
@@ -94,6 +82,7 @@ export async function generateBenchmarks() {
 import { pathToFileURL } from "node:url";
 import process from "node:process";
 import { run } from "mitata";
+import { faker } from "@faker-js/faker";
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     generateBenchmarks();
     await run();
