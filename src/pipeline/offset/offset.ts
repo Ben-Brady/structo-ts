@@ -10,11 +10,10 @@ import type { st } from "../../index.ts";
  *
  * ```ts
  * const Object = st.object({
- *  length: st.u32(),
+ *  length: st.padding(4),
  *  type: st.u8(),
- *  contents: st.bytes(st.pipe(
- *      st.u32(),
- *      st.offset("relative", -5) // read/write the length to 5 bytes before
+ *  contents: st.bytes(
+ *      st.offset(st.u32(), "relative", -5) // read/write the length to 5 bytes before
  *  ))
  * })
  * ```
@@ -32,10 +31,11 @@ import type { st } from "../../index.ts";
  * @group Pipeline
  */
 export function offset<T>(
+    type: st.Serializer<T>,
     behaviour: "relative" | "absolute",
     offset: st.Serializer<number> | number,
-): st.Pipeline<T> {
-    return (type) => ({
+): st.Serializer<T> {
+    return {
         size: type.size,
         read: (ctx) => {
             let start = ctx.offset;
@@ -56,5 +56,5 @@ export function offset<T>(
             type.write(ctx, value);
             ctx.offset = start;
         },
-    });
+    };
 }

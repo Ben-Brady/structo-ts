@@ -9,23 +9,19 @@ import type { st } from "../../index.ts";
  *
  *
  * ```ts
- * length: length.save(st.u32())
  * const HEADER_OFFSET = 8
- * const HeaderSize = st.pipe(
- *     st.u32()
- *     st.modify(v => v + HEADER_SIZE),
- * )
+ * const HeaderSize = st.modify(st.u32(), v => v + HEADER_SIZE),
  * const Header = st.bytes(HeaderSize)
  * ```
  *
  * @group Pipeline
  */
-export function modify<T>(callback: (value: T) => T): st.Pipeline<T> {
-    return (type) => ({
+export function modify<T>(type: st.Serializer<T>, callback: (value: T) => T): st.Serializer<T> {
+    return {
         size: type.size,
         read: (ctx) => callback(type.read(ctx)),
         write: () => {
             throw new Error("Cannot write an encoded value");
         },
-    });
+    };
 }

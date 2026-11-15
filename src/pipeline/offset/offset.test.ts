@@ -7,10 +7,7 @@ describe("st.offset(relative)", () => {
         assertEncodesAndDecodes({
             serializer: st.object({
                 foo: st.u32(),
-                bar: st.pipe(
-                    st.u32(),
-                    st.offset("relative", -4), //
-                ),
+                bar: st.offset(st.u32(), "relative", -4), //
             }),
             value: { foo: 1, bar: 5 },
             expected: { foo: 5, bar: 5 }, //
@@ -23,10 +20,7 @@ describe("st.offset(relative)", () => {
             serializer: st.object({
                 foo: st.u32(),
                 offset: offset.save(st.s16()),
-                bar: st.pipe(
-                    st.u32(),
-                    st.offset("relative", offset.load()), //
-                ),
+                bar: st.offset(st.u32(), "relative", offset.load()), //
             }),
             value: { foo: 0, offset: -6, bar: 5 },
             expected: { foo: 5, offset: -6, bar: 5 }, //
@@ -39,10 +33,7 @@ describe("st.offset(absolute)", () => {
         assertEncodesAndDecodes({
             serializer: st.object({
                 foo: st.u32(),
-                bar: st.pipe(
-                    st.u32(),
-                    st.offset("absolute", 0), //
-                ),
+                bar: st.offset(st.u32(), "absolute", 0),
             }),
             value: { foo: 0, bar: 5 },
             expected: { foo: 5, bar: 5 }, //
@@ -55,10 +46,7 @@ describe("st.offset(absolute)", () => {
             serializer: st.object({
                 foo: st.u32(),
                 offset: offset.save(st.u32()),
-                bar: st.pipe(
-                    st.u32(),
-                    st.offset("absolute", offset.load()), //
-                ),
+                bar: st.offset(st.u32(), "absolute", offset.load()), //
             }),
             value: { foo: 0, offset: 0, bar: 5 },
             expected: { foo: 5, offset: 0, bar: 5 }, //

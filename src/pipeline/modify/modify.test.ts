@@ -5,12 +5,8 @@ const { assertEncodeThrows, assertSerializerSize } = st.createTestingUtils(expec
 describe("st.modify", () => {
     it("encodes correctly", () => {
         const data = st.write(st.u32(), 10);
-
         const output = st.read(
-            st.pipe(
-                st.u32(),
-                st.modify((v) => v + 8),
-            ),
+            st.modify(st.u32(), (v) => v + 8),
             data,
         );
         expect(output).toBe(18);
@@ -18,19 +14,13 @@ describe("st.modify", () => {
 
     it("cannot be written", () => {
         assertEncodeThrows({
-            serializer: st.pipe(
-                st.u32(),
-                st.modify((v) => v + 8),
-            ),
+            serializer: st.modify(st.u32(), (v) => v + 8),
             value: 3,
         });
     });
 
     it("does not modify size", () => {
-        const serializer = st.pipe(
-            st.u32(),
-            st.modify((v) => v + 8),
-        );
+        const serializer = st.modify(st.u32(), (v) => v + 8);
         assertSerializerSize({ serializer, size: 4 });
     });
 });
