@@ -1,17 +1,12 @@
-import { st } from "../src/index.js";
-import { benchmark } from "./utils.js";
+import { st } from "../src/index.ts";
+import { benchmark } from "./utils.ts";
+import { faker } from "@faker-js/faker";
 
 type User = st.Infer<typeof User>;
-const User = st.fastObject({
+const User = st.object({
     id: st.string(st.u16()),
     name: st.string(st.u16()),
-    createdAt: st.pipe(
-        st.f64(),
-        st.encode({
-            encode: (v: Date) => v.getTime(),
-            decode: (v: number) => new Date(v),
-        }),
-    ),
+    createdAt: st.asDate(st.u32(), "seconds"),
 });
 
 export function generateUserData(size: number): User[] {
@@ -54,23 +49,23 @@ function serializeUsingHandwritten(users: User[]) {
         view.setUint16(offset, result.written, true);
         offset += 2 + result.written;
     };
-    const f64 = (value: number) => {
-        view.setFloat64(offset, value, true);
-        offset += 8;
+    const u32 = (value: number) => {
+        view.setUint32(offset, value, true);
+        offset += 4;
     };
 
     let offset = 0;
     for (const user of users) {
         string(user.id);
         string(user.name);
-        f64(user.createdAt.getTime());
+        u32(Math.floor(user.createdAt.getTime() / 1000));
     }
 
     return buffer.transferToFixedLength(offset);
 }
 
 export async function generateBenchmarks() {
-    await benchmark({
+    benchmark({
         name: "Users",
         range: [1, 250_000],
         generateData: generateUserData,
@@ -82,7 +77,6 @@ export async function generateBenchmarks() {
 import { pathToFileURL } from "node:url";
 import process from "node:process";
 import { run } from "mitata";
-import { faker } from "@faker-js/faker";
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     generateBenchmarks();
     await run();

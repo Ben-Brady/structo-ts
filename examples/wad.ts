@@ -10,19 +10,16 @@ const WadFile = st.lazy(() =>
 const lumpsCount = st.createReference<number>();
 const directoryOffset = st.createReference<number>();
 const Header = st.object({
-    id: st.pipe(
-        st.fixedBytes(4),
-        st.toAscii(),
-        st.enum(["IWAD", "PWAD"]), //
-    ),
+    id: st.enum(st.asAscii(st.fixedBytes(4)), ["IWAD", "PWAD"]),
     numLumps: lumpsCount.pointer(st.s32()),
     directoryOffset: directoryOffset.pointer(st.s32()),
 });
 
 const Directory = st.lazy(() =>
-    st.pipe(
-        st.list(lumpsCount.deref(), Lump), //
-        st.offset("absolute", directoryOffset.deref()),
+    st.offset(
+        st.array(lumpsCount.deref(), Lump), //
+        "absolute",
+        directoryOffset.deref(),
     ),
 );
 
@@ -32,11 +29,8 @@ const Lump = st.lazy(() =>
     st.object({
         position: lumpPosition.pointer(st.s32()),
         size: lumpSize.pointer(st.s32()),
-        name: st.pipe(st.fixedBytes(8), st.toAscii()),
-        data: st.pipe(
-            st.bytes(lumpSize.deref()), //
-            st.offset("absolute", lumpPosition.deref()),
-        ),
+        name: st.asAscii(st.fixedBytes(8)),
+        data: st.offset(st.bytes(lumpSize.deref()), "absolute", lumpPosition.deref()),
     }),
 );
 

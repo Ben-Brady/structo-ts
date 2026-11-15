@@ -1,11 +1,11 @@
 import { st } from "../src";
 
+type PacketType = (typeof PacketType)[keyof typeof PacketType];
 const PacketType = {
     MOVEMENT: 0,
     ROTATION: 1,
     ATTACK_PLAYER: 2,
 } as const satisfies Record<string, number>;
-type PacketType = (typeof PacketType)[keyof typeof PacketType];
 
 export type Packet = st.Infer<typeof Packet>;
 export const Packet = st.lazy(() =>

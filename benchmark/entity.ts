@@ -1,5 +1,5 @@
-import { st } from "../src/index.js";
-import { benchmark } from "./utils.js";
+import { st } from "../src/index.ts";
+import { benchmark } from "./utils.ts";
 
 export function generateEntityData(size: number): Entity[] {
     const randint = (max: number) => Math.floor(Math.random() * max);

@@ -4,16 +4,15 @@ import { readFileSync } from "node:fs";
 const path = import.meta.resolve("./data/image.png").replace("file://", "");
 const data = readFileSync(path).buffer;
 
-const hexLiteral = (value: string) =>
-    st.pipe(
-        st.fixedBytes(value.length / 2), //
-        st.toHex(),
-        st.literal(value.toUpperCase()),
-    );
+const hexLiteral = (hexBytes: string[]) => {
+    const hex = hexBytes.join("");
+    const underlying = st.fixedBytes(hexBytes.length);
+    return st.literal(st.asHex(underlying), hex.toUpperCase());
+};
 
 const PngFile = st.lazy(() =>
     st.object({
-        header: hexLiteral("89504E470D0A1A0A"),
+        header: hexLiteral(["89", "50", "4E", "47", "0D", "0A", "1A", "0A"]),
         chunks: st.exhuastiveArray(GenericChunk),
     }),
 );
@@ -21,7 +20,7 @@ const PngFile = st.lazy(() =>
 const length = st.createRememberedValue<number>();
 const GenericChunk = st.object({
     length: length.save(st.u32("big")),
-    type: st.pipe(st.fixedBytes(4), st.toAscii()),
+    type: st.asAscii(st.fixedBytes(4)),
     data: st.bytes(length.load()),
     crc: st.u32(),
 });

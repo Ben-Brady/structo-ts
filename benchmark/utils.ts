@@ -1,4 +1,4 @@
-import { run, bench, compact, summary, group, boxplot } from "mitata";
+import { run, bench, measure, summary, group, boxplot } from "mitata";
 
 export function benchmark<T>(options: {
     name: string;
