@@ -20,11 +20,11 @@ import { throwSerializationError } from "./utils.ts";
  *
  * @param offset what offset to read the data from
  */
-export function read<TIn, TOut>(
-    serializer: Serializer<TIn, TOut>,
+export function read<T>(
+    serializer: Serializer<T>,
     buffer: ArrayBuffer | SharedArrayBuffer,
     offset?: number,
-): TOut {
+): T {
     const path: (string | number)[] = [];
     const ctx: ReaderContext = {
         buffer: buffer,

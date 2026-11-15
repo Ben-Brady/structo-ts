@@ -13,12 +13,12 @@ import { st } from "../../index.ts";
  *
  * @group Array
  */
-export function exhuastiveArray<TIn, TOut>(
-    type: st.Serializer<TIn, TOut>,
-): st.Serializer<TIn[], TOut[]> {
+export function exhuastiveArray<T>(
+    type: st.Serializer<T>,
+): st.Serializer<T[]> {
     return {
         read: (ctx) => {
-            let arr: TOut[] = [];
+            let arr: T[] = [];
 
             while (ctx.offset < ctx.view.byteLength) {
                 ctx.pushPath(arr.length - 1);

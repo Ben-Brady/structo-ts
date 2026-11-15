@@ -12,20 +12,20 @@ type ExpectType = <T>(actual: T) => {
  * @param expect A jest-like expect function, this is passed in to allow use of different testing frameworks.
  */
 export function createTestingUtils(expect: ExpectType) {
-    function assertEncodesAndDecodes<TIn, TOut>(options: {
-        serializer: st.Serializer<TIn, TOut>;
-        value: TIn;
-        expected?: TOut;
+    function assertEncodesAndDecodes<T>(options: {
+        serializer: st.Serializer<T>;
+        value: T;
+        expected?: T;
     }) {
         const { serializer, value, expected } = options;
         const data = st.write(serializer, value);
         const newValue = st.read(serializer, data);
-        expect(newValue).toEqual((expected ?? value) as unknown as TOut);
+        expect(newValue).toEqual((expected ?? value) as unknown as T);
     }
 
-    function assertEncodesAs<TIn>(options: {
-        serializer: st.Serializer<TIn, any>;
-        value: TIn;
+    function assertEncodesAs<T>(options: {
+        serializer: st.Serializer<T>;
+        value: T;
         expected: number[] | Uint8Array;
     }) {
         const { serializer, value, expected } = options;
@@ -34,17 +34,17 @@ export function createTestingUtils(expect: ExpectType) {
         expect(bytes).toEqual(Array.from(expected));
     }
 
-    function assertSerializerSize<TIn, TOut>(options: {
-        serializer: st.Serializer<TIn, TOut>;
+    function assertSerializerSize<T>(options: {
+        serializer: st.Serializer<T>;
         size: number | undefined;
     }) {
         const { serializer, size } = options;
         expect(serializer.size).toEqual(size);
     }
 
-    function assertEncodesAsSize<TIn, TOut>(options: {
-        serializer: st.Serializer<TIn, TOut>;
-        value: TIn;
+    function assertEncodesAsSize<T>(options: {
+        serializer: st.Serializer<T>;
+        value: T;
         size: number;
     }) {
         const { serializer, value, size } = options;
@@ -52,13 +52,9 @@ export function createTestingUtils(expect: ExpectType) {
         expect(data.byteLength).toEqual(size);
     }
 
-    function assertEncodeThrows<TIn>(options: {
-        serializer: st.Serializer<TIn, any>;
-        value: TIn | unknown;
-    }) {
+    function assertEncodeThrows<T>(options: { serializer: st.Serializer<T>; value: any }) {
         const { serializer, value } = options;
 
-        //@ts-expect-error
         expect(() => st.write(serializer, value)).toThrow();
     }
 

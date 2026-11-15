@@ -24,7 +24,7 @@ export function string(length: Serializer<number>): Serializer<string> {
 
     // use a scratch buffer to avoid creating garbage
     // Note: update tests when modifying scratch length
-    const scratch = new Uint8Array(1024);
+    // const scratch = new Uint8Array(1024);
 
     return {
         write: (ctx, value) => {

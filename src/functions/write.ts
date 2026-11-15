@@ -48,11 +48,7 @@ export interface WriteOptions {
  *
  * @group Functions
  */
-export function write<TIn, TOut>(
-    serializer: Serializer<TIn, TOut>,
-    value: TIn,
-    options?: WriteOptions,
-): ArrayBuffer {
+export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOptions): ArrayBuffer {
     const initialSize = options?.initialSize ?? 4096;
     const growthFactor = options?.growthFactor ?? 2;
 

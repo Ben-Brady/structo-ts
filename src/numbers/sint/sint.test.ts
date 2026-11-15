@@ -1,13 +1,8 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
 import { faker } from "@faker-js/faker";
-const {
-    assertEncodesAndDecodes,
-    assertEncodesAs,
-    assertEncodeThrows,
-    assertEncodesAsSize,
-    assertMatchesSnapshot,
-} = st.createTestingUtils(expect);
+const { assertEncodesAndDecodes, assertEncodeThrows, assertEncodesAsSize, assertMatchesSnapshot } =
+    st.createTestingUtils(expect);
 
 const randInt = (min: number, max: number) => faker.number.int({ min, max });
 

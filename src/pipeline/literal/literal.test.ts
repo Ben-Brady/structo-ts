@@ -1,12 +1,6 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
-const {
-    assertEncodesAndDecodes,
-    assertEncodesAs,
-    assertEncodeThrows,
-    assertEncodesAsSize,
-    assertMatchesSnapshot,
-} = st.createTestingUtils(expect);
+const { assertEncodesAndDecodes, assertEncodeThrows } = st.createTestingUtils(expect);
 
 describe("st.literal", () => {
     it("encode correctly", () => {
@@ -33,7 +27,7 @@ describe("st.literal", () => {
 
     () => {
         //@ts-expect-error, invalid union variant
-        st.write(st.pipe(st.u8(), st.literal(0)), 1);
+        st.write(st.pipe(st.u8(), st.literal(0)));
         //@ts-expect-error, invalid union variant
         st.write(st.pipe(st.u8(), st.literal("foo")), "bar");
         //@ts-expect-error, invalid union variant

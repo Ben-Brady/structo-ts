@@ -1,12 +1,6 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
-const {
-    assertEncodesAndDecodes,
-    assertEncodesAs,
-    assertEncodeThrows,
-    assertEncodesAsSize,
-    assertMatchesSnapshot,
-} = st.createTestingUtils(expect);
+const { assertEncodesAndDecodes } = st.createTestingUtils(expect);
 
 describe("st.offset(relative)", () => {
     it("encodes correctly with fixed offset", () => {

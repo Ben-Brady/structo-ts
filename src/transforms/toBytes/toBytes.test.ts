@@ -1,12 +1,7 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
-const {
-    assertEncodesAndDecodes,
-    assertEncodesAs,
-    assertEncodeThrows,
-    assertEncodesAsSize,
-    assertMatchesSnapshot,
-} = st.createTestingUtils(expect);
+const { assertEncodesAndDecodes, assertEncodeThrows, assertMatchesSnapshot } =
+    st.createTestingUtils(expect);
 
 describe("st.toBytes", () => {
     it("encode correctly", () => {

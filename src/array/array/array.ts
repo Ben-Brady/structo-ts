@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import { st } from "../../index.ts";
 
 /**
  * `st.array` is a dynamically sized array
@@ -12,10 +12,10 @@ import type { Serializer } from "../../types.ts";
  * @group Array
  *
  */
-export function array<TIn, TOut>(
-    length: Serializer<number>,
-    type: Serializer<TIn, TOut>,
-): Serializer<TIn[], TOut[]> {
+export function array<T>(
+    length: st.Serializer<number>,
+    type: st.Serializer<T>,
+): st.Serializer<T[]> {
     return {
         write: (ctx, value) => {
             length.write(ctx, value.length);

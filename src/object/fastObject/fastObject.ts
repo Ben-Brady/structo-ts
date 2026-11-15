@@ -1,11 +1,7 @@
-import type { InferInput, InferOutput, Serializer } from "../../types.ts";
+import { st } from "../../index.ts";
 
-type InferObjectInput<T extends Record<string, Serializer<any>>> = {
-    [Key in keyof T]: InferInput<T[Key]>;
-};
-
-type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
-    [Key in keyof T]: InferOutput<T[Key]>;
+type InferObject<T extends Record<string, st.Serializer<any>>> = {
+    [Key in keyof T]: st.Infer<T[Key]>;
 };
 
 const definitionSymbol = Symbol();
@@ -29,11 +25,11 @@ const definitionSymbol = Symbol();
  *
  * @group Object
  */
-export function fastObject<T extends Record<string, Serializer<any>>>(
+export function fastObject<T extends Record<string, st.Serializer<any>>>(
     definition: T,
-): Serializer<InferObjectInput<T>, InferObjectOutput<T>> {
+): st.Serializer<InferObject<T>> {
     let ids: string[] = [];
-    let serializers: Serializer<any>[] = [];
+    let serializers: st.Serializer<any>[] = [];
 
     let writeBody = "";
     let readBody = "";
@@ -49,7 +45,7 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
             return `["${key}"]`;
         }
     };
-    function generateSerializers(serializer: Serializer<any>, keys: string[]) {
+    function generateSerializers(serializer: st.Serializer<any>, keys: string[]) {
         if (definitionSymbol in serializer) {
             const definition = serializer[definitionSymbol] as any;
             const key = keys.at(-1)!;

@@ -11,7 +11,7 @@ import type { Serializer } from "../../types.ts";
  * ```
  * @group Utilities
  */
-export const Void = (): Serializer<unknown, undefined> => ({
+export const Void = (): Serializer<undefined> => ({
     size: 0,
     read: () => undefined,
     write: () => {},

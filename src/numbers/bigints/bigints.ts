@@ -1,5 +1,5 @@
-import { assertInRange } from "../../helpers.ts";
 import type { Serializer } from "../../types.ts";
+import { assertInRange } from "../../helpers.ts";
 
 /**
  * 64bit unsigned interger, read into a bigints
@@ -15,16 +15,14 @@ import type { Serializer } from "../../types.ts";
  *
  * @group Number
  */
-export function u64BigInt(
-    endian: "little" | "big" = "little",
-): Serializer<number | bigint, bigint> {
+export function u64BigInt(endian: "little" | "big" = "little"): Serializer<bigint> {
     return {
         size: 8,
         write: (ctx, value) => {
             assertInRange(value, 0n, 2n ** 64n);
 
             ctx.reserve(8);
-            ctx.view.setBigUint64(ctx.offset, BigInt(value), endian === "little");
+            ctx.view.setBigUint64(ctx.offset, value, endian === "little");
             ctx.offset += 8;
         },
         read: (ctx) => {
@@ -48,9 +46,7 @@ export function u64BigInt(
  *
  * @group Number
  */
-export function s64BigInt(
-    endian: "little" | "big" = "little",
-): Serializer<number | bigint, bigint> {
+export function s64BigInt(endian: "little" | "big" = "little"): Serializer<bigint> {
     return {
         size: 8,
         write: (ctx, value) => {

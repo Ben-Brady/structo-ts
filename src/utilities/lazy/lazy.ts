@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import { st } from "../../index.ts";
 
 /**
  * `st.lazy` lets you hoist types up by using a clsoure, allowing you to define things in any order
@@ -22,7 +22,7 @@ import type { Serializer } from "../../types.ts";
  *
  * @group Utilities
  */
-export function lazy<TIn, TOut = TIn>(type: () => Serializer<TIn, TOut>): Serializer<TIn, TOut> {
+export function lazy<T>(type: () => st.Serializer<T>): st.Serializer<T> {
     // This inheriently has to be hacky to work with the API defined
     let resolve = () => {
         resolve = () => {};
@@ -34,7 +34,7 @@ export function lazy<TIn, TOut = TIn>(type: () => Serializer<TIn, TOut>): Serial
         });
     };
 
-    const serializer: Serializer<TIn, TOut> = {
+    const serializer: st.Serializer<T> = {
         get size() {
             resolve();
             return this.size;

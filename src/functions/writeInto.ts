@@ -40,11 +40,11 @@ export interface WriteIntoOptions {
  * })
  * ```
  */
-export function writeInto<TIn, TOut>(
+export function writeInto<T>(
     buffer: ArrayBuffer | SharedArrayBuffer,
     offset: number,
-    serializer: Serializer<TIn, TOut>,
-    value: TIn,
+    serializer: Serializer<T>,
+    value: T,
     options?: WriteIntoOptions,
 ): number {
     const path: (string | number)[] = [];

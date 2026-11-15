@@ -1,11 +1,7 @@
-import type { InferInput, InferOutput, Serializer } from "../../types.ts";
+import { st } from "../../index.ts";
 
-type InferObjectInput<T extends Record<string, Serializer<any>>> = {
-    [Key in keyof T]: InferInput<T[Key]>;
-};
-
-type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
-    [Key in keyof T]: InferOutput<T[Key]>;
+type InferObject<T extends Record<string, st.Serializer<any>>> = {
+    [Key in keyof T]: st.Infer<T[Key]>;
 };
 
 /**
@@ -21,9 +17,9 @@ type InferObjectOutput<T extends Record<string, Serializer<any>>> = {
  *
  * @group Object
  */
-export function object<T extends Record<string, Serializer<any>>>(
+export function object<T extends Record<string, st.Serializer<any>>>(
     definition: T,
-): Serializer<InferObjectInput<T>, InferObjectOutput<T>> {
+): st.Serializer<InferObject<T>> {
     const size = computeSize(definition);
     return {
         size,
@@ -45,12 +41,12 @@ export function object<T extends Record<string, Serializer<any>>>(
                 ctx.popPath();
             }
 
-            return output as InferObjectOutput<T>;
+            return output as InferObject<T>;
         },
     };
 }
 
-function computeSize(definition: Record<string, Serializer<any>>): number | undefined {
+function computeSize(definition: Record<string, st.Serializer<any>>): number | undefined {
     let total = 0;
     for (const serializer of Object.values(definition)) {
         if (serializer.size === undefined) return undefined;

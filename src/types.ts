@@ -1,7 +1,7 @@
 /**
  * @group Types
  */
-export type Serializer<TIn, TOut = TIn> = {
+export type Serializer<T> = {
     /**
      * When this is set, the type has a statically known size
      *
@@ -11,8 +11,8 @@ export type Serializer<TIn, TOut = TIn> = {
 
     // TODO: add sizeHint support
 
-    write: (ctx: WriterContext, value: TIn) => void;
-    read: (ctx: ReaderContext) => TOut;
+    write: (ctx: WriterContext, value: T) => void;
+    read: (ctx: ReaderContext) => T;
 };
 
 /**
@@ -103,31 +103,19 @@ export interface ReaderContext<
 }
 
 /**
- * Allows to infer the Input into a serializer, this is the type needed to write it
- *
- * ---
- *
- * ```ts
- * const User = st.object({
- *     username: st.string(st.u32()),
- *     createdAt: st.u64BigInt(),
- * })
- *
- * type User = st.InferOutput<typeof User>
- * // expands to
- * type User = {
- *     username: string,
- *     // u64BigInt supports writing either `number | bigint`
- *     age: number | bigint,
- * }
- * ```
- *
+ * @deprecated
  * @group Types
  */
-export type InferInput<T extends Serializer<any>> = T extends Serializer<infer V, any> ? V : never;
+export type InferInput<T extends Serializer<any>> = Infer<T>;
 
 /**
- * Allows to infer the Output from a serializer, this is the type returned when you read that type
+ * @deprecated
+ * @group Types
+ */
+export type InferOutput<T extends Serializer<any>> = Infer<T>;
+
+/**
+ * Allows to infer the type of a serializer
  *
  * ---
  *
@@ -137,20 +125,13 @@ export type InferInput<T extends Serializer<any>> = T extends Serializer<infer V
  *     createdAt: st.u64BigInt(),
  * })
  *
- * type User = st.InferOutput<typeof User>
+ * type User = st.Infer<typeof User>
  * // expands to
  * type User = {
  *     username: string,
  *     age: bigint,
  * }
  * ```
- *
- * @group Types
- */
-export type InferOutput<T extends Serializer<any>> = T extends Serializer<any, infer V> ? V : never;
-
-/**
- * @deprecated use `st.InferOutput` instead
  * @hidden
  */
-export type Infer<T extends Serializer<any>> = InferOutput<T>;
+export type Infer<T extends Serializer<any>> = T extends Serializer<infer V> ? V : never;

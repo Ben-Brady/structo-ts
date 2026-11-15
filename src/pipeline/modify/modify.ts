@@ -18,7 +18,7 @@ import type { st } from "../../index.ts";
  *
  * @group Pipeline
  */
-export function modify<TIn, TOut>(callback: (value: TOut) => TIn): st.Pipeline<TIn, TOut> {
+export function modify<T>(callback: (value: T) => T): st.Pipeline<T> {
     return (type) => ({
         size: type.size,
         read: (ctx) => callback(type.read(ctx)),

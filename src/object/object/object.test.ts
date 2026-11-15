@@ -3,8 +3,6 @@ import { describe, expect, expectTypeOf, it } from "vitest";
 const {
     assertEncodesAndDecodes,
     assertEncodesAs,
-    assertEncodeThrows,
-    assertEncodesAsSize,
     assertMatchesSnapshot,
 } = st.createTestingUtils(expect);
 

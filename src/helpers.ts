@@ -1,3 +1,8 @@
+/**
+ * A group of serializer helper functions
+ * These are shared functions to help reduce bundle size
+ */
+
 export function assertInRange<T extends number | bigint>(value: T, start: T, end: T) {
     if (value < start || value >= end) {
         throw new Error(`${value} out of range ${start}-${end}`);

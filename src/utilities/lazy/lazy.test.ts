@@ -1,13 +1,6 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
-const {
-    assertEncodesAndDecodes,
-    assertEncodesAs,
-    assertEncodeThrows,
-    assertEncodesAsSize,
-    assertSerializerSize,
-    assertMatchesSnapshot,
-} = st.createTestingUtils(expect);
+const { assertEncodesAndDecodes, assertSerializerSize } = st.createTestingUtils(expect);
 
 describe("st.lazy", () => {
     it("encodes correctly", () => {
