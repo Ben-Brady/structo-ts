@@ -1,12 +1,9 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
-const {
-    assertEncodesAndDecodes,
-    assertEncodeThrows,
-    assertMatchesSnapshot,
-} = st.createTestingUtils(expect);
+const { assertEncodesAndDecodes, assertEncodeThrows, assertMatchesSnapshot } =
+    st.createTestingUtils(expect);
 
-describe("st.arrayExhaustive", () => {
+describe("st.exhaustiveArray", () => {
     it("encode correctly", () => {
         assertEncodesAndDecodes({
             serializer: st.exhuastiveArray(st.u32()),

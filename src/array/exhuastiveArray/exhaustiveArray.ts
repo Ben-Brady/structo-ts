@@ -1,21 +1,19 @@
 import { st } from "../../index.ts";
 
 /**
- * `st.exhuastiveArray` does not store it's size, instead reading until the end of the `ArrayBuffer`
+ * `st.exhaustiveArray` does not store it's size, instead reading until the end of the `ArrayBuffer`
  *
- * This means it cannot be nested inside other objects or must be the last property
+ * This means it cannot be nested inside other objects and must be the last property
  *
  * ---
  *
  * ```ts
- * exhuastiveArray(st.string(st.u8()))
+ * st.exhaustiveArray(st.string(st.u8()))
  * ```
  *
  * @group Array
  */
-export function exhuastiveArray<T>(
-    type: st.Serializer<T>,
-): st.Serializer<T[]> {
+export function exhaustiveArray<T>(type: st.Serializer<T>): st.Serializer<T[]> {
     return {
         read: (ctx) => {
             let arr: T[] = [];
@@ -36,3 +34,6 @@ export function exhuastiveArray<T>(
         },
     };
 }
+
+/** @deprecated typo export */
+export const exhuastiveArray = exhaustiveArray;
