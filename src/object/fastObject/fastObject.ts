@@ -84,7 +84,6 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
 
     const factory = new Function(...ids, `return [(c)=>({${readBody}}),(c,v)=>{${writeBody}}]`);
     const size = Object.values(definition).reduce((total, v) => total + (v.size as number), 0);
-    console.log(factory.toString());
     const [read, write] = factory(...serializers);
 
     return {

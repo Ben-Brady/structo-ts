@@ -31,7 +31,6 @@ export function string(length: Serializer<number>): Serializer<string> {
             if (typeof value !== "string") throw new Error("Expected String");
 
             let bytes: Uint8Array;
-            console.error(value.length * 2 < scratch.byteLength);
             // if (value.length * 2 < scratch.byteLength) {
                 bytes = encoder.encode(value);
             // } else {
