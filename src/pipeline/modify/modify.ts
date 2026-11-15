@@ -1,4 +1,4 @@
-import type { Pipeline } from "../pipe.ts";
+import type { st } from "../../index.ts";
 
 /**
  * A readonly modification function, useful for sizes or offsets.
@@ -18,7 +18,7 @@ import type { Pipeline } from "../pipe.ts";
  *
  * @group Pipeline
  */
-export function modify<TIn, TOut>(callback: (value: TOut) => TIn): Pipeline<TIn, TOut> {
+export function modify<TIn, TOut>(callback: (value: TOut) => TIn): st.Pipeline<TIn, TOut> {
     return (type) => ({
         size: type.size,
         read: (ctx) => callback(type.read(ctx)),

@@ -1,4 +1,4 @@
-import { encode } from "../encode/encode.ts";
+import { st } from "../../index.ts";
 
 /**
  * @group Pipeline
@@ -7,7 +7,7 @@ export function enum_<const T>(values: T[]) {
     // Note: We have to use any here instead of T
     // because when T = 0 | 1 | 2, then T != number
     // so we use any as an excape hatch :torment:
-    return encode<T, any>({
+    return st.encode<T, any>({
         encode: (v) => {
             if (!values.includes(v)) throw new Error(`Invalid enum variant: ${v}`);
             return v;

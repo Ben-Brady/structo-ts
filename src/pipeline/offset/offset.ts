@@ -1,5 +1,4 @@
-import type { Serializer } from "../../types.ts";
-import type { Pipeline } from "../pipe.ts";
+import type { st } from "../../index.ts";
 
 /**
  * Read & write the actual data offset from the current position
@@ -34,8 +33,8 @@ import type { Pipeline } from "../pipe.ts";
  */
 export function offset<T>(
     behaviour: "relative" | "absolute",
-    offset: Serializer<number> | number,
-): Pipeline<T> {
+    offset: st.Serializer<number> | number,
+): st.Pipeline<T> {
     return (type) => ({
         size: type.size,
         read: (ctx) => {

@@ -1,4 +1,4 @@
-import type { Pipeline } from "../pipe.ts";
+import type { Pipeline } from "../../pipeline/pipe.ts";
 
 /**
  * @group Pipeline

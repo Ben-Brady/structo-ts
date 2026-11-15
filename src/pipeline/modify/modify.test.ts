@@ -1,11 +1,12 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "bun:test";
-export const {
+const {
     assertEncodesAndDecodes,
     assertEncodesAs,
     assertEncodeThrows,
     assertEncodesAsSize,
     assertMatchesSnapshot,
+    assertSerializerSize,
 } = st.createTestingUtils(expect);
 
 describe("st.modify", () => {
@@ -33,10 +34,10 @@ describe("st.modify", () => {
     });
 
     it("does not modify size", () => {
-        const spec = st.pipe(
+        const serializer = st.pipe(
             st.u32(),
             st.modify((v) => v + 8),
         );
-        expect(spec.size).toBe(4);
+        assertSerializerSize({ serializer, size: 4 });
     });
 });

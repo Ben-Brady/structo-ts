@@ -1,4 +1,4 @@
-import { encode } from "../encode/encode.ts";
+import { st } from "../../index.ts";
 
 /**
  * st.pipe(st.u32("big"), st.literal())
@@ -6,7 +6,7 @@ import { encode } from "../encode/encode.ts";
  * @group Pipeline
  */
 export function literal<const T>(value: T) {
-    return encode<T, any>({
+    return st.encode<T, any>({
         encode: (v) => {
             if (v !== value) throw new Error(`Invalid literal variant: ${v}`);
             return v;
