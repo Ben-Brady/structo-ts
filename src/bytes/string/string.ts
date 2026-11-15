@@ -26,7 +26,6 @@ const scratch = new Uint8Array(SCATCH_SIZE);
  *
  *
  * @group String / Bytes
- * @document ./string.md
  */
 export function string(length: st.Serializer<number>): st.Serializer<string> {
     const encoder = new TextEncoder();
