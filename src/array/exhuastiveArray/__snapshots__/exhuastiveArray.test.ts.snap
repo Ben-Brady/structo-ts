@@ -1,6 +1,6 @@
-// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`st.arrayExhaustive matches snapshots 1`] = `
+exports[`st.arrayExhaustive > matches snapshots 1`] = `
 ArrayBuffer [
   3,
   0,
@@ -20,7 +20,7 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.arrayExhaustive matches snapshots 2`] = `
+exports[`st.arrayExhaustive > matches snapshots 2`] = `
 ArrayBuffer [
   0,
   1,

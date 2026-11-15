@@ -1,6 +1,6 @@
-// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`st.toTypedArray snapshot tests 1`] = `
+exports[`st.toTypedArray > snapshot tests 1`] = `
 ArrayBuffer [
   1,
   0,
@@ -13,31 +13,31 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.toTypedArray snapshot tests 2`] = `
+exports[`st.toTypedArray > snapshot tests 2`] = `
 ArrayBuffer [
   82,
-  184,
+  -72,
   30,
-  133,
-  235,
+  -123,
+  -21,
   81,
-  248,
+  -8,
   63,
   7,
   95,
-  152,
+  -104,
   76,
   21,
-  140,
-  214,
+  -116,
+  -42,
   63,
-  219,
-  249,
+  -37,
+  -7,
   126,
   106,
-  188,
+  -68,
   116,
-  195,
+  -61,
   63,
 ]
 `;

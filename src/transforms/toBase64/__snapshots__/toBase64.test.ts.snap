@@ -1,14 +1,14 @@
-// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`st.toBase64 snapshots 1`] = `
+exports[`st.toBase64 > snapshots 1`] = `
 ArrayBuffer [
-  175,
+  -81,
   31,
   74,
 ]
 `;
 
-exports[`st.toBase64 snapshots 2`] = `
+exports[`st.toBase64 > snapshots 2`] = `
 ArrayBuffer [
   125,
   31,

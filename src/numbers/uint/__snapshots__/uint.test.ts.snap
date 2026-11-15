@@ -1,151 +1,106 @@
-// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`st.u8 matches snapshots 1`] = `
+exports[`st.u8 > matches snapshots 1`] = `
 ArrayBuffer [
   0,
 ]
 `;
 
-exports[`st.u8 matches snapshots 2`] = `
+exports[`st.u8 > matches snapshots 2`] = `
 ArrayBuffer [
   0,
 ]
 `;
 
-exports[`st.u8 matches snapshots 3`] = `
+exports[`st.u8 > matches snapshots 3`] = `
 ArrayBuffer [
   10,
 ]
 `;
 
-exports[`st.u8 matches snapshots 4`] = `
+exports[`st.u8 > matches snapshots 4`] = `
 ArrayBuffer [
-  245,
+  -11,
 ]
 `;
 
-exports[`st.u8 matches snapshots 5`] = `
+exports[`st.u8 > matches snapshots 5`] = `
 ArrayBuffer [
-  255,
+  -1,
 ]
 `;
 
-exports[`st.u16(little) matches snapshots 1`] = `
-ArrayBuffer [
-  0,
-  0,
-]
-`;
-
-exports[`st.u16(little) matches snapshots 2`] = `
+exports[`st.u16(big) > matches snapshots 1`] = `
 ArrayBuffer [
   0,
   0,
 ]
 `;
 
-exports[`st.u16(little) matches snapshots 3`] = `
-ArrayBuffer [
-  10,
-  0,
-]
-`;
-
-exports[`st.u16(little) matches snapshots 4`] = `
-ArrayBuffer [
-  245,
-  255,
-]
-`;
-
-exports[`st.u16(little) matches snapshots 5`] = `
-ArrayBuffer [
-  255,
-  255,
-]
-`;
-
-exports[`st.u16(big) matches snapshots 1`] = `
+exports[`st.u16(big) > matches snapshots 2`] = `
 ArrayBuffer [
   0,
   0,
 ]
 `;
 
-exports[`st.u16(big) matches snapshots 2`] = `
-ArrayBuffer [
-  0,
-  0,
-]
-`;
-
-exports[`st.u16(big) matches snapshots 3`] = `
+exports[`st.u16(big) > matches snapshots 3`] = `
 ArrayBuffer [
   0,
   10,
 ]
 `;
 
-exports[`st.u16(big) matches snapshots 4`] = `
+exports[`st.u16(big) > matches snapshots 4`] = `
 ArrayBuffer [
-  255,
-  245,
+  -1,
+  -11,
 ]
 `;
 
-exports[`st.u16(big) matches snapshots 5`] = `
+exports[`st.u16(big) > matches snapshots 5`] = `
 ArrayBuffer [
-  255,
-  255,
+  -1,
+  -1,
 ]
 `;
 
-exports[`st.u32(little) matches snapshots 1`] = `
+exports[`st.u16(little) > matches snapshots 1`] = `
 ArrayBuffer [
-  0,
-  0,
-  0,
-  0,
-]
-`;
-
-exports[`st.u32(little) matches snapshots 2`] = `
-ArrayBuffer [
-  0,
-  0,
   0,
   0,
 ]
 `;
 
-exports[`st.u32(little) matches snapshots 3`] = `
+exports[`st.u16(little) > matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+]
+`;
+
+exports[`st.u16(little) > matches snapshots 3`] = `
 ArrayBuffer [
   10,
   0,
-  0,
-  0,
 ]
 `;
 
-exports[`st.u32(little) matches snapshots 4`] = `
+exports[`st.u16(little) > matches snapshots 4`] = `
 ArrayBuffer [
-  245,
-  255,
-  255,
-  255,
+  -11,
+  -1,
 ]
 `;
 
-exports[`st.u32(little) matches snapshots 5`] = `
+exports[`st.u16(little) > matches snapshots 5`] = `
 ArrayBuffer [
-  255,
-  255,
-  255,
-  255,
+  -1,
+  -1,
 ]
 `;
 
-exports[`st.u32(big) matches snapshots 1`] = `
+exports[`st.u32(big) > matches snapshots 1`] = `
 ArrayBuffer [
   0,
   0,
@@ -154,7 +109,7 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u32(big) matches snapshots 2`] = `
+exports[`st.u32(big) > matches snapshots 2`] = `
 ArrayBuffer [
   0,
   0,
@@ -163,7 +118,7 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u32(big) matches snapshots 3`] = `
+exports[`st.u32(big) > matches snapshots 3`] = `
 ArrayBuffer [
   0,
   0,
@@ -172,30 +127,26 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u32(big) matches snapshots 4`] = `
+exports[`st.u32(big) > matches snapshots 4`] = `
 ArrayBuffer [
-  255,
-  255,
-  255,
-  245,
+  -1,
+  -1,
+  -1,
+  -11,
 ]
 `;
 
-exports[`st.u32(big) matches snapshots 5`] = `
+exports[`st.u32(big) > matches snapshots 5`] = `
 ArrayBuffer [
-  255,
-  255,
-  255,
-  255,
+  -1,
+  -1,
+  -1,
+  -1,
 ]
 `;
 
-exports[`st.u64(little) matches snapshots 1`] = `
+exports[`st.u32(little) > matches snapshots 1`] = `
 ArrayBuffer [
-  0,
-  0,
-  0,
-  0,
   0,
   0,
   0,
@@ -203,12 +154,8 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u64(little) matches snapshots 2`] = `
+exports[`st.u32(little) > matches snapshots 2`] = `
 ArrayBuffer [
-  0,
-  0,
-  0,
-  0,
   0,
   0,
   0,
@@ -216,46 +163,34 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u64(little) matches snapshots 3`] = `
+exports[`st.u32(little) > matches snapshots 3`] = `
 ArrayBuffer [
   10,
   0,
   0,
   0,
-  0,
-  0,
-  0,
-  0,
 ]
 `;
 
-exports[`st.u64(little) matches snapshots 4`] = `
+exports[`st.u32(little) > matches snapshots 4`] = `
 ArrayBuffer [
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  128,
+  -11,
+  -1,
+  -1,
+  -1,
 ]
 `;
 
-exports[`st.u64(little) matches snapshots 5`] = `
+exports[`st.u32(little) > matches snapshots 5`] = `
 ArrayBuffer [
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  128,
+  -1,
+  -1,
+  -1,
+  -1,
 ]
 `;
 
-exports[`st.u64(big) matches snapshots 1`] = `
+exports[`st.u64(big) > matches snapshots 1`] = `
 ArrayBuffer [
   0,
   0,
@@ -268,7 +203,7 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u64(big) matches snapshots 2`] = `
+exports[`st.u64(big) > matches snapshots 2`] = `
 ArrayBuffer [
   0,
   0,
@@ -281,7 +216,7 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u64(big) matches snapshots 3`] = `
+exports[`st.u64(big) > matches snapshots 3`] = `
 ArrayBuffer [
   0,
   0,
@@ -294,9 +229,9 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u64(big) matches snapshots 4`] = `
+exports[`st.u64(big) > matches snapshots 4`] = `
 ArrayBuffer [
-  128,
+  -128,
   0,
   0,
   0,
@@ -307,9 +242,9 @@ ArrayBuffer [
 ]
 `;
 
-exports[`st.u64(big) matches snapshots 5`] = `
+exports[`st.u64(big) > matches snapshots 5`] = `
 ArrayBuffer [
-  128,
+  -128,
   0,
   0,
   0,
@@ -317,5 +252,70 @@ ArrayBuffer [
   0,
   0,
   0,
+]
+`;
+
+exports[`st.u64(little) > matches snapshots 1`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(little) > matches snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(little) > matches snapshots 3`] = `
+ArrayBuffer [
+  10,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
+exports[`st.u64(little) > matches snapshots 4`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  -128,
+]
+`;
+
+exports[`st.u64(little) > matches snapshots 5`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  -128,
 ]
 `;

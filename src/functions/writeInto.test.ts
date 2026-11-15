@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "vitest";
 import { st } from "../index.ts";
 
 const toBytes = (buffer: ArrayBuffer | SharedArrayBuffer) => Array.from(new Uint8Array(buffer));

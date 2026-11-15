@@ -24,7 +24,7 @@
         "erasableSyntaxOnly": true,
         "noFallthroughCasesInSwitch": true,
         "noUncheckedSideEffectImports": true,
-        "types": ["bun", "node"]
+        "types": ["node"]
     },
     "include": ["src/**/*.ts"],
     "files": ["src/index.ts"]

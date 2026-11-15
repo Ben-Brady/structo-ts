@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "vitest";
 import { st } from "../index.ts";
 
 const bytes = (bytes: number[]) => new Uint8Array(bytes).buffer;

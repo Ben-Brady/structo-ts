@@ -1,20 +1,20 @@
-// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`st.packedBits matches snapshots 1`] = `
+exports[`st.packedBits > matches snapshots 1`] = `
 ArrayBuffer [
   14,
 ]
 `;
 
-exports[`st.packedBits matches snapshots 2`] = `
+exports[`st.packedBits > matches snapshots 2`] = `
 ArrayBuffer [
   8,
-  207,
-  240,
+  -49,
+  -16,
 ]
 `;
 
-exports[`st.packedBits matches snapshots 3`] = `
+exports[`st.packedBits > matches snapshots 3`] = `
 ArrayBuffer [
   91,
   80,
