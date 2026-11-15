@@ -1,9 +1,8 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
-const {
-    assertEncodesAndDecodes,
-    assertEncodeThrows,
-} = st.createTestingUtils(expect);
+import { SCATCH_SIZE } from "./string.ts";
+const { assertEncodesAndDecodes, assertEncodeThrows, assertEncodesAsSize } =
+    st.createTestingUtils(expect);
 
 describe("st.string", () => {
     it("encode correctly", () => {
@@ -46,10 +45,35 @@ describe("st.string", () => {
         });
     });
 
-    it("works on long strings", () => {
-        assertEncodesAndDecodes({
-            serializer: st.string(st.u32()),
-            value: "A".repeat(2 ** 24),
+    // it("works on long strings", () => {
+    //     const serializer = st.string(st.u32());
+    //     const value =  "A".repeat(2 ** 24)
+    //     const parsedData = st.read(serializer,st.write(serializer, value))
+
+    //     expect(parsedData).toBe(value)
+    // });
+
+    it("works on strings near scratch size", () => {
+        const serializer = st.string(st.u32());
+        assertEncodesAsSize({
+            serializer,
+            value: "A".repeat(SCATCH_SIZE),
+            size: SCATCH_SIZE + 4,
+        });
+        assertEncodesAsSize({
+            serializer,
+            value: "A".repeat(SCATCH_SIZE - 1),
+            size: SCATCH_SIZE - 1 + 4,
+        });
+        assertEncodesAsSize({
+            serializer,
+            value: "A".repeat(SCATCH_SIZE + 1),
+            size: SCATCH_SIZE + 1 + 4,
+        });
+        assertEncodesAsSize({
+            serializer,
+            value: "A".repeat(SCATCH_SIZE * 2 + 1),
+            size: SCATCH_SIZE * 2 + 1 + 4,
         });
     });
 

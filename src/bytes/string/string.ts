@@ -1,4 +1,14 @@
-import type { Serializer } from "../../types.ts";
+import { st } from "../../index.ts";
+
+/**
+ * The amount of characters a string can be when using the scratch buffer
+ * This is exported for testing, shouldn't be made public
+ */
+export const SCATCH_SIZE = 1024 * 32;
+
+// use a scratch buffer to avoid creating garbage
+// Note: update tests when modifying scratch length
+const scratch = new Uint8Array(SCATCH_SIZE);
 
 /**
  * `st.string` stores string data by writing/reading the length and then reading that many bytes
@@ -18,25 +28,21 @@ import type { Serializer } from "../../types.ts";
  * @group String / Bytes
  * @document ./string.md
  */
-export function string(length: Serializer<number>): Serializer<string> {
+export function string(length: st.Serializer<number>): st.Serializer<string> {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
-
-    // use a scratch buffer to avoid creating garbage
-    // Note: update tests when modifying scratch length
-    // const scratch = new Uint8Array(1024);
 
     return {
         write: (ctx, value) => {
             if (typeof value !== "string") throw new Error("Expected String");
 
             let bytes: Uint8Array;
-            // if (value.length * 2 < scratch.byteLength) {
+            if (value.length * 2 > SCATCH_SIZE) {
                 bytes = encoder.encode(value);
-            // } else {
-            //     const { written } = encoder.encodeInto(value, scratch);
-            //     bytes = scratch.subarray(0, written);
-            // }
+            } else {
+                const written = encoder.encodeInto(value, scratch).written;
+                bytes = scratch.subarray(0, written);
+            }
 
             const size = bytes.byteLength;
             const lengthSize = length.size ?? 0;
@@ -57,10 +63,10 @@ export function string(length: Serializer<number>): Serializer<string> {
 }
 
 /*
-Implementation Note: Why not use encoder.encodeInto?
+Implementation Note: Why not use encoder.encodeInto always?
 
-It would be nice to be able to use encoder.encodeInto
-as it avoid having to make a copy of the data. But supporting
+It would be nice to be able to use encoder.encodeInto for large
+values as it avoid having to make a copy of the data. But supporting
 variable width encoded lengths and UTF-16 makes this hard.
 
 enocdeInto doesn't allow you to know how much space the output will
@@ -75,6 +81,7 @@ you have to know how much space to leave for length. This means you cannot
 support variable width encoded lengths, since you have no knowledge of the
 space they need to store the final length.
 
-These complexities make it too annoying to use encodeInto. It's possible to
-use it, but it makes the API much more constrained.
+Finally, `benchmark/string` shows that the benefits of using encodeInto vs
+the scratch buffer implementation. There is a large benefit to large strings,
+but not much benefit when working with small strings.
 */
