@@ -14,8 +14,8 @@ type ExpectType = <T>(actual: T) => {
 export function createTestingUtils(expect: ExpectType) {
     function assertEncodesAndDecodes<T>(options: {
         serializer: st.Serializer<T>;
-        value: T;
-        expected?: T;
+        value: NoInfer<T>;
+        expected?: NoInfer<T>;
     }) {
         const { serializer, value, expected } = options;
         const data = st.write(serializer, value);
@@ -25,7 +25,7 @@ export function createTestingUtils(expect: ExpectType) {
 
     function assertEncodesAs<T>(options: {
         serializer: st.Serializer<T>;
-        value: T;
+        value: NoInfer<T>;
         expected: number[] | Uint8Array;
     }) {
         const { serializer, value, expected } = options;
@@ -44,7 +44,7 @@ export function createTestingUtils(expect: ExpectType) {
 
     function assertEncodesAsSize<T>(options: {
         serializer: st.Serializer<T>;
-        value: T;
+        value: NoInfer<T>;
         size: number;
     }) {
         const { serializer, value, size } = options;
@@ -58,7 +58,7 @@ export function createTestingUtils(expect: ExpectType) {
         expect(() => st.write(serializer, value)).toThrow();
     }
 
-    function assertMatchesSnapshot<T>(options: { serializer: st.Serializer<T>; value: T }) {
+    function assertMatchesSnapshot<T>(options: { serializer: st.Serializer<T>; value: NoInfer<T> }) {
         const { serializer, value } = options;
 
         const data = st.write(serializer, value);

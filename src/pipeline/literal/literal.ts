@@ -5,15 +5,15 @@ import { st } from "../../index.ts";
  *
  * @group Pipeline
  */
-export function literal<TOut, const T extends TOut>(value: T) {
-    return st.encode<T, TOut>({
+export function literal<const T>(value: T) {
+    return st.encode<T, any>({
         encode: (v) => {
             if (v !== value) throw new Error(`Invalid literal variant: ${v}`);
             return v;
         },
         decode: (v) => {
             if (v !== value) throw new Error(`Invalid literal variant: ${v}`);
-            return v as T;
+            return v;
         },
     });
 }
