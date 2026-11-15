@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`st.asUtf8 > snapshots 1`] = `
+ArrayBuffer [
+  54,
+  51,
+  52,
+  102,
+]
+`;
+
+exports[`st.asUtf8 > snapshots 2`] = `
+ArrayBuffer [
+  104,
+  100,
+  106,
+  100,
+  112,
+  95,
+]
+`;
