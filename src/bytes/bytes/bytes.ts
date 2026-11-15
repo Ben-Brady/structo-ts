@@ -6,12 +6,18 @@ import type { Serializer } from "../../types.ts";
  * This is very similar to a string, except the contents are not decoded
  *
  * `readBehaviour` describes how to retrive the data:
- * - `copy` returns a UInt8Array with a newly allocating ArrayBuffer
- * - `reference` returns a UInt8Array reference the original data
+ * - `copy` **(default)** returns a `UInt8Array` with a newly allocated ArrayBuffer
+ * - `reference` returns a `UInt8Array` referencing the original buffer
  *
- * Reference can reduce memory usage by preventing new allocations,
+ * `"reference"` can reduce memory usage by preventing new allocations,
  * however it requires the original data to remain. Meaning if your
  * only using a small subsection it will actual use more memory.
+ *  - be careful not to call `.transfer` on the original
+ * buffer, as this will break the reference. AD
+ * - the .buffer attribute will still reference the full buffer, so will have
+ * different behaviour to `"copy"`
+ *
+ * Because of the complexitiies of using `"reference"`, `"copy"` is the default.
  *
  * ---
  *
