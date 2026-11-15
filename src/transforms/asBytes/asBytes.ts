@@ -6,15 +6,15 @@ import { st } from "../../index.ts";
  * ---
  *
  * ```ts
- * st.pipe(st.fixedBytes(3), st.toBytes())
+ * st.asBytes(st.fixedBytes(3))
  * ```
  *
- * `ArrayBuffer([0, 255, 3])` => `[0, 255, 3]`
+ * `Uint8Array([0, 255, 3])` => `[0, 255, 3]`
  *
  * @group Transforms
  */
-export function toBytes(): st.Pipeline<number[], Uint8Array> {
-    return st.encode<number[], Uint8Array>({
+export function asBytes(type: st.Serializer<Uint8Array>): st.Serializer<number[]> {
+    return st.encode(type, {
         encode: (bytes) => {
             bytes.forEach((byte) => {
                 if (byte < 0 || byte > 255) throw new Error(`Invalid byte: ${byte}`);

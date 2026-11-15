@@ -14,7 +14,7 @@ import type { st } from "../../index.ts";
  * const Header = st.bytes(HeaderSize)
  * ```
  *
- * @group Pipeline
+ * @group Utilities
  */
 export function modify<T>(type: st.Serializer<T>, callback: (value: T) => T): st.Serializer<T> {
     return {

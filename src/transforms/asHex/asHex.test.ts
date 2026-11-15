@@ -6,32 +6,32 @@ const { assertEncodesAndDecodes, assertEncodeThrows, assertMatchesSnapshot } =
 describe("st.toHex", () => {
     it("encode correctly", () => {
         assertEncodesAndDecodes({
-            serializer: st.pipe(st.fixedBytes(3), st.toHex()), //
+            serializer: st.asHex(st.fixedBytes(3)), //
             value: "FFAB01",
         });
     });
 
     it("invalid digits error", () => {
         assertEncodeThrows({
-            serializer: st.pipe(st.fixedBytes(3), st.toHex()), //
+            serializer: st.asHex(st.fixedBytes(3)), //
             value: "00000G",
         });
     });
 
     it("invalid length error", () => {
         assertEncodeThrows({
-            serializer: st.pipe(st.fixedBytes(3), st.toHex()), //
+            serializer: st.asHex(st.fixedBytes(3)), //
             value: "0000",
         });
     });
 
     it("snapshots", () => {
         assertMatchesSnapshot({
-            serializer: st.pipe(st.fixedBytes(3), st.toHex()), //
+            serializer: st.asHex(st.fixedBytes(3)), //
             value: "FFAB01",
         });
         assertMatchesSnapshot({
-            serializer: st.pipe(st.fixedBytes(5), st.toHex()), //
+            serializer: st.asHex(st.fixedBytes(5)), //
             value: "0000000000",
         });
     });

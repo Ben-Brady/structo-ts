@@ -28,7 +28,7 @@ import type { st } from "../../index.ts";
  *
  * @param offset The offset to read from, can be negative if using "relative"
  *
- * @group Pipeline
+ * @group Utilities
  */
 export function offset<T>(
     type: st.Serializer<T>,

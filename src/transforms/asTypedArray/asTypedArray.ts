@@ -19,20 +19,18 @@ type TypedArray<T extends TypedArrayLike> = { BYTES_PER_ELEMENT: number } & (new
  * ---
  *
  * ```ts
- * st.pipe(
- *     st.fixedBytes(4),
- *     toTypedArray(Float32Array)
- * )
+ * asTypedArray(st.fixedBytes(4), Float32Array)
  * ```
  *
  * `Uint8Array([164, 112, 157, 63])` => `Float32Array([1.23])`
  *
  * @group Transforms
  */
-export function toTypedArray<T extends TypedArrayLike>(
+export function asTypedArray<T extends TypedArrayLike>(
+    type: st.Serializer<Uint8Array>,
     Array: TypedArray<T>,
-): st.Pipeline<T, Uint8Array> {
-    return st.encode({
+): st.Serializer<T> {
+    return st.encode(type, {
         encode: (arr) =>
             new Uint8Array(
                 arr.buffer,

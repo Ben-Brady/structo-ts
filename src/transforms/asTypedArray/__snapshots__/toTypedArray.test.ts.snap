@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`st.toTypedArray > snapshot tests 1`] = `
+ArrayBuffer [
+  1,
+  0,
+  6,
+  0,
+  3,
+  0,
+  12,
+  0,
+]
+`;
+
+exports[`st.toTypedArray > snapshot tests 2`] = `
+ArrayBuffer [
+  82,
+  -72,
+  30,
+  -123,
+  -21,
+  81,
+  -8,
+  63,
+  7,
+  95,
+  -104,
+  76,
+  21,
+  -116,
+  -42,
+  63,
+  -37,
+  -7,
+  126,
+  106,
+  -68,
+  116,
+  -61,
+  63,
+]
+`;

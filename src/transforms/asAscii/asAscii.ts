@@ -6,15 +6,15 @@ import { st } from "../../index.ts";
  * ---
  *
  * ```ts
- * st.pipe(st.fixedBytes(3), st.toAscii())
+ * st.asAscii(st.fixedBytes(3))
  * ```
  *
  * `Uint8Array([65, 99, 101])` => `Ace`
  *
  * @group Transforms
  */
-export function toAscii(): st.Pipeline<string, Uint8Array> {
-    return st.encode({
+export function asAscii(type: st.Serializer<Uint8Array>): st.Serializer<string> {
+    return st.encode(type, {
         encode: (v) => {
             const bytes = Array.from(v).map((char) => char.charCodeAt(0));
             bytes.forEach((byte) => {

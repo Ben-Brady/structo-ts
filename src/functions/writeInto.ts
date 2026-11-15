@@ -24,7 +24,7 @@ export interface WriteIntoOptions {
  *
  * ```ts
  * const User = st.object({
- *     name: st.pipe(st.fixedBytes(16), st.toAscii()),
+ *     name: st.asAscii(st.fixedBytes(16)),
  *     age: st.u32(),
  * })
  *

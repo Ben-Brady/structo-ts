@@ -6,36 +6,36 @@ const { assertEncodesAndDecodes, assertEncodeThrows, assertMatchesSnapshot } =
 describe("st.toAscii", () => {
     it("encode correctly", () => {
         assertEncodesAndDecodes({
-            serializer: st.pipe(st.fixedBytes(5), st.toAscii()), //
+            serializer: st.asAscii(st.fixedBytes(5)), //
             value: "a6534",
         });
         assertEncodesAndDecodes({
-            serializer: st.pipe(st.fixedBytes(3), st.toAscii()), //
+            serializer: st.asAscii(st.fixedBytes(3)), //
             value: "-as",
         });
     });
 
     it("invalid length throws error", () => {
         assertEncodeThrows({
-            serializer: st.pipe(st.fixedBytes(4), st.toAscii()), //
+            serializer: st.asAscii(st.fixedBytes(4)), //
             value: "asd",
         });
     });
 
     it("invalid character throws error", () => {
         assertEncodeThrows({
-            serializer: st.pipe(st.fixedBytes(4), st.toAscii()), //
+            serializer: st.asAscii(st.fixedBytes(4)), //
             value: "asdé",
         });
     });
 
     it("snapshots", () => {
         assertMatchesSnapshot({
-            serializer: st.pipe(st.fixedBytes(4), st.toAscii()), //
+            serializer: st.asAscii(st.fixedBytes(4)), //
             value: "634f",
         });
         assertMatchesSnapshot({
-            serializer: st.pipe(st.fixedBytes(6), st.toAscii()), //
+            serializer: st.asAscii(st.fixedBytes(6)), //
             value: "hdjdp_",
         });
     });

@@ -19,17 +19,14 @@ export function literal<TType, const TLiteral extends TType>(
     type: st.Serializer<TType>,
     value: TLiteral,
 ): st.Serializer<TLiteral> {
-    return st.pipe(
-        type,
-        st.encode({
-            encode: (v: TLiteral) => {
-                if (v !== value) throw new Error(`Invalid literal value: ${v}`);
-                return v as TType;
-            },
-            decode: (v: TType) => {
-                if (v !== value) throw new Error(`Invalid literal value: ${v}`);
-                return v as TLiteral;
-            },
-        }),
-    );
+    return st.encode(type, {
+        encode: (v: TLiteral) => {
+            if (v !== value) throw new Error(`Invalid literal value: ${v}`);
+            return v as TType;
+        },
+        decode: (v: TType) => {
+            if (v !== value) throw new Error(`Invalid literal value: ${v}`);
+            return v as TLiteral;
+        },
+    });
 }

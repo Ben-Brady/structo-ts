@@ -1,6 +1,7 @@
 export { encode } from "./encode/encode.ts";
-export { toAscii } from "./toAscii/toAscii.ts";
-export { toBytes } from "./toBytes/toBytes.ts";
-export { toHex } from "./toHex/toHex.ts";
-export { toBase64 } from "./toBase64/toBase64.ts";
-export { toTypedArray } from "./toTypedArray/toTypedArray.ts";
+export { asAscii } from "./asAscii/asAscii.ts";
+export { asBytes } from "./asBytes/asBytes.ts";
+export { asBase64 } from "./asBase64/asBase64.ts";
+export { asDate } from "./asDate/asDate.ts";
+export { asHex } from "./asHex/asHex.ts";
+export { asTypedArray } from "./asTypedArray/asTypedArray.ts";
