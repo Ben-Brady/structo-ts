@@ -12,6 +12,12 @@ type ExpectType = <T>(actual: T) => {
  * @param expect A jest-like expect function, this is passed in to allow use of different testing frameworks.
  */
 export function createTestingUtils(expect: ExpectType) {
+    function readWrite<T>(options: { serializer: st.Serializer<T>; value: NoInfer<T> }) {
+        const { serializer, value } = options;
+        const data = st.write(serializer, value);
+        return st.read(serializer, data);
+    }
+
     function assertEncodesAndDecodes<T>(options: {
         serializer: st.Serializer<T>;
         value: NoInfer<T>;
@@ -39,7 +45,7 @@ export function createTestingUtils(expect: ExpectType) {
         size: number | undefined;
     }) {
         const { serializer, size } = options;
-        expect(serializer.size).toEqual(size);
+        expect(serializer.size).toBe(size);
     }
 
     function assertEncodesAsSize<T>(options: {
@@ -49,7 +55,7 @@ export function createTestingUtils(expect: ExpectType) {
     }) {
         const { serializer, value, size } = options;
         const data = st.write(serializer, value);
-        expect(data.byteLength).toEqual(size);
+        expect(data.byteLength).toBe(size);
     }
 
     function assertEncodeThrows<T>(options: { serializer: st.Serializer<T>; value: any }) {
@@ -58,7 +64,10 @@ export function createTestingUtils(expect: ExpectType) {
         expect(() => st.write(serializer, value)).toThrow();
     }
 
-    function assertMatchesSnapshot<T>(options: { serializer: st.Serializer<T>; value: NoInfer<T> }) {
+    function assertMatchesSnapshot<T>(options: {
+        serializer: st.Serializer<T>;
+        value: NoInfer<T>;
+    }) {
         const { serializer, value } = options;
 
         const data = st.write(serializer, value);
@@ -70,6 +79,7 @@ export function createTestingUtils(expect: ExpectType) {
     }
 
     return {
+        readWrite,
         assertEncodesAndDecodes,
         assertEncodesAs,
         assertEncodesAsSize,
