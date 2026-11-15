@@ -53,7 +53,7 @@ export function object<T extends Record<string, Serializer<any>>>(
 function computeSize(definition: Record<string, Serializer<any>>): number | undefined {
     let total = 0;
     for (const serializer of Object.values(definition)) {
-        if (!serializer.size) return undefined;
+        if (serializer.size === undefined) return undefined;
         total += serializer.size;
     }
 
