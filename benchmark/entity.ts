@@ -25,7 +25,7 @@ export function generateEntityData(size: number): Entity[] {
     return arr;
 }
 
-type Quaternion = st.InferOutput<typeof Quaternion>;
+type Quaternion = st.Infer<typeof Quaternion>;
 const Quaternion = st.fastObject({
     w: st.f32(),
     x: st.f32(),
@@ -33,14 +33,14 @@ const Quaternion = st.fastObject({
     z: st.f32(),
 });
 
-type Vec3 = st.InferOutput<typeof Vec3>;
+type Vec3 = st.Infer<typeof Vec3>;
 const Vec3 = st.fastObject({
     x: st.f64(),
     y: st.f64(),
     z: st.f64(),
 });
 
-type Entity = st.InferOutput<typeof Entity>;
+type Entity = st.Infer<typeof Entity>;
 const Entity = st.fastObject({
     id: st.u32(),
     type: st.u16(),

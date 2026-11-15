@@ -18,7 +18,7 @@ function literal<T extends string>(
 }
 
 export const TypeString = st.string(st.u8());
-export type MovementPacket = st.InferOutput<typeof MovementPacket>;
+export type MovementPacket = st.Infer<typeof MovementPacket>;
 export const MovementPacket = st.object({
     type: literal(TypeString, "movement"),
     x: st.f32(),
@@ -26,7 +26,7 @@ export const MovementPacket = st.object({
     z: st.f32(),
 });
 
-export type RotationPacket = st.InferOutput<typeof RotationPacket>;
+export type RotationPacket = st.Infer<typeof RotationPacket>;
 export const RotationPacket = st.object({
     type: literal(TypeString, "rotation"),
     yaw: st.f32(),
@@ -34,7 +34,7 @@ export const RotationPacket = st.object({
     roll: st.f16(),
 });
 
-export type AttackPacket = st.InferOutput<typeof AttackPacket>;
+export type AttackPacket = st.Infer<typeof AttackPacket>;
 export const AttackPacket = st.object({
     type: literal(TypeString, "attack"),
 });
@@ -42,7 +42,7 @@ export const AttackPacket = st.object({
 export type PacketBody = MovementPacket | RotationPacket | AttackPacket;
 export type PacketType = PacketBody["type"];
 
-export type Packet = st.InferOutput<typeof Packet>;
+export type Packet = st.Infer<typeof Packet>;
 export const Packet = st.taggedUnion(
     st.pipe(TypeString, st.noAdvance()), // we use noAdvance to read the type without consuming it
     {

@@ -1,7 +1,7 @@
 import { st } from "../src/index.js";
 import { benchmark } from "./utils.js";
 
-type User = st.InferOutput<typeof User>;
+type User = st.Infer<typeof User>;
 const User = st.fastObject({
     id: st.string(st.u16()),
     name: st.string(st.u16()),

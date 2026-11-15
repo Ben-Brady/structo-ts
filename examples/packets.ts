@@ -7,7 +7,7 @@ const PacketType = {
 } as const satisfies Record<string, number>;
 type PacketType = (typeof PacketType)[keyof typeof PacketType];
 
-export type Packet = st.InferOutput<typeof Packet>;
+export type Packet = st.Infer<typeof Packet>;
 export const Packet = st.lazy(() =>
     st.taggedUnion(st.u8(), {
         [PacketType.MOVEMENT]: MovementPacket,
@@ -16,21 +16,21 @@ export const Packet = st.lazy(() =>
     }),
 );
 
-export type MovementPacket = st.InferOutput<typeof MovementPacket>;
+export type MovementPacket = st.Infer<typeof MovementPacket>;
 export const MovementPacket = st.object({
     x: st.f32(),
     y: st.f32(),
     z: st.f32(),
 });
 
-export type RotationPacket = st.InferOutput<typeof RotationPacket>;
+export type RotationPacket = st.Infer<typeof RotationPacket>;
 export const RotationPacket = st.object({
     yaw: st.f32(),
     pitch: st.f16(),
     roll: st.f16(),
 });
 
-export type AttackPlayerPacket = st.InferOutput<typeof AttackPlayerPacket>;
+export type AttackPlayerPacket = st.Infer<typeof AttackPlayerPacket>;
 export const AttackPlayerPacket = st.object({
     playerId: st.u32(),
 });
