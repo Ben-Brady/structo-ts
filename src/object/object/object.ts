@@ -24,7 +24,7 @@ export function object<T extends Record<string, st.Serializer<any>>>(
     return {
         size,
         write(ctx, value) {
-            if (size) ctx.reserve(size);
+            if (size) ctx.reserve(size); // reserve full size in advance
 
             for (const key in definition) {
                 ctx.pushPath(key);
