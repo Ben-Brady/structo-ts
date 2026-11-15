@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>fixedString | @nnilky/structo - v1.4.1</title><meta name="description" content="Documentation for @nnilky/structo"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><style>
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>padding | @nnilky/structo - v1.4.1</title><meta name="description" content="Documentation for @nnilky/structo"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><style>
 @media (prefers-color-scheme: dark) {
   :root {
     --md-sys-color-primary: #f6be46;
@@ -167,16 +167,17 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb" aria-label="Breadcrumb">
 <li><a href="../modules/index.html">index</a></li>
-<li><a href="" aria-current="page">fixedString</a></li></ul>
-<h1>Function fixedString</h1></div>
+<li><a href="" aria-current="page">padding</a></li></ul>
+<h1>Function padding</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures">
 <li class="">
-<div class="tsd-signature tsd-anchor-link" id="fixedstring"><span class="tsd-kind-call-signature">fixedString</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">size</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="../types/index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><a href="#fixedstring" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-signature tsd-anchor-link" id="padding"><span class="tsd-kind-call-signature">padding</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">size</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="../types/index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><a href="#padding" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p><code>st.fixedString</code> stores a fixed length string, note the length denotes byte length not</p>
+<div class="tsd-comment tsd-typography"><p>A sized type that reads as undefined, reading and writing is a noop</p>
+<p>This is useful for emulating c structs, and when operating on existing formats</p>
 <hr>
-<pre><code class="ts"><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-6">User</span><span class="hl-1"> = </span><span class="hl-0">st</span><span class="hl-1">.</span><span class="hl-7">object</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-0">id:</span><span class="hl-1"> </span><span class="hl-0">st</span><span class="hl-1">.</span><span class="hl-7">fixedString</span><span class="hl-1">(</span><span class="hl-8">8</span><span class="hl-1">)</span><br/><span class="hl-1">})</span>
+<pre><code class="ts"><span class="hl-0">st</span><span class="hl-1">.</span><span class="hl-7">object</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-0">a:</span><span class="hl-1"> </span><span class="hl-0">st</span><span class="hl-1">.</span><span class="hl-7">u32</span><span class="hl-1">(),</span><br/><span class="hl-1">    </span><span class="hl-0">aPadding:</span><span class="hl-1"> </span><span class="hl-0">st</span><span class="hl-1">.</span><span class="hl-7">padding</span><span class="hl-1">(</span><span class="hl-8">4</span><span class="hl-1">),</span><br/><span class="hl-1">    </span><span class="hl-0">b:</span><span class="hl-1"> </span><span class="hl-0">st</span><span class="hl-1">.</span><span class="hl-7">u64</span><span class="hl-1">(),</span><br/><span class="hl-1">})</span><br/>
 </code><button type="button">Copy</button></pre>
 
 </div>
@@ -184,9 +185,9 @@
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">size</span>: <span class="tsd-signature-type">number</span></span></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="../types/index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="../types/index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/bytes/fixedString/fixedString.ts#L15">bytes/fixedString/fixedString.ts:15</a></li></ul></aside></div></li></ul></section></div>
+<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/2dbe46d2be8358eea2571b62464addff34ce36f2/src/utilities/padding/padding.ts#L19">utilities/padding/padding.ts:19</a></li></ul></aside></div></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

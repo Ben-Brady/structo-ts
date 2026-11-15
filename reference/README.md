@@ -3,27 +3,25 @@ npm install @nnilky/structo
 ```
 
 | [Repository](https://github.com/Ben-Brady/structo-ts) |
-| - |
-
+| ----------------------------------------------------- |
 
 Use zod style schemas to serialise/deserialize binary objects
 
 ```ts
 import { st } from "@nnilky/structo";
 
-type Vec3 = st.InferOutput<typeof Vec3>
+type Vec3 = st.Infer<typeof Vec3>;
 const Vec3 = st.object({
     x: st.f64(),
     y: st.f64(),
     z: st.f64(),
 });
 
-type Entity = st.InferOutput<typeof Entity>
+type Entity = st.Infer<typeof Entity>;
 const Entity = st.object({
     id: st.u64(),
     position: Vec3,
 });
-
 ```
 
 - Extremely Fast! benchmarks show equivelent performance to hand written serializers
@@ -85,9 +83,9 @@ export function list<T>(options: {
         read: (ctx) => {
             const size = lengthType.read(ctx);
 
-            const arr = []
+            const arr = [];
             for (let i = 0; i < size; i++) {
-                arr.push(valueType.read(ctx))
+                arr.push(valueType.read(ctx));
             }
             return arr;
         },

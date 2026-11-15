@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ReaderContext | @nnilky/structo - v1.4.1</title><meta name="description" content="Documentation for @nnilky/structo"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><style>
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ReaderContext | @nnilky/structo - v1.4.1</title><meta name="description" content="Documentation for @nnilky/structo"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><style>
 @media (prefers-color-scheme: dark) {
   :root {
     --md-sys-color-primary: #f6be46;
@@ -169,13 +169,19 @@
 <li><a href="../modules/index.html">index</a></li>
 <li><a href="" aria-current="page">ReaderContext</a></li></ul>
 <h1>Interface ReaderContext&lt;TBuffer&gt;</h1></div>
-<div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">ReaderContext</span><span class="tsd-signature-symbol">&lt;</span><br/>    <a class="tsd-signature-type tsd-kind-type-parameter" href="#tbuffer">TBuffer</a> <span class="tsd-signature-keyword">extends</span><br/>        <span class="tsd-signature-type">ArrayBuffer</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">SharedArrayBuffer</span> <span class="tsd-signature-symbol">=</span> <span class="tsd-signature-type">ArrayBuffer</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">SharedArrayBuffer</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">&gt;</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#offset">offset</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#buffer">buffer</a><span class="tsd-signature-symbol">:</span> <a class="tsd-signature-type tsd-kind-type-parameter" href="#tbuffer">TBuffer</a><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#view">view</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DataView</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#bytes">bytes</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-call-signature" href="#pushpath-1">pushPath</a><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-call-signature" href="#poppath-1">popPath</a><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div>
+<div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">ReaderContext</span><span class="tsd-signature-symbol">&lt;</span><br/>    <a class="tsd-signature-type tsd-kind-type-parameter" href="#tbuffer">TBuffer</a> <span class="tsd-signature-keyword">extends</span><br/>        <span class="tsd-signature-type">ArrayBuffer</span><br/>        <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">SharedArrayBuffer</span> <span class="tsd-signature-symbol">=</span> <span class="tsd-signature-type">ArrayBuffer</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">SharedArrayBuffer</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">&gt;</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#buffer">buffer</a><span class="tsd-signature-symbol">:</span> <a class="tsd-signature-type tsd-kind-type-parameter" href="#tbuffer">TBuffer</a><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#offset">offset</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#view">view</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DataView</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#bytes">bytes</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-call-signature" href="#pushpath-1">pushPath</a><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-call-signature" href="#poppath-1">popPath</a><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
-<li><span id="tbuffer"><span class="tsd-kind-type-parameter">TBuffer</span> <span class="tsd-signature-keyword">extends</span> <span class="tsd-signature-type">ArrayBuffer</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">SharedArrayBuffer</span> = <span class="tsd-signature-type">ArrayBuffer</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">SharedArrayBuffer</span></span></li></ul></section><aside class="tsd-sources">
+<li><span id="tbuffer"><span class="tsd-kind-type-parameter">TBuffer</span> <span class="tsd-signature-keyword">extends</span> <span class="tsd-signature-type">ArrayBuffer</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">SharedArrayBuffer</span> = <span class="tsd-signature-type">ArrayBuffer</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">SharedArrayBuffer</span></span></li></ul></section>
+<section class="tsd-panel tsd-hierarchy" data-refl="55638">
+<h4>Hierarchy (<a href="../hierarchy.html#index.ReaderContext">View Summary</a>)</h4>
+<ul class="tsd-hierarchy">
+<li class="tsd-hierarchy-item"><span class="tsd-hierarchy-target">ReaderContext</span>
+<ul class="tsd-hierarchy">
+<li class="tsd-hierarchy-item"><a href="index.WriterContext.html" class="tsd-signature-type tsd-kind-interface">WriterContext</a></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/types.ts#L67">types.ts:67</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/2dbe46d2be8358eea2571b62464addff34ce36f2/src/types.ts#L21">types.ts:21</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -188,8 +194,8 @@
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading tsd-anchor-link" id="properties">Properties<a href="#properties" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<div class="tsd-index-list"><a href="#offset" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>offset</span></a>
-<a href="#buffer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>buffer</span></a>
+<div class="tsd-index-list"><a href="#buffer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>buffer</span></a>
+<a href="#offset" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>offset</span></a>
 <a href="#view" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>view</span></a>
 <a href="#bytes" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>bytes</span></a>
 </div></section></div></details></section></section>
@@ -215,7 +221,7 @@
 <li><span><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">number</span></span></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/types.ts#L88">types.ts:88</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/2dbe46d2be8358eea2571b62464addff34ce36f2/src/types.ts#L46">types.ts:46</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="poppath"><span>pop<wbr/>Path</span><a href="#poppath" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -230,30 +236,36 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/types.ts#L100">types.ts:100</a></li></ul></aside></div></li></ul></section></section></details>
+<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/2dbe46d2be8358eea2571b62464addff34ce36f2/src/types.ts#L58">types.ts:58</a></li></ul></aside></div></li></ul></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="properties-1">Properties<a href="#properties-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
 <section class="tsd-panel tsd-member">
-<h3 class="tsd-anchor-link" id="offset"><span>offset</span><a href="#offset" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">offset</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/types.ts#L70">types.ts:70</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="buffer"><span>buffer</span><a href="#buffer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">buffer</span><span class="tsd-signature-symbol">:</span> <a class="tsd-signature-type tsd-kind-type-parameter" href="#tbuffer">TBuffer</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/types.ts#L71">types.ts:71</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/2dbe46d2be8358eea2571b62464addff34ce36f2/src/types.ts#L24">types.ts:24</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="offset"><span>offset</span><a href="#offset" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">offset</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>The current offset into <code>buffer</code></p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/2dbe46d2be8358eea2571b62464addff34ce36f2/src/types.ts#L26">types.ts:26</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="view"><span>view</span><a href="#view" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">view</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DataView</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">view</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DataView</span></div>
+<div class="tsd-comment tsd-typography"><p>cached version of <code>DataView(ctx.buffer)</code></p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/types.ts#L72">types.ts:72</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/2dbe46d2be8358eea2571b62464addff34ce36f2/src/types.ts#L29">types.ts:29</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="bytes"><span>bytes</span><a href="#bytes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">bytes</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">bytes</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+<div class="tsd-comment tsd-typography"><p>cached version of <code>Uint8Array(ctx.buffer)</code></p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/types.ts#L73">types.ts:73</a></li></ul></aside></section></section></details></div>
+<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/2dbe46d2be8358eea2571b62464addff34ce36f2/src/types.ts#L31">types.ts:31</a></li></ul></aside></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -272,7 +284,7 @@
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Methods</summary>
 <div><a href="#pushpath"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>push<wbr/>Path</span></a><a href="#poppath"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>pop<wbr/>Path</span></a></div></details>
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Properties</summary>
-<div><a href="#offset"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>offset</span></a><a href="#buffer"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>buffer</span></a><a href="#view"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>view</span></a><a href="#bytes"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>bytes</span></a></div></details></div></details></div>
+<div><a href="#buffer"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>buffer</span></a><a href="#offset"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>offset</span></a><a href="#view"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>view</span></a><a href="#bytes"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>bytes</span></a></div></details></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html">@nnilky/structo - v1.4.1</a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container">

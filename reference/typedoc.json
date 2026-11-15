@@ -7,9 +7,9 @@
         "includeCategories": false,
         "includeFolders": false
     },
+
     "plugin": ["typedoc-material-theme"],
     "themeColor": "#cb9820",
-    "customCss": "./docs.css",
     "entryPoints": ["../src/index.ts"],
 
     "out": "../docs",

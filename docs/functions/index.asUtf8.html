@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Pipeline | @nnilky/structo - v1.4.1</title><meta name="description" content="Documentation for @nnilky/structo"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><style>
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>asUtf8 | @nnilky/structo - v1.4.1</title><meta name="description" content="Documentation for @nnilky/structo"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><style>
 @media (prefers-color-scheme: dark) {
   :root {
     --md-sys-color-primary: #f6be46;
@@ -167,30 +167,27 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb" aria-label="Breadcrumb">
 <li><a href="../modules/index.html">index</a></li>
-<li><a href="" aria-current="page">Pipeline</a></li></ul>
-<h1>Type Alias Pipeline&lt;T, TNext&gt;</h1></div>
-<div class="tsd-signature"><span class="tsd-kind-type-alias">Pipeline</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">type</span><span class="tsd-signature-symbol">:</span> <a href="index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#tnext">TNext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <a href="index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></div>
-<div class="tsd-comment tsd-typography"><p>The type used to define a pipeline</p>
-</div>
+<li><a href="" aria-current="page">asUtf8</a></li></ul>
+<h1>Function asUtf8</h1></div>
 <section class="tsd-panel">
-<h4>Type Parameters</h4>
-<ul class="tsd-type-parameter-list">
-<li><span id="t"><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">any</span></span></li>
-<li><span id="tnext"><span class="tsd-kind-type-parameter">TNext</span> = <a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a></span></li></ul></section>
-<div class="tsd-type-declaration">
-<h4>Type Declaration</h4>
-<ul class="tsd-parameters">
-<li class="tsd-parameter-signature">
 <ul class="tsd-signatures">
-<li class="tsd-signature" id="__type"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">type</span><span class="tsd-signature-symbol">:</span> <a href="index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#tnext">TNext</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></li>
-<li class="tsd-description">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="asutf8"><span class="tsd-kind-call-signature">asUtf8</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">type</span><span class="tsd-signature-symbol">:</span> <a href="../types/index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArrayBufferLike</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="../types/index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><a href="#asutf8" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Converts a <code>Uint8Array</code> to UTF-8</p>
+<hr>
+<pre><code class="ts"><span class="hl-0">st</span><span class="hl-1">.</span><span class="hl-7">asUtf8</span><span class="hl-1">(</span><span class="hl-0">st</span><span class="hl-1">.</span><span class="hl-7">fixedBytes</span><span class="hl-1">(</span><span class="hl-8">3</span><span class="hl-1">))</span>
+</code><button type="button">Copy</button></pre>
+
+<p><code>Uint8Array([65, 99, 101])</code> =&gt; <code>Ace</code></p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
-<li><span><span class="tsd-kind-parameter">type</span>: <a href="index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#tnext">TNext</a><span class="tsd-signature-symbol">&gt;</span></span></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul></div><aside class="tsd-sources">
+<li><span><span class="tsd-kind-parameter">type</span>: <a href="../types/index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArrayBufferLike</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></span></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="../types/index.Serializer.html" class="tsd-signature-type tsd-kind-type-alias">Serializer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Ben-Brady/structo-ts/blob/e6c101e0e914739f08f6fb1f226fe47bf1321896/src/transforms/pipe.ts#L9">transforms/pipe.ts:9</a></li></ul></aside></div>
+<li>Defined in transforms/asUtf8/asUtf8.ts:16</li></ul></aside></div></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
