@@ -5,6 +5,14 @@ import type { Serializer } from "../../types.ts";
  *
  * This is very similar to a string, except the contents are not decoded
  *
+ * `readBehaviour` describes how to retrive the data:
+ * - `copy` returns a UInt8Array with a newly allocating ArrayBuffer
+ * - `reference` returns a UInt8Array reference the original data
+ *
+ * Reference can reduce memory usage by preventing new allocations,
+ * however it requires the original data to remain. Meaning if your
+ * only using a small subsection it will actual use more memory.
+ *
  * ---
  *
  * ```ts
@@ -16,7 +24,10 @@ import type { Serializer } from "../../types.ts";
  *
  * @group String / Bytes
  */
-export function bytes(length: Serializer<number>): Serializer<Uint8Array> {
+export function bytes(
+    length: Serializer<number>,
+    readBehaviour: "copy" | "reference" = "copy",
+): Serializer<Uint8Array> {
     return {
         write: (ctx, value) => {
             length.write(ctx, value.byteLength);
@@ -28,7 +39,10 @@ export function bytes(length: Serializer<number>): Serializer<Uint8Array> {
         read: (ctx) => {
             const size = length.read(ctx);
 
-            const slice = ctx.bytes.slice(ctx.offset, ctx.offset + size);
+            const slice =
+                readBehaviour === "copy"
+                    ? ctx.bytes.slice(ctx.offset, ctx.offset + size)
+                    : ctx.bytes.subarray(ctx.offset, ctx.offset + size);
             ctx.offset += size;
             return slice;
         },

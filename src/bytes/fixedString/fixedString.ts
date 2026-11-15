@@ -1,7 +1,7 @@
 import { type Serializer } from "../../import.ts";
 
 /**
- * `st.fixedString` stores a fixed length string, note the length denotes byte length not
+ * `st.fixedString` stores a fixed length UTF-8 string, note the length denotes byte length not the string length
  *
  * ---
  * ```ts
