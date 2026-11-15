@@ -31,12 +31,13 @@ export function string(length: Serializer<number>): Serializer<string> {
             if (typeof value !== "string") throw new Error("Expected String");
 
             let bytes: Uint8Array;
-            if (value.length * 2 < scratch.length) {
+            console.error(value.length * 2 < scratch.byteLength);
+            // if (value.length * 2 < scratch.byteLength) {
                 bytes = encoder.encode(value);
-            } else {
-                const { written } = encoder.encodeInto(value, scratch);
-                bytes = scratch.subarray(0, written);
-            }
+            // } else {
+            //     const { written } = encoder.encodeInto(value, scratch);
+            //     bytes = scratch.subarray(0, written);
+            // }
 
             const size = bytes.byteLength;
             const lengthSize = length.size ?? 0;

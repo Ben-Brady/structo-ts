@@ -50,7 +50,8 @@ export function createRememberedValue<T>() {
      * Retrieves the last value written by `.save()`
      *
      * By default, the value is forgotten when written so that memory isn't leaked.
-     * It can be retained by setting `behaviour` to `"retain"`
+     * It can be retained by setting `behaviour` to `"retain"`, to allow you to use
+     * the value more than once.
      *
      * When writing this type does nothing
      *

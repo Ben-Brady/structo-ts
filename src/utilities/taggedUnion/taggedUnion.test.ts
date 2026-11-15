@@ -1,7 +1,7 @@
 import { st } from "../../index.ts";
 import { describe, expect, expectTypeOf, it } from "bun:test";
 
-export const {
+const {
     assertEncodesAndDecodes,
     assertEncodesAs,
     assertEncodeThrows,

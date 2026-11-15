@@ -1,12 +1,7 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "bun:test";
-export const {
-    assertEncodesAndDecodes,
-    assertEncodesAs,
-    assertEncodeThrows,
-    assertEncodesAsSize,
-    assertMatchesSnapshot,
-} = st.createTestingUtils(expect);
+const { assertEncodesAndDecodes, assertSerializerSize, assertMatchesSnapshot } =
+    st.createTestingUtils(expect);
 
 describe("st.createReference", () => {
     it("encodes correctly", () => {
@@ -16,7 +11,7 @@ describe("st.createReference", () => {
             numbers: st.array(length.deref(), st.u8()),
         });
 
-        expect(serializer.size).toBe(undefined);
+        assertSerializerSize({ serializer, size: undefined });
         assertEncodesAndDecodes({
             serializer,
             value: { length: 0, numbers: [1, 3, 4] },

@@ -6,6 +6,11 @@ type ExpectType = <T>(actual: T) => {
     toMatchSnapshot?: () => void;
 };
 
+/**
+ * A set of testing utils used to test custom serializers, it is used internally as well
+ *
+ * @param expect A jest-like expect function, this is passed in to allow use of different testing frameworks.
+ */
 export function createTestingUtils(expect: ExpectType) {
     function assertEncodesAndDecodes<TIn, TOut>(options: {
         serializer: st.Serializer<TIn, TOut>;

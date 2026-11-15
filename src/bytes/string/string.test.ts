@@ -1,6 +1,6 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "bun:test";
-export const {
+const {
     assertEncodesAndDecodes,
     assertEncodesAs,
     assertEncodeThrows,
@@ -22,7 +22,7 @@ describe("st.string", () => {
             value: "",
         });
     });
-    
+
     it("works with variable length values for length", () => {
         const VAR_INT: st.Serializer<number> = {
             size: undefined,

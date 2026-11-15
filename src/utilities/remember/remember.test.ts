@@ -1,11 +1,10 @@
-import { describe, expect, it } from "bun:test";
 import { st } from "../../index.ts";
-export const {
+import { describe, expect, it } from "bun:test";
+const {
     assertEncodesAndDecodes,
-    assertEncodesAs,
-    assertEncodeThrows,
-    assertEncodesAsSize,
     assertMatchesSnapshot,
+    assertSerializerSize,
+    assertEncodesAsSize,
 } = st.createTestingUtils(expect);
 
 describe("st.remember", () => {
@@ -37,13 +36,13 @@ describe("st.remember", () => {
 
     it("omitted serializer doesn't write data ", () => {
         const v = st.createRememberedValue<number>();
-        const spec = st.object({
+        const serializer = st.object({
             a: v.save(st.u32()),
             b: v.load(),
         });
-        const output = st.write(spec, { a: 3, b: 0 });
-        expect(spec.size).toBe(4);
-        expect(output.byteLength).toBe(4);
+        const size = 4;
+        assertSerializerSize({ serializer, size });
+        assertEncodesAsSize({ serializer, size, value: { a: 3, b: 0 } });
     });
 
     it("serializer is used write data ", () => {
