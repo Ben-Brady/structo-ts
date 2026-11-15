@@ -1,4 +1,4 @@
-import { encode } from "../encode/encode.ts";
+import { st } from "../../index.ts";
 
 /**
  * Converts a `Uint8Array` to ascii text
@@ -6,18 +6,15 @@ import { encode } from "../encode/encode.ts";
  * ---
  *
  * ```ts
- * st.pipe(
- *     st.fixedBytes(3),
- *     st.toAscii()
- * )
+ * st.pipe(st.fixedBytes(3), st.toAscii())
  * ```
  *
  * `Uint8Array([65, 99, 101])` => `Ace`
  *
- * @group Pipeline
+ * @group Transforms
  */
-export function toAscii() {
-    return encode<string, Uint8Array>({
+export function toAscii(): st.Pipeline<string, Uint8Array> {
+    return st.encode({
         encode: (v) => {
             const bytes = Array.from(v).map((char) => char.charCodeAt(0));
             bytes.forEach((byte) => {

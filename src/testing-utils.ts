@@ -1,6 +1,7 @@
 import { st } from "./index.ts";
 
 type ExpectType = <T>(actual: T) => {
+    toBe: (expected: T) => void;
     toEqual: (expected: T) => void;
     toThrow: () => void;
     toMatchSnapshot?: () => void;

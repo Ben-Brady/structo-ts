@@ -1,8 +1,20 @@
 import { st } from "../../index.ts";
 
 /**
- * @group Pipeline
- */
+Will throw an error if the value isn't found within the values array, uses `==` equality.
+
+If you need to represent only one value, use `st.literal`.
+
+---
+
+```ts
+const header = st.object({
+    version: st.pipe(st.u32(), st.enum([2022, 2025, 2026]))
+})
+```
+
+@group Pipeline
+*/
 export function enum_<const T>(values: T[]) {
     // Note: We have to use any here instead of T
     // because when T = 0 | 1 | 2, then T != number

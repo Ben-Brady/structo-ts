@@ -1,4 +1,4 @@
-import { encode } from "../encode/encode.ts";
+import { st } from "../../index.ts";
 
 type TypedArrayLike = {
     buffer: ArrayBuffer | SharedArrayBuffer;
@@ -20,15 +20,19 @@ type TypedArray<T extends TypedArrayLike> = { BYTES_PER_ELEMENT: number } & (new
  *
  * ```ts
  * st.pipe(
- *     st.fixedBytes(16),
- *     toTypedArray(Float32Array),
+ *     st.fixedBytes(4),
+ *     toTypedArray(Float32Array)
  * )
  * ```
  *
- * @group Pipeline
+ * `Uint8Array([164, 112, 157, 63])` => `Float32Array([1.23])`
+ *
+ * @group Transforms
  */
-export function toTypedArray<T extends TypedArrayLike>(Array: TypedArray<T>) {
-    return encode<T, Uint8Array>({
+export function toTypedArray<T extends TypedArrayLike>(
+    Array: TypedArray<T>,
+): st.Pipeline<T, Uint8Array> {
+    return st.encode({
         encode: (arr) =>
             new Uint8Array(
                 arr.buffer,

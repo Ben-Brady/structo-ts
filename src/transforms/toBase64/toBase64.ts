@@ -1,4 +1,4 @@
-import { encode } from "../encode/encode.ts";
+import { encode } from "../../index.ts";
 
 /**
  * Converts a `Uint8Array` to base64
@@ -6,15 +6,12 @@ import { encode } from "../encode/encode.ts";
  * ---
  *
  * ```ts
- * st.pipe(
- *     st.fixedBytes(3),
- *     st.toBase64()
- * )
+ * st.pipe(st.fixedBytes(3), st.toBase64())
  * ```
  *
  * `Uint8Array([0, 255, 0])` => `AP8A`
  *
- * @group Pipeline
+ * @group Transforms
  */
 export function toBase64() {
     return encode<string, Uint8Array>({
