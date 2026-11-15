@@ -50,10 +50,11 @@ const FormatData = st.object({
 function readRiffFile(buffer: ArrayBuffer) {
     const file = st.read(RiffFile, buffer);
 
-    const ctx = st.createReaderContext(file.data);
+    let offset = 0;
     let chunks: RiffChunk[] = [];
-    while (ctx.offset < file.data.byteLength) {
-        chunks.push(RiffChunk.read(ctx));
+    while (offset < file.data.byteLength) {
+        const chunk = st.read(RiffChunk, buffer, offset);
+        chunks.push(chunk);
     }
 
     const fmtchunk = chunks.find((v) => v.format === "fmt ")!;
