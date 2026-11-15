@@ -21,9 +21,13 @@ export type Serializer<T> = {
 export interface ReaderContext<
     TBuffer extends ArrayBuffer | SharedArrayBuffer = ArrayBuffer | SharedArrayBuffer,
 > {
-    offset: number;
     buffer: TBuffer;
+    /** The current offset into `buffer` */
+    offset: number;
+
+    /** cached version of `DataView(ctx.buffer)`*/
     view: DataView;
+    /** cached version of `Uint8Array(ctx.buffer)` */
     bytes: Uint8Array;
 
     /**
