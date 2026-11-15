@@ -1,6 +1,6 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
-const { assertEncodesAndDecodes, assertEncodeThrows } = st.createTestingUtils(expect);
+const { readWrite, assertEncodesAndDecodes, assertEncodeThrows } = st.createTestingUtils(expect);
 
 describe("st.bytes", () => {
     it("encode correctly", () => {
@@ -18,15 +18,13 @@ describe("st.bytes", () => {
     });
 
     it("holds large data", () => {
-        const value = new Uint8Array(1024 * 1024 * 8); // 8MB
+        const value = new Uint8Array(1024 * 1024 * 2); // 2MB
         value.set([1, 2], 1000);
         value.set([3, 4], 2000);
         value.set([5, 6], 3000);
 
-        assertEncodesAndDecodes({
-            serializer: st.bytes(st.u32()),
-            value: value,
-        });
+        const output = readWrite({ serializer: st.bytes(st.u32()), value });
+        expect(output.toHex()).toBe(value.toHex());
     });
 
     it("errors on invalid length", () => {

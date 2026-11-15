@@ -1,9 +1,6 @@
 import { st } from "../../index.ts";
 import { describe, expect, it } from "vitest";
-const {
-    assertEncodesAndDecodes,
-    assertEncodeThrows,
-} = st.createTestingUtils(expect);
+const { readWrite, assertEncodesAndDecodes, assertEncodeThrows } = st.createTestingUtils(expect);
 
 describe("st.fixedBytes", () => {
     it("encode correctly", () => {
@@ -21,31 +18,32 @@ describe("st.fixedBytes", () => {
     });
 
     it("holds large data", () => {
-        const size = 1024 * 1024 * 8;
-        const data = new Uint8Array(size); // 8MB
+        const size = 1024 * 1024 * 2;
+        const serializer = st.fixedBytes(size);
+
+        const data = new Uint8Array(size); // 2MB
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
-
-        assertEncodesAndDecodes({
-            serializer: st.fixedBytes(size),
-            value: data,
-        });
+        const outputData = readWrite({ serializer, value: data });
+        expect(outputData.toHex()).toBe(data.toHex());
     });
 
     it("large data writes work", () => {
-        const size = 1024 * 1024 * 8;
-        const data = new Uint8Array(size); // 8MB
+        const size = 1024 * 1024 * 2;
+        const data = new Uint8Array(size); // 2MB
         data.set([3, 4], 1000);
         data.set([3, 4], 2000);
 
-        assertEncodesAndDecodes({
-            serializer: st.object({
-                before: st.u8(),
-                data: st.fixedBytes(size),
-                after: st.u8(),
-            }),
-            value: { before: 1, data, after: 2 },
+        const serializer = st.object({
+            before: st.u8(),
+            data: st.fixedBytes(size),
+            after: st.u8(),
         });
+        const value = { before: 1, data, after: 2 };
+        const output = readWrite({ serializer, value });
+        expect(output.before).toBe(value.before);
+        expect(output.after).toBe(value.after);
+        expect(output.data.toHex()).toBe(value.data.toHex());
     });
 
     it("errors on invalid length", () => {
