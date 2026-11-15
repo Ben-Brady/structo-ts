@@ -38,7 +38,7 @@ export function fastObject<T extends Record<string, Serializer<any>>>(
     let writeBody = "";
     let readBody = "";
 
-    const isIdent = (key: string) => key.match(/[a-zA-Z_][a-zA-Z0-9_]*/);
+    const isIdent = (key: string) => key.match(/^[a-zA-Z_][a-zA-Z0-9_]*$/);
     const asDefKey = (key: string) => {
         if (isIdent(key)) {
             return key;
