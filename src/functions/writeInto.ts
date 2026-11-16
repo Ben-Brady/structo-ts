@@ -18,8 +18,6 @@ export interface WriteIntoOptions {
  *
  * Additionally, it can be used to reduce garbage collection by reusing a buffer.
  *
- * @returns {numbers} The number of bytes written
- *
  * ---
  *
  * ```ts
@@ -39,6 +37,10 @@ export interface WriteIntoOptions {
  *     age: 26
  * })
  * ```
+ *
+ * @returns {numbers} The number of bytes written
+ *
+ * @group Functions
  */
 export function writeInto<T>(
     buffer: ArrayBuffer | SharedArrayBuffer,

@@ -18,19 +18,25 @@ import { throwSerializationError } from "./utils.ts";
  * const { name, age } = st.read(User, data)
  * ```
  *
+ *
  * @param offset what offset to read the data from
+ *
+ * @throws {Error} If serialization fails, throws an error with a path to what caused the error
+ *
+ * @group Functions
  */
 export function read<T>(
     serializer: Serializer<T>,
     buffer: ArrayBuffer | SharedArrayBuffer,
     offset?: number,
 ): T {
+    offset ??= 0;
     const path: (string | number)[] = [];
     const ctx: ReaderContext = {
-        buffer: buffer,
+        offset,
+        buffer,
         view: new DataView(buffer),
         bytes: new Uint8Array(buffer),
-        offset: offset ?? 0,
         pushPath: (key) => path.push(key),
         popPath: () => path.pop(),
     };
@@ -56,6 +62,10 @@ export function read<T>(
  * ```
  *
  * @param offset what offset to read the data from
+ *
+ * @returns {ReaderContext} a newly created reader context without error reporting
+ *
+ * @group Functions
  */
 export function createReaderContext(
     buffer: ArrayBuffer | SharedArrayBuffer,

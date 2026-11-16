@@ -3,11 +3,14 @@
     "sourceLinkExternal": false,
     "includeVersion": true,
     "navigation": {
+        "excludeReferences": true,
+        "compactFolders": true,
         "includeGroups": true,
         "includeCategories": false,
         "includeFolders": false
     },
 
+    "groupReferencesByType": true,
     "plugin": ["typedoc-material-theme"],
     "themeColor": "#cb9820",
     "entryPoints": ["../src/index.ts"],
@@ -28,10 +31,8 @@
         "Memory"
     ],
     "intentionallyNotExported": [
-        "InferObjectInput",
-        "InferObjectOutput",
-        "InferUnionInput",
-        "InferUnionOutput",
+        "InferObject",
+        "InferUnion",
         "TypedArray",
         "TypedArrayLike",
         "ExpectType"

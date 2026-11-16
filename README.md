@@ -1,6 +1,6 @@
 # Structo
 
-Use zod style schemas to serialise/deserialize binary objects
+Use zod style schemas to serialize/deserialize binary objects
 
 | [Repository](https://github.com/Ben-Brady/structo-ts) | [Documentation](https://ben-brady.github.io/structo-ts/) |
 | - | - |

@@ -48,7 +48,8 @@
     "build": "tsc",
     "prepublish": "tsc",
     "check": "tsc --noEmit",
-    "generate:docs": "typedoc --options ./reference/typedoc.json",
+    "docs:generate": "typedoc --options ./reference/typedoc.json",
+    "docs:watch": "typedoc --watch --options ./reference/typedoc.json",
     "test": "vitest run",
     "test:update": "vitest run --update all",
     "test:coverage": "vitest run --coverage --coverage.reportsDirectory /tmp/coverage"

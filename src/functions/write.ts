@@ -46,6 +46,8 @@ export interface WriteOptions {
  * })
  * ```
  *
+ * @throws {Error} If serialization fails, throws an error with a path to what caused the error
+ *
  * @group Functions
  */
 export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOptions): ArrayBuffer {
