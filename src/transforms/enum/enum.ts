@@ -13,7 +13,7 @@ const header = st.object({
 })
 ```
 
-@group Utilities
+@group Transforms
 */
 function enum_<TType, const TLiteral extends TType>(
     type: st.Serializer<TType>,

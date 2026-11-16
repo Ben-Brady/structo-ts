@@ -9,11 +9,11 @@ If you need to represent more than one value, use `st.enum`.
 
 ```ts
 const header = st.object({
-    version: st.literal(2026, st.u32())
+    version: st.literal(st.u32(), 2026)
 })
 ```
 
-@group Utilities
+@group Transforms
 */
 export function literal<TType, const TLiteral extends TType>(
     type: st.Serializer<TType>,

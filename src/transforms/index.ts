@@ -6,3 +6,5 @@ export { asDate } from "./asDate/asDate.ts";
 export { asHex } from "./asHex/asHex.ts";
 export { asTypedArray } from "./asTypedArray/asTypedArray.ts";
 export { asUtf8 } from "./asUtf8/asUtf8.ts";
+export { literal } from "./literal/literal.ts";
+export { enum } from "./enum/enum.ts";
