@@ -3,10 +3,15 @@ import { st } from "../../index.ts";
 /**
  * Converts a number into a Date
  *
+ * `"precision"` specifies whether to write the seconds or milliseconds
+ *
+ * - `"milliseconds"`: **(default)** non-lossy when reading/writing the Date type
+ * - `"seconds"`: truncates to the second, allowing use of a `st.u32`
  * ---
  *
  * ```ts
- * st.asDate(st.u32())
+ * st.asDate(st.u64())
+ * st.asDate(st.u32(), "seconds")
  * ```
  *
  * `1784070000` => `Date("7/15/2026")`
