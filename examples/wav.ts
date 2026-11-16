@@ -18,7 +18,7 @@ const RiffFile = st.object({
     size: fileSize.pointer(st.u32()),
     format: hexLiteral(["57", "41", "56", "45"]),
     data: st.bytes(
-        st.encode(fileSize.deref(), {
+        st.encodeAs(fileSize.deref(), {
             encode: (v) => v + 16,
             decode: (v) => v - 16,
         }),
