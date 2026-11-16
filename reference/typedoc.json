@@ -13,7 +13,6 @@
     "entryPoints": ["../src/index.ts"],
 
     "out": "../docs",
-    "readme": "./README.md",
     "projectDocuments": ["./documents/*.md"],
 
     "sort": ["kind", "source-order", "alphabetical"],

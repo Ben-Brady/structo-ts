@@ -12,18 +12,26 @@ npm install @nnilky/structo
 ```ts
 import { st } from "@nnilky/structo";
 
-const User = st.object({
-    name: st.string(st.u32()),
-    age: st.f32(),
+const File = st.object({
+    filename: st.string(st.u16()),
+    createdAt: st.asDate(st.u64()),
+    data: st.bytes(st.u64()),
 })
 
-const bytes = st.write(User, { name: "foo", age: 2.3 })
-const user = st.read(User, bytes)
+const bytes = st.write(File, {
+    filename "image.png",
+    age: Date.now(),
+    data: fs.readFileSync("./image.png").buffer,
+})
+// later on
+const { filename, createdAt, data } = st.read(File, packetData)
 ```
 
-- Extremely Fast! [benchmarks](./benchmark) show equivelent performance to hand written serializers
-- Designed to be both Web & Node.js compatible
+- Both Web & Node.js/Bun compatible
+- Extremely Fast! [benchmarks](./benchmark) show only 30% slower than hand written serializers
 - Lightweight, base size is <1KB and each datatype is a few hundred bytes
-- Easily extendable with your own datatypes
+- Easily extendable with your own custom datatypes
 
 Each serializer is completely seperate from the base library, meaning you only pay for what you use.
+
+Additionally you can extend the feature set with different views and data types.
