@@ -15,7 +15,7 @@ import type { Serializer } from "../../types.ts";
  * })
  * ```
  *
- * @group Utilities
+ * @group Memory
  */
 export function createReference<T>() {
     const readStack: T[] = [];

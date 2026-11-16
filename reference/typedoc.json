@@ -20,11 +20,13 @@
     "groupOrder": [
         "Functions",
         "Types",
-        "Type Helpers",
         "Number",
         "String / Bytes",
+        "Object",
         "Array",
-        "Object"
+        "Transforms",
+        "Utilities",
+        "Memory"
     ],
     "intentionallyNotExported": [
         "InferObjectInput",

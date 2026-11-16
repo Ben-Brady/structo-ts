@@ -13,7 +13,7 @@ import type { Serializer } from "../../types.ts";
  * })
  * ```
  *
- * @group Utilities
+ * @group Memory
  */
 export function createRememberedValue<T>() {
     const stack: T[] = [];
