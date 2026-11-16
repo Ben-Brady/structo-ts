@@ -41,3 +41,32 @@ export function read<T>(
         throwSerializationError(e, path);
     }
 }
+
+/**
+ * Created a ReaderContext for use with `Serializer.read`
+ *
+ * ---
+ *
+ * ```ts
+ * const ctx = createReaderContext(buffer)
+ * const users = []
+ * while (ctx.offset < buffer.byteLength) {
+ *     users.push(User.read(ctx))
+ * }
+ * ```
+ *
+ * @param offset what offset to read the data from
+ */
+export function createReaderContext(
+    buffer: ArrayBuffer | SharedArrayBuffer,
+    offset?: number,
+): ReaderContext {
+    return {
+        buffer: buffer,
+        view: new DataView(buffer),
+        bytes: new Uint8Array(buffer),
+        offset: offset ?? 0,
+        pushPath: Function.prototype as () => void,
+        popPath: Function.prototype as () => void,
+    };
+}
