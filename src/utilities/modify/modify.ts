@@ -5,7 +5,7 @@ import type { st } from "../../index.ts";
  * This is mainly intended for handling reading of existing data formats
  * such as RIFF, try not to use this for purpose made formats.
  *
- * If you want a writable value, use `st.encode` instead
+ * If you want a writable value, use `st.encodeAs` instead
  *
  *
  * ```ts

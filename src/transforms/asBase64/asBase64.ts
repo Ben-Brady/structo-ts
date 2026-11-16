@@ -14,7 +14,7 @@ import { st } from "../../index.ts";
  * @group Transforms
  */
 export function asBase64(type: st.Serializer<Uint8Array>): st.Serializer<string> {
-    return st.encode(type, {
+    return st.encodeAs(type, {
         encode: (v: string) => Uint8Array.fromBase64(v),
         decode: (v: Uint8Array) => v.toBase64(),
     });

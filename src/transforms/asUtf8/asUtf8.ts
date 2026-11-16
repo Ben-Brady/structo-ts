@@ -16,7 +16,7 @@ import { st } from "../../index.ts";
 export function asUtf8(type: st.Serializer<Uint8Array>): st.Serializer<string> {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
-    return st.encode(type, {
+    return st.encodeAs(type, {
         encode: (v) => {
             if (typeof v !== "string") throw new Error("Expected string type");
             return encoder.encode(v);

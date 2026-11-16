@@ -22,7 +22,7 @@ asHex(st.bytes(st.u32()))
 
 @group Transforms
 */
-export function encode<TIn, TOut>(
+export function encodeAs<TIn, TOut>(
     type: st.Serializer<TOut>,
     options: {
         encode: (value: TIn) => TOut;

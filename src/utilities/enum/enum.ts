@@ -19,7 +19,7 @@ function enum_<TType, const TLiteral extends TType>(
     type: st.Serializer<TType>,
     values: TLiteral[],
 ): st.Serializer<TLiteral> {
-    return st.encode(type, {
+    return st.encodeAs(type, {
         encode: (v: TLiteral) => {
             if (!values.includes(v)) throw new Error(`Invalid enum variant: ${v}`);
             return v as TType;

@@ -30,7 +30,7 @@ export function asTypedArray<T extends TypedArrayLike>(
     type: st.Serializer<Uint8Array>,
     Array: TypedArray<T>,
 ): st.Serializer<T> {
-    return st.encode(type, {
+    return st.encodeAs(type, {
         encode: (arr) =>
             new Uint8Array(
                 arr.buffer,

@@ -14,7 +14,7 @@ import { st } from "../../index.ts";
  * @group Transforms
  */
 export function asBytes(type: st.Serializer<Uint8Array>): st.Serializer<number[]> {
-    return st.encode(type, {
+    return st.encodeAs(type, {
         encode: (bytes) => {
             bytes.forEach((byte) => {
                 if (byte < 0 || byte > 255) throw new Error(`Invalid byte: ${byte}`);

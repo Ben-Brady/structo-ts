@@ -14,7 +14,7 @@ import { st } from "../../index.ts";
  * @group Transforms
  */
 export function asAscii(type: st.Serializer<Uint8Array>): st.Serializer<string> {
-    return st.encode(type, {
+    return st.encodeAs(type, {
         encode: (v) => {
             const bytes = Array.from(v).map((char) => char.charCodeAt(0));
             bytes.forEach((byte) => {
