@@ -7,12 +7,14 @@ import type { Serializer } from "../../types.ts";
  *
  * ---
  * ```ts
- * st.Void()
+ * st.void()
  * ```
  * @group Utilities
  */
-export const Void = (): Serializer<undefined> => ({
+export const void_ = (): Serializer<undefined> => ({
     size: 0,
     read: () => undefined,
     write: () => {},
 });
+
+export { void_ as void };

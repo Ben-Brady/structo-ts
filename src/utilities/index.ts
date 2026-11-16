@@ -8,4 +8,4 @@ export { literal } from "./literal/literal.ts";
 export { enum } from "./enum/enum.ts";
 export { taggedUnion } from "./taggedUnion/taggedUnion.ts";
 export { padding } from "./padding/padding.ts";
-export { Void } from "./void/void.ts";
+export { void_, void } from "./void/void.ts";

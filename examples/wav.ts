@@ -44,7 +44,7 @@ const FormatData = st.object({
 });
 
 function readRiffFile(buffer: ArrayBuffer) {
-    const file = st.read(RiffFile);
+    const file = st.read(RiffFile, buffer);
 
     const ctx = st.createReaderContext(file.data.buffer);
 
