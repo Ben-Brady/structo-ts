@@ -105,6 +105,7 @@ export type InferOutput<T extends Serializer<any>> = Infer<T>;
  *     age: bigint,
  * }
  * ```
- * @hidden
+ *
+ * @group Types
  */
 export type Infer<T extends Serializer<any>> = T extends Serializer<infer V> ? V : never;
