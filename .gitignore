@@ -1,4 +1,5 @@
 node_modules
-dist
+dist/
+!reference/dist
 .vscode/
 .vitest/
