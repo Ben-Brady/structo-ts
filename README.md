@@ -2,12 +2,15 @@
 
 Use zod style schemas to serialize/deserialize binary objects
 
-| [Repository](https://github.com/Ben-Brady/structo-ts) | [Documentation](https://ben-brady.github.io/structo-ts/) |
-| - | - |
-
 ```bash
 npm install @nnilky/structo
 ```
+
+| [Repository](https://github.com/Ben-Brady/structo-ts) | [Quickstart](https://ben-brady.github.io/structo-ts/documents/1._Quickstart.html) | [Documentation](https://ben-brady.github.io/structo-ts/) |
+| - | - | - |
+
+---
+
 
 ```ts
 import { st } from "@nnilky/structo";

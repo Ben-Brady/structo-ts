@@ -168,17 +168,19 @@
 <h1>@nnilky/structo - v1.5.0</h1></div>
 <div class="tsd-panel tsd-typography"><h1 id="structo" class="tsd-anchor-link">Structo<a href="#structo" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
 <p>Use zod style schemas to serialize/deserialize binary objects</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">@nnilky/structo</span>
+</code><button type="button">Copy</button></pre>
+
 <table>
 <thead>
 <tr>
 <th><a href="https://github.com/Ben-Brady/structo-ts">Repository</a></th>
+<th><a href="https://ben-brady.github.io/structo-ts/documents/1._Quickstart.html">Quickstart</a></th>
 <th><a href="https://ben-brady.github.io/structo-ts/">Documentation</a></th>
 </tr>
 </thead>
 </table>
-<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">@nnilky/structo</span>
-</code><button type="button">Copy</button></pre>
-
+<hr>
 <pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">st</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@nnilky/structo&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">File</span><span class="hl-1"> = </span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">object</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-4">filename:</span><span class="hl-1"> </span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">string</span><span class="hl-1">(</span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">u16</span><span class="hl-1">()),</span><br/><span class="hl-1">    </span><span class="hl-4">createdAt:</span><span class="hl-1"> </span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">asDate</span><span class="hl-1">(</span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">u64</span><span class="hl-1">()),</span><br/><span class="hl-1">    </span><span class="hl-4">data:</span><span class="hl-1"> </span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">bytes</span><span class="hl-1">(</span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">u64</span><span class="hl-1">()),</span><br/><span class="hl-1">})</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">bytes</span><span class="hl-1"> = </span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">write</span><span class="hl-1">(</span><span class="hl-4">File</span><span class="hl-1">, {</span><br/><span class="hl-1">    filename </span><span class="hl-2">&quot;image.png&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">age:</span><span class="hl-1"> </span><span class="hl-4">Date</span><span class="hl-1">.</span><span class="hl-0">now</span><span class="hl-1">(),</span><br/><span class="hl-1">    </span><span class="hl-4">data:</span><span class="hl-1"> </span><span class="hl-4">fs</span><span class="hl-1">.</span><span class="hl-0">readFileSync</span><span class="hl-1">(</span><span class="hl-2">&quot;./image.png&quot;</span><span class="hl-1">).</span><span class="hl-4">buffer</span><span class="hl-1">,</span><br/><span class="hl-1">})</span><br/><span class="hl-7">// later on</span><br/><span class="hl-5">const</span><span class="hl-1"> { </span><span class="hl-6">filename</span><span class="hl-1">, </span><span class="hl-6">createdAt</span><span class="hl-1">, </span><span class="hl-6">data</span><span class="hl-1"> } = </span><span class="hl-4">st</span><span class="hl-1">.</span><span class="hl-0">read</span><span class="hl-1">(</span><span class="hl-4">File</span><span class="hl-1">, </span><span class="hl-4">packetData</span><span class="hl-1">)</span>
 </code><button type="button">Copy</button></pre>
 
