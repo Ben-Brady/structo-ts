@@ -75,12 +75,14 @@ export interface WriterContext<
 
 /**
  * @deprecated
+ * @hidden
  * @group Types
  */
 export type InferInput<T extends Serializer<any>> = Infer<T>;
 
 /**
  * @deprecated
+ * @hidden
  * @group Types
  */
 export type InferOutput<T extends Serializer<any>> = Infer<T>;

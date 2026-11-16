@@ -35,5 +35,8 @@ export function exhaustiveArray<T>(type: st.Serializer<T>): st.Serializer<T[]> {
     };
 }
 
-/** @deprecated typo export */
+/**
+ * @deprecated typo export
+ * @hidden
+*/
 export const exhuastiveArray = exhaustiveArray;
