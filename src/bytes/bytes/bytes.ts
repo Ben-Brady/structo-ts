@@ -35,6 +35,7 @@ export function bytes(
     readBehaviour: "copy" | "reference" = "copy",
 ): Serializer<Uint8Array> {
     return {
+        estimateSize: (value) => length.size ?? 0 + value.byteLength,
         write: (ctx, value) => {
             length.write(ctx, value.byteLength);
 

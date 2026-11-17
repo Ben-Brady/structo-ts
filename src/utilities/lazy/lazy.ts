@@ -26,9 +26,10 @@ export function lazy<T>(type: () => st.Serializer<T>): st.Serializer<T> {
     // This inheriently has to be hacky to work with the API defined
     let resolve = () => {
         resolve = () => {};
-        const { size, write, read } = type();
+        const { size, estimateSize, write, read } = type();
         Object.defineProperties(serializer, {
             size: { get: () => size },
+            estimateSize: { get: () => estimateSize },
             read: { value: read },
             write: { value: write },
         });
@@ -38,6 +39,10 @@ export function lazy<T>(type: () => st.Serializer<T>): st.Serializer<T> {
         get size() {
             resolve();
             return this.size;
+        },
+        get estimateSize() {
+            resolve();
+            return this.estimateSize;
         },
         read(ctx) {
             resolve();

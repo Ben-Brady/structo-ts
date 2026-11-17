@@ -37,6 +37,7 @@ export function offset<T>(
 ): st.Serializer<T> {
     return {
         size: type.size,
+        estimateSize: type.estimateSize,
         read: (ctx) => {
             let start = ctx.offset;
 

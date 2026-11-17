@@ -32,6 +32,7 @@ export function string(length: st.Serializer<number>): st.Serializer<string> {
     const decoder = new TextDecoder();
 
     return {
+        estimateSize: (value) => value.length * 2 + (length.size ?? 0),
         write: (ctx, value) => {
             if (typeof value !== "string") throw new Error("Expected String");
 

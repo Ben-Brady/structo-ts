@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 const { assertEncodesAndDecodes, assertEncodeThrows, assertMatchesSnapshot } =
     st.createTestingUtils(expect);
 
-describe("st.toBase64", () => {
+describe("st.asBase64", () => {
     it("encode correctly", () => {
         assertEncodesAndDecodes({
             serializer: st.asBase64(st.fixedBytes(1)), //

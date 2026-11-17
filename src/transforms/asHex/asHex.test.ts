@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 const { assertEncodesAndDecodes, assertEncodeThrows, assertMatchesSnapshot } =
     st.createTestingUtils(expect);
 
-describe("st.toHex", () => {
+describe("st.asHex", () => {
     it("encode correctly", () => {
         assertEncodesAndDecodes({
             serializer: st.asHex(st.fixedBytes(3)), //

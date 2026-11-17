@@ -9,8 +9,10 @@ export type Serializer<T> = {
      */
     size?: number | undefined;
 
-    // TODO: add sizeHint support
-
+    /**
+     * Estimate the size of writing a value, its better to over-estimate than underestimate
+     */
+    estimateSize?: (value: T) => number;
     write: (ctx: WriterContext, value: T) => void;
     read: (ctx: ReaderContext) => T;
 };

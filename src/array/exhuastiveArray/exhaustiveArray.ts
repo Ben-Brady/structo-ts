@@ -15,6 +15,18 @@ import { st } from "../../index.ts";
  */
 export function exhaustiveArray<T>(type: st.Serializer<T>): st.Serializer<T[]> {
     return {
+        estimateSize: (value) => {
+            if (type.size) {
+                return value.length * type.size;
+            }
+
+            if (type.estimateSize) {
+                return value //
+                    .reduce((total, v) => total + type.estimateSize!(v), 0);
+            }
+
+            return 0;
+        },
         read: (ctx) => {
             let arr: T[] = [];
 
@@ -38,5 +50,5 @@ export function exhaustiveArray<T>(type: st.Serializer<T>): st.Serializer<T[]> {
 /**
  * @deprecated typo export
  * @hidden
-*/
+ */
 export const exhuastiveArray = exhaustiveArray;

@@ -51,17 +51,24 @@ export interface WriteOptions {
  * @group Functions
  */
 export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOptions): ArrayBuffer {
-    const initialSize = options?.initialSize ?? 4096;
-    const growthFactor = options?.growthFactor ?? 2;
+    const growthFactor = options?.growthFactor ?? 1.5;
+
+    let initialSize = options?.initialSize ?? serializer.size ?? serializer.estimateSize?.(value);
+    let byteLength = initialSize || 4096;
+    if (Number.isNaN(initialSize)) {
+        console.error("Got NaN from size or estimateSize:");
+        console.error(serializer);
+        byteLength = 4096;
+    }
 
     const path: (string | number)[] = [];
-    const initialBuffer = new ArrayBuffer(serializer.size ?? initialSize);
+    const initialBuffer = new ArrayBuffer(byteLength);
 
     const ctx: WriterContext<ArrayBuffer> = {
+        offset: 0,
         buffer: initialBuffer,
         bytes: new Uint8Array(initialBuffer),
         view: new DataView(initialBuffer),
-        offset: 0,
 
         pushPath: options?.disableErrorReporting
             ? (Function.prototype as () => void) //
@@ -72,10 +79,11 @@ export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOpt
 
         reserve: (length: number) => {
             if (length <= 0) return;
-            while (ctx.offset + length > ctx.buffer.byteLength) {
-                ctx.buffer = ctx.buffer.transferToFixedLength(
-                    Math.max(ctx.buffer.byteLength, initialSize) * growthFactor,
-                );
+            while (ctx.offset + length > byteLength) {
+                let old = byteLength;
+                byteLength = Math.ceil(byteLength * growthFactor);
+                console.log(`Resizing ${old} ->  ${byteLength}`);
+                ctx.buffer = ctx.buffer.transfer(byteLength);
                 ctx.view = new DataView(ctx.buffer);
                 ctx.bytes = new Uint8Array(ctx.buffer);
             }
@@ -88,9 +96,9 @@ export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOpt
         throwSerializationError(err, path);
     }
 
-    if (ctx.buffer.byteLength !== ctx.offset) {
-        ctx.buffer = ctx.buffer.transferToFixedLength(ctx.offset);
+    if (ctx.buffer.byteLength === ctx.offset) {
+        return ctx.buffer;
+    } else {
+        return ctx.buffer.transfer(ctx.offset);
     }
-
-    return ctx.buffer;
 }

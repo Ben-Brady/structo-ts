@@ -12,16 +12,20 @@ import type { Serializer } from "../../types.ts";
 export function fixedArray<T>(size: number, type: Serializer<T>): Serializer<T[]> {
     return {
         size: type.size ? size * type.size : undefined,
+        estimateSize: (value) => {
+            if (!type.estimateSize) return 0;
+            return value //
+                .reduce((total, v) => total + type.estimateSize!(v), 0);
+        },
         write: (ctx, value) => {
             if (value.length !== size) {
                 throw new Error(`Expected ${size} length, got ${value.length}`);
             }
 
-            if (type.size) ctx.reserve(size * type.size);
             for (let i = 0; i < size; i++) {
-                ctx.pushPath(i);
+                // ctx.pushPath(i);
                 type.write(ctx, value[i]);
-                ctx.popPath();
+                // ctx.popPath();
             }
         },
         read: (ctx) => {

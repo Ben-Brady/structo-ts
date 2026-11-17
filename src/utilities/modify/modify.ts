@@ -19,6 +19,7 @@ import type { st } from "../../index.ts";
 export function modify<T>(type: st.Serializer<T>, callback: (value: T) => T): st.Serializer<T> {
     return {
         size: type.size,
+        estimateSize: type.estimateSize,
         read: (ctx) => callback(type.read(ctx)),
         write: () => {
             throw new Error("Cannot write an encoded value");

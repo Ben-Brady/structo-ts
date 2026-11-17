@@ -21,7 +21,7 @@ const definitionSymbol = Symbol();
  *
  * > **Note:** Using `st.lazy` affects the performance of `st.fastObject` as it prevents discovery of child objects, avoid when performance is a requirement
  *
- * > **DANGER**: Do not use dynamic keys as it a potential RCE vector due to using `eval`, please use static sensical keys
+ * > **DANGER**: Do not use dynamic keys as it a potential RCE vector due to using `eval`, please use static keys
  *
  * @group Object
  */
@@ -31,8 +31,10 @@ export function fastObject<T extends Record<string, st.Serializer<any>>>(
     let ids: string[] = [];
     let serializers: st.Serializer<any>[] = [];
 
+    let estimateLines: string[] = [];
     let writeBody = "";
     let readBody = "";
+    let totalExpectedSize = 0;
 
     const isIdent = (key: string) => key.match(/^[a-zA-Z_][a-zA-Z0-9_]*$/);
     const asDefKey = (key: string) => {
@@ -69,23 +71,43 @@ export function fastObject<T extends Record<string, st.Serializer<any>>>(
 
             ids.push(id);
             serializers.push(serializer);
+
             writeBody += `${id}.write(c, v${path});`;
             readBody += `${key}: ${id}.read(c),`;
+
+            totalExpectedSize += serializer.size ?? 0;
+            if (!serializer.size && serializer.estimateSize) {
+                estimateLines.push(`total += ${id}.estimateSize(v${path})`);
+            }
         }
     }
 
     for (const key of Object.keys(definition)) {
         generateSerializers(definition[key], [key]);
     }
+    let estimateFunction: string;
+    if (estimateLines.length === 0) {
+        estimateFunction = `() => ${totalExpectedSize}`;
+    } else {
+        estimateFunction = `(v) => {\nlet total = ${totalExpectedSize};\n${estimateLines.join(";\n")};\n return total;\n}`;
+    }
 
-    const factory = new Function(...ids, `return [(c)=>({${readBody}}),(c,v)=>{${writeBody}}]`);
+    const readFactory = new Function(...ids, `return (c)=>({${readBody}})`);
+    const read = readFactory(...serializers);
+
+    const writeFactory = new Function(...ids, `return (c,v)=>{${writeBody}}`);
+    const write = writeFactory(...serializers);
+
+    const estimateFactory = new Function(...ids, `return ${estimateFunction}`);
+    const estimateSize = estimateFactory(...serializers);
+
     const size = Object.values(definition).reduce((total, v) => total + (v.size as number), 0);
-    const [read, write] = factory(...serializers);
 
     return {
         //@ts-expect-error, this doesn't match the type
         [definitionSymbol]: definition,
         size: isNaN(size) ? undefined : size,
+        estimateSize,
         write,
         read,
     };

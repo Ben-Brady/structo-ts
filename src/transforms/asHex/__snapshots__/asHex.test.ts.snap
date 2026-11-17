@@ -1,5 +1,23 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`st.asHex > snapshots 1`] = `
+ArrayBuffer [
+  -1,
+  -85,
+  1,
+]
+`;
+
+exports[`st.asHex > snapshots 2`] = `
+ArrayBuffer [
+  0,
+  0,
+  0,
+  0,
+  0,
+]
+`;
+
 exports[`st.toHex > snapshots 1`] = `
 ArrayBuffer [
   -1,

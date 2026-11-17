@@ -17,6 +17,18 @@ export function array<T>(
     type: st.Serializer<T>,
 ): st.Serializer<T[]> {
     return {
+        estimateSize: (value) => {
+            if (type.size) {
+                return length.size ?? 0 + value.length * type.size;
+            }
+
+            if (type.estimateSize) {
+                return value //
+                    .reduce((total, v) => total + type.estimateSize!(v), 0);
+            }
+
+            return length.size ?? 0;
+        },
         write: (ctx, value) => {
             length.write(ctx, value.length);
             if (type.size) {

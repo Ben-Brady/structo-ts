@@ -20,19 +20,24 @@ type InferObject<T extends Record<string, st.Serializer<any>>> = {
 export function object<T extends Record<string, st.Serializer<any>>>(
     definition: T,
 ): st.Serializer<InferObject<T>> {
-    const size = computeSize(definition);
     return {
-        size,
-        write(ctx, value) {
-            if (size) ctx.reserve(size); // reserve full size in advance
-
+        size: computeSize(definition),
+        estimateSize: (value) => {
+            let total = 0;
+            for (const key in definition) {
+                const serializer = definition[key];
+                total += serializer.size ?? serializer.estimateSize?.(value[key]) ?? 0;
+            }
+            return total;
+        },
+        write: (ctx, value) => {
             for (const key in definition) {
                 ctx.pushPath(key);
                 definition[key].write(ctx, value[key]);
                 ctx.popPath();
             }
         },
-        read(ctx) {
+        read: (ctx) => {
             const output: Record<string, any> = {};
 
             for (const key in definition) {
