@@ -32,6 +32,7 @@ export function encodeAs<TIn, TOut>(
     const { encode, decode } = options;
     return {
         size: type.size,
+        estimateSize: type.estimateSize,
         read: (ctx) => decode(type.read(ctx)),
         write: (ctx, value) => type.write(ctx, encode(value)),
     };

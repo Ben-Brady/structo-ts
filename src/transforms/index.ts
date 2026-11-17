@@ -1,4 +1,4 @@
-export { encodeAs } from "./encode/encode.ts";
+export { encodeAs } from "./encodeAs/encodeAs.ts";
 export { asAscii } from "./asAscii/asAscii.ts";
 export { asBytes } from "./asBytes/asBytes.ts";
 export { asBase64 } from "./asBase64/asBase64.ts";
