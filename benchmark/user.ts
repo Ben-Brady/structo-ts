@@ -25,7 +25,7 @@ export function generateUserData(size: number): User[] {
 export function serializeUsingLibrary(users: User[]) {
     const UserList = st.fixedArray(users.length, User);
 
-    const disableErrorReporting = false;
+    const disableErrorReporting = true;
     return st.write(UserList, users, { disableErrorReporting });
 }
 

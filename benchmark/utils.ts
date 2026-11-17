@@ -36,12 +36,15 @@ export function benchmark<T>(options: {
 
     for (const size of sizes) {
         summary(() => {
-            boxplot(() => {
-                group(`${name} x${size}`, () => {
-                    const data = generateData(size);
-                    bench(`library`, () => library(data)).baseline(true);
-                    bench(`handwritten`, () => handwritten(data));
-                });
+            group(`${name} x${size}`, () => {
+                const data = generateData(size);
+                bench(`library`, () => library(data))
+                    .gc("inner")
+                    .compact(true)
+                    .baseline(true);
+                bench(`handwritten`, () => handwritten(data))
+                    .gc("inner")
+                    .compact(true);
             });
         });
     }

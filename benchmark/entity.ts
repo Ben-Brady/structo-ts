@@ -2,27 +2,25 @@ import { st } from "../src/index.ts";
 import { benchmark } from "./utils.ts";
 
 export function generateEntityData(size: number): Entity[] {
-    const randint = (max: number) => Math.floor(Math.random() * max);
-    const arr = new Array<Entity>(size);
-    for (let i = 0; i < size; i++) {
-        arr[i] = {
-            id: randint(2 ** 32),
-            type: randint(2 ** 16),
-            health: randint(2 ** 16),
+    return Array.from({ length: size }, (_, i): Entity => {
+        faker.seed(i);
+        return {
+            id: faker.number.int({ max: 2 ** 32 - 1 }),
+            type: faker.number.int({ max: 2 ** 16 - 1 }),
+            health: faker.number.int({ max: 2 ** 16 - 1 }),
             position: {
-                x: Math.random(),
-                y: Math.random(),
-                z: Math.random(),
+                x: faker.number.float({ min: -9999999, max: 9999999 }),
+                y: faker.number.float({ min: -9999999, max: 9999999 }),
+                z: faker.number.float({ min: -9999999, max: 9999999 }),
             },
             rotation: {
-                w: Math.random(),
-                x: Math.random(),
-                y: Math.random(),
-                z: Math.random(),
+                x: faker.number.float({ min: -9999999, max: 9999999 }),
+                y: faker.number.float({ min: -9999999, max: 9999999 }),
+                z: faker.number.float({ min: -9999999, max: 9999999 }),
+                w: faker.number.float({ min: -9999999, max: 9999999 }),
             },
         };
-    }
-    return arr;
+    });
 }
 
 type Quaternion = st.Infer<typeof Quaternion>;
@@ -113,6 +111,7 @@ export async function generateBenchmarks() {
 import { pathToFileURL } from "node:url";
 import process from "node:process";
 import { run } from "mitata";
+import { faker } from "@faker-js/faker";
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     generateBenchmarks();
     await run();
