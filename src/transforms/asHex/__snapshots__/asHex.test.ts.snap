@@ -17,21 +17,3 @@ ArrayBuffer [
   0,
 ]
 `;
-
-exports[`st.toHex > snapshots 1`] = `
-ArrayBuffer [
-  -1,
-  -85,
-  1,
-]
-`;
-
-exports[`st.toHex > snapshots 2`] = `
-ArrayBuffer [
-  0,
-  0,
-  0,
-  0,
-  0,
-]
-`;

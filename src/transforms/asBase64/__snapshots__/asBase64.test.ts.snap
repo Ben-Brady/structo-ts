@@ -18,22 +18,3 @@ ArrayBuffer [
   21,
 ]
 `;
-
-exports[`st.toBase64 > snapshots 1`] = `
-ArrayBuffer [
-  -81,
-  31,
-  74,
-]
-`;
-
-exports[`st.toBase64 > snapshots 2`] = `
-ArrayBuffer [
-  125,
-  31,
-  74,
-  34,
-  63,
-  21,
-]
-`;
