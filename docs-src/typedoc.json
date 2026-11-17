@@ -15,7 +15,7 @@
     "entryPoints": ["../src/index.ts"],
 
     "out": "../docs",
-    "projectDocuments": ["./documents/*.md"],
+    "projectDocuments": ["./*.md"],
 
     "sort": ["kind", "source-order", "alphabetical"],
     "groupOrder": [
