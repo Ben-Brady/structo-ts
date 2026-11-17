@@ -22,13 +22,24 @@ export function fastString(length: st.Serializer<number>): st.Serializer<string>
     if (length.size === undefined) throw new Error("Must have a fixed length size");
 
     return {
-        estimateSize: (value) => value.length * 2 + (length.size ?? 0),
+        estimateSize: (value) => value.length + st.estimateSize(length, value.length),
         write: (ctx, value) => {
             if (typeof value !== "string") throw new Error("Expected String");
 
-            ctx.reserve(length.size! + (value.length << 1));
-            let target = new Uint8Array(ctx.buffer, ctx.offset + length.size!, value.length << 1);
-            const written = encoder.encodeInto(value, target).written;
+            let stringOffset = ctx.offset + length.size!;
+
+            // assume 1 byte per character
+            ctx.reserve(length.size! + value.length);
+            let target = new Uint8Array(ctx.buffer, stringOffset, value.length);
+            let { written, read } = encoder.encodeInto(value, target);
+
+            // try again with 2 bytes per character
+            if (read < value.length) {
+                // TODO: use read to know exactly how much extra space to allocate instead of assuming value.length * 2
+                ctx.reserve(length.size! + value.length * 2);
+                let target = new Uint8Array(ctx.buffer, stringOffset, value.length * 2);
+                written = encoder.encodeInto(value, target).written;
+            }
 
             length.write(ctx, written);
             ctx.offset += written;
