@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import { st } from "../../index.ts";
 
 /**
  * `st.bytes(st.u32())`, a dynamic amount of bytes prefixed with it's length
@@ -31,11 +31,11 @@ import type { Serializer } from "../../types.ts";
  * @group String / Bytes
  */
 export function bytes(
-    length: Serializer<number>,
+    length: st.Serializer<number>,
     readBehaviour: "copy" | "reference" = "copy",
-): Serializer<Uint8Array> {
+): st.Serializer<Uint8Array> {
     return {
-        estimateSize: (value) => length.size ?? 0 + value.byteLength,
+        estimateSize: (value) => st.estimateSize(length, value.byteLength) + value.byteLength,
         write: (ctx, value) => {
             length.write(ctx, value.byteLength);
 
