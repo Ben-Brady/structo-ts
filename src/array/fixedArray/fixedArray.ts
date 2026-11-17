@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import { st } from "../../index.ts";
 
 /**
  * `st.fixedArray` is a fixed length array, akin to a C array.
@@ -9,13 +9,15 @@ import type { Serializer } from "../../types.ts";
  *
  * @group Array
  */
-export function fixedArray<T>(size: number, type: Serializer<T>): Serializer<T[]> {
+export function fixedArray<T>(size: number, type: st.Serializer<T>): st.Serializer<T[]> {
     return {
         size: type.size ? size * type.size : undefined,
         estimateSize: (value) => {
-            if (!type.estimateSize) return 0;
-            return value //
-                .reduce((total, v) => total + type.estimateSize!(v), 0);
+            let total = 0;
+            for (const v of value) {
+                total += st.estimateSize(type, v);
+            }
+            return total;
         },
         write: (ctx, value) => {
             if (value.length !== size) {
