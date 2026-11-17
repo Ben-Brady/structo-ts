@@ -1,5 +1,5 @@
-import { assertInRange } from "../../helpers.ts";
 import type { st } from "../../index.ts";
+import { assertInRange } from "../../helpers.ts";
 
 const objEntries = Object.entries as <TKey extends string, TVal>(
     object: Record<TKey, TVal>,
