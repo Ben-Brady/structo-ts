@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import type { st } from "../../index.ts";
 
 /**
  * 16bit float
@@ -17,7 +17,7 @@ import type { Serializer } from "../../types.ts";
  *
  * @group Number
  */
-export function f16(endian: "little" | "big" = "little"): Serializer<number> {
+export function f16(endian: "little" | "big" = "little"): st.Serializer<number> {
     const littleEndian = endian === "little";
     return {
         size: 2,

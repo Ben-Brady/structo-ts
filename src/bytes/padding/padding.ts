@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import type { st } from "../../index.ts";
 
 /**
  * A sized type that reads as undefined, reading and writing is a noop
@@ -16,7 +16,7 @@ import type { Serializer } from "../../types.ts";
  * ```
  * @group Utilities
  */
-export function padding(size: number): Serializer<undefined> {
+export function padding(size: number): st.Serializer<undefined> {
     return {
         size,
         read: (ctx) => {

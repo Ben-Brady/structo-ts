@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import type { st } from "../../index.ts";
 
 /**
  * A zero sized type that reads as undefined, reading and writing is a noop
@@ -11,7 +11,7 @@ import type { Serializer } from "../../types.ts";
  * ```
  * @group Utilities
  */
-const Void = (): Serializer<undefined> => ({
+const Void = (): st.Serializer<undefined> => ({
     size: 0,
     read: () => undefined,
     write: () => {},

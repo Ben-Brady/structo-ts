@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import type { st } from "../../index.ts";
 
 /**
  * createRememberedValue lets you save and recall a value when serializing
@@ -30,7 +30,7 @@ export function createRememberedValue<T>() {
      * })
      * ```
      * */
-    function save(serializer: Serializer<T>): Serializer<T> {
+    function save(serializer: st.Serializer<T>): st.Serializer<T> {
         return {
             size: serializer.size,
             read: (ctx) => {
@@ -64,7 +64,7 @@ export function createRememberedValue<T>() {
      * })
      * ```
      */
-    function load(behaviour: "pop" | "retain" = "pop"): Serializer<T> {
+    function load(behaviour: "pop" | "retain" = "pop"): st.Serializer<T> {
         return {
             size: 0,
             read: () => {
@@ -78,5 +78,5 @@ export function createRememberedValue<T>() {
         };
     }
 
-    return { save: save, load: load };
+    return { save, load };
 }

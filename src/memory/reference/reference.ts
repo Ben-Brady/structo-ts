@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import type { st } from "../../index.ts";
 
 /**
  * createReference lets you defer writing a value until later, useful for lengths and sizes
@@ -21,7 +21,7 @@ export function createReference<T>() {
     const readStack: T[] = [];
     const writeStack: {
         offset: number;
-        serializer: Serializer<T>;
+        serializer: st.Serializer<T>;
     }[] = [];
 
     /**
@@ -39,7 +39,7 @@ export function createReference<T>() {
      * })
      * ```
      */
-    function pointer(serializer: Serializer<T>): Serializer<T> {
+    function pointer(serializer: st.Serializer<T>): st.Serializer<T> {
         const size = serializer.size;
         if (size === undefined) throw new Error("Serializer must be sized");
 
@@ -76,7 +76,7 @@ export function createReference<T>() {
      * })
      * ```
      */
-    function deref(): Serializer<T> {
+    function deref(): st.Serializer<T> {
         return {
             size: 0,
             read: () => {

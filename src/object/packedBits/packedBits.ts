@@ -1,5 +1,5 @@
-import type { Serializer } from "../../types.ts";
 import { assertInRange } from "../../helpers.ts";
+import type { st } from "../../index.ts";
 
 const objEntries = Object.entries as <TKey extends string, TVal>(
     object: Record<TKey, TVal>,
@@ -24,7 +24,7 @@ const objEntries = Object.entries as <TKey extends string, TVal>(
  */
 export function packedBits<T extends string>(
     definition: Record<T, { bits: number }>,
-): Serializer<Record<T, number>> {
+): st.Serializer<Record<T, number>> {
     const entries = objEntries(definition);
 
     let bitsize = 0;

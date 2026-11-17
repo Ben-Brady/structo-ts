@@ -71,6 +71,19 @@ export interface WriterContext<
      *
      * It won't allocate more data if there is that number of bytes already available,
      * this means that you can optimistically reserve
+     *
+     * ```ts
+     * ctx.reserve(4)
+     * ctx.view.setInt32(ctx.offset, value);
+     * ```
+     *
+     * Repeated calls do nothing unless you increase the offset
+     *
+     * ```ts
+     * ctx.reserve(16)
+     * ctx.reserve(16) // does nothing
+     * ```
+     *
      */
     reserve: (length: number) => void;
 }

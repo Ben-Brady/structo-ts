@@ -1,4 +1,4 @@
-import type { Serializer } from "../../types.ts";
+import type { st } from "../../index.ts";
 import { assertInRange } from "../../helpers.ts";
 
 /**
@@ -15,7 +15,7 @@ import { assertInRange } from "../../helpers.ts";
  *
  * @group Number
  */
-export function u64BigInt(endian: "little" | "big" = "little"): Serializer<bigint> {
+export function u64BigInt(endian: "little" | "big" = "little"): st.Serializer<bigint> {
     return {
         size: 8,
         write: (ctx, value) => {
@@ -46,7 +46,7 @@ export function u64BigInt(endian: "little" | "big" = "little"): Serializer<bigin
  *
  * @group Number
  */
-export function s64BigInt(endian: "little" | "big" = "little"): Serializer<bigint> {
+export function s64BigInt(endian: "little" | "big" = "little"): st.Serializer<bigint> {
     return {
         size: 8,
         write: (ctx, value) => {

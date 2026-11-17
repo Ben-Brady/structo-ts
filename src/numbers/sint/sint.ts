@@ -1,12 +1,12 @@
 import { assertInteger, assertInRange } from "../../helpers.ts";
-import type { Serializer } from "../../types.ts";
+import type { st } from "../../index.ts";
 
 /**
  * 8bit signed integer
  *
  * @group Number
  * */
-export function s8(): Serializer<number> {
+export function s8(): st.Serializer<number> {
     return {
         size: 1,
         write: (ctx, value) => {
@@ -39,7 +39,7 @@ export function s8(): Serializer<number> {
  *
  * @group Number
  */
-export function s16(endian: "little" | "big" = "little"): Serializer<number> {
+export function s16(endian: "little" | "big" = "little"): st.Serializer<number> {
     const littleEndian = endian === "little";
     return {
         size: 2,
@@ -73,7 +73,7 @@ export function s16(endian: "little" | "big" = "little"): Serializer<number> {
  *
  * @group Number
  */
-export function s32(endian: "little" | "big" = "little"): Serializer<number> {
+export function s32(endian: "little" | "big" = "little"): st.Serializer<number> {
     const littleEndian = endian === "little";
     return {
         size: 4,
@@ -107,7 +107,7 @@ export function s32(endian: "little" | "big" = "little"): Serializer<number> {
  *
  * @group Number
  */
-export function s64(endian: "little" | "big" = "little"): Serializer<number> {
+export function s64(endian: "little" | "big" = "little"): st.Serializer<number> {
     const littleEndian = endian === "little";
     return {
         size: 8,
