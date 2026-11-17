@@ -31,7 +31,7 @@ const { filename, createdAt, data } = st.read(File, packetData)
 ```
 
 - Both Web & Node.js/Bun compatible
-- Extremely Fast! [benchmarks](./benchmark) show similar speedsto hand written serializers
+- Extremely Fast! [benchmarks](./benchmark) show similar performance compared to hand written serializers
 - Lightweight, base size is <1KB and each datatype is a few hundred bytes
 - Easily extendable with your own custom datatypes
 
