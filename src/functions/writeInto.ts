@@ -57,10 +57,10 @@ export function writeInto<T>(
         bytes: new Uint8Array(buffer),
         view: new DataView(buffer),
         pushPath: options?.disabledErrorReporting
-            ? (Function.prototype as () => void)
+            ? () => {} //
             : (key) => path.push(key),
         popPath: options?.disabledErrorReporting
-            ? (Function.prototype as () => void)
+            ? () => {} //
             : () => path.pop(),
         reserve(length: number) {
             if (ctx.offset + length > ctx.buffer.byteLength) {
