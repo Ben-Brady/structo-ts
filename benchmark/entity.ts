@@ -20,7 +20,7 @@ export function generateEntityData(size: number): Entity[] {
                 w: faker.number.float({ min: -9999999, max: 9999999 }),
             },
         };
-    });
+    }).map((v) => JSON.parse(JSON.stringify(v))); // force shape loss
 }
 
 type Quaternion = st.Infer<typeof Quaternion>;
@@ -98,10 +98,11 @@ function serializeUsingHandwritten(entities: Entity[]) {
     return data;
 }
 
-export async function generateBenchmarks() {
-    await benchmark({
+export function generateBenchmarks(compact: boolean) {
+    benchmark({
         name: "Entities",
-        range: [1, 250_000],
+        sizes: [1, 10, 100, 250, 1000, 25_000, 100_000],
+        compact,
         generateData: generateEntityData,
         library: serializeUsingLibrary,
         handwritten: serializeUsingHandwritten,
@@ -113,6 +114,6 @@ import process from "node:process";
 import { run } from "mitata";
 import { faker } from "@faker-js/faker";
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-    generateBenchmarks();
+    generateBenchmarks(false);
     await run();
 }

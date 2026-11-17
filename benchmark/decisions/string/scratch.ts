@@ -1,19 +1,32 @@
-import { st } from "../../src/index.ts";
+import { st } from "../../../src/index.ts";
+
+const SCATCH_SIZE = 1024 * 32;
 
 export function string(length: st.Serializer<number>): st.Serializer<string> {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
+    const scratch = new Uint8Array(SCATCH_SIZE * 2);
+
     return {
         write: (ctx, value) => {
             if (typeof value !== "string") throw new Error("Expected String");
-            const bytes = encoder.encode(value);
+
+            let bytes: Uint8Array;
+            if (value.length > SCATCH_SIZE) {
+                bytes = encoder.encode(value);
+            } else {
+                const written = encoder.encodeInto(value, scratch).written;
+                bytes = scratch.subarray(0, written);
+            }
+
+            const size = bytes.byteLength;
             const lengthSize = length.size ?? 0;
 
-            ctx.reserve(bytes.byteLength + lengthSize);
-            length.write(ctx, bytes.byteLength);
+            ctx.reserve(size + lengthSize);
+            length.write(ctx, size);
             ctx.bytes.set(bytes, ctx.offset);
-            ctx.offset += bytes.byteLength;
+            ctx.offset += size;
         },
         read: (ctx) => {
             const size = length.read(ctx);

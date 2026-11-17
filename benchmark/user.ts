@@ -10,21 +10,18 @@ const User = st.fastObject({
 });
 
 export function generateUserData(size: number): User[] {
-    const arr = new Array<User>(size);
-    for (let i = 0; i < size; i++) {
+    return Array.from({ length: size }, (_, i): User => {
         faker.seed(i);
-        arr[i] = {
+        return {
             id: faker.string.uuid(),
             name: faker.person.fullName(),
             createdAt: faker.date.anytime(),
         };
-    }
-    return arr;
+    }).map((v) => ({ ...v })); // force shape loss
 }
 
 export function serializeUsingLibrary(users: User[]) {
     const UserList = st.fixedArray(users.length, User);
-
     const disableErrorReporting = true;
     return st.write(UserList, users, { disableErrorReporting });
 }
@@ -63,10 +60,11 @@ function serializeUsingHandwritten(users: User[]) {
     return buffer.transferToFixedLength(offset);
 }
 
-export async function generateBenchmarks() {
+export function generateBenchmarks(compact: boolean) {
     benchmark({
         name: "Users",
-        range: [1, 250_000],
+        sizes: [1, 10, 100, 250, 1000, 25_000, 100_000],
+        compact,
         generateData: generateUserData,
         library: serializeUsingLibrary,
         handwritten: serializeUsingHandwritten,
@@ -77,6 +75,6 @@ import { pathToFileURL } from "node:url";
 import process from "node:process";
 import { run } from "mitata";
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-    generateBenchmarks();
+    generateBenchmarks(false);
     await run();
 }

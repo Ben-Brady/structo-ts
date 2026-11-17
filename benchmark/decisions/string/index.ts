@@ -5,9 +5,13 @@
 
 import { bench, boxplot, group, run, summary } from "mitata";
 import { faker } from "@faker-js/faker";
-import { st } from "../../src/index.ts";
+import { st } from "../../../src/index.ts";
+
+//@ts-ignore
 import * as regular from "./regular.ts";
+//@ts-ignore
 import * as encodeInto from "./encodeInto.ts";
+//@ts-ignore
 import * as scratch from "./scratch.ts";
 
 const KB = 1024;

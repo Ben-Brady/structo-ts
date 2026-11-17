@@ -2,12 +2,13 @@ import { run, bench, measure, summary, group, boxplot } from "mitata";
 
 export function benchmark<T>(options: {
     name: string;
-    range: [number, number];
+    sizes: number[];
+    compact: boolean;
     generateData: (size: number) => T;
     handwritten: (value: T) => ArrayBuffer; //
     library: (value: T) => ArrayBuffer; //
 }) {
-    const { generateData, name, range, library, handwritten } = options;
+    const { name, sizes, compact, generateData, library, handwritten } = options;
 
     function verify(data: T) {
         const a = handwritten(data);
@@ -25,27 +26,22 @@ export function benchmark<T>(options: {
 
     verify(generateData(100));
 
-    const [start, end] = range;
-    const sizes = [];
-    let size: number | undefined;
-    do {
-        size = size === undefined ? start : size * 10;
-        size = Math.min(size, end);
-        sizes.push(size);
-    } while (size < end);
-
     for (const size of sizes) {
-        summary(() => {
-            group(`${name} x${size}`, () => {
-                const data = generateData(size);
-                bench(`library`, () => library(data))
-                    .gc("inner")
-                    .compact(true)
-                    .baseline(true);
-                bench(`handwritten`, () => handwritten(data))
-                    .gc("inner")
-                    .compact(true);
+        const runBenchmark = () =>
+            summary(() => {
+                group(`${name} x${size}`, () => {
+                    const data = generateData(size);
+                    bench(`library`, () => library(data))
+                        .baseline(true)
+                        .compact(compact);
+                    bench(`handwritten`, () => handwritten(data)).compact(compact);
+                });
             });
-        });
+
+        if (compact) {
+            runBenchmark();
+        } else {
+            boxplot(() => runBenchmark());
+        }
     }
 }

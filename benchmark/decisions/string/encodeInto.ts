@@ -1,4 +1,4 @@
-import { st } from "../../src/index.ts";
+import { st } from "../../../src/index.ts";
 
 export function string(length: st.Serializer<number>): st.Serializer<string> {
     const encoder = new TextEncoder();
