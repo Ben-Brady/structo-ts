@@ -50,7 +50,7 @@ export function f16(endian: "little" | "big" = "little"): st.Serializer<number> 
  *
  * @group Number
  */
-export function f32(endian: "little" | "big" = "little"): Serializer<number> {
+export function f32(endian: "little" | "big" = "little"): st.Serializer<number> {
     const littleEndian = endian === "little";
     return {
         size: 4,
@@ -83,7 +83,7 @@ export function f32(endian: "little" | "big" = "little"): Serializer<number> {
  *
  * @group Number
  */
-export function f64(endian: "little" | "big" = "little"): Serializer<number> {
+export function f64(endian: "little" | "big" = "little"): st.Serializer<number> {
     const littleEndian = endian === "little";
     return {
         size: 8,
