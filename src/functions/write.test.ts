@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { st } from "../index.ts";
+import { faker } from "@faker-js/faker";
 
 const toBytes = (buffer: ArrayBuffer) => Array.from(new Uint8Array(buffer));
 
@@ -40,5 +41,53 @@ describe("st.write", () => {
             read: () => null,
         };
         expect(() => st.write(MisconfiguredType, null));
+    });
+
+    it("Writes with zero initialSize", () => {
+        st.write(st.string(st.u32()), "fooo", { initialSize: 0 });
+    });
+
+    it("Writes with intialSize set", () => {
+        const serializer = st.object({
+            name: st.string(st.u32()),
+            age: st.f64(),
+            tags: st.array(st.u8(), st.string(st.u16())),
+        });
+        faker.seed(0);
+        const user = {
+            name: faker.person.fullName(),
+            age: faker.number.float({ min: 0, max: 120 }),
+            tags: Array.from({ length: 50 }, () => faker.string.uuid()),
+        };
+
+        st.write(serializer, user, { initialSize: 0 });
+        for (let i = 0; i < 4000; i++) {
+            st.write(serializer, user, { initialSize: i });
+        }
+    });
+
+    it("handles recursive objects", () => {
+        // Need to manually type to do redursive
+        interface Node {
+            tag: string;
+            children: Node[];
+        }
+        const Node: st.Serializer<Node> = st.lazy(() =>
+            st.object({
+                tag: st.string(st.u32()),
+                children: st.array(st.u16(), Node),
+            }),
+        );
+
+        st.write(Node, {
+            tag: "div",
+            children: [
+                { tag: "img", children: [] },
+                {
+                    tag: "div",
+                    children: [{ tag: "span", children: [] }],
+                },
+            ],
+        });
     });
 });

@@ -80,9 +80,10 @@ export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOpt
         reserve: (length: number) => {
             if (length <= 0) return;
             while (ctx.offset + length > byteLength) {
-                let old = byteLength;
+                // let old = byteLength;
                 byteLength = Math.ceil(byteLength * growthFactor);
-                console.log(`Resizing ${old} ->  ${byteLength}`);
+                // console.log(`Resizing ${old} ->  ${byteLength}`);
+
                 ctx.buffer = ctx.buffer.transfer(byteLength);
                 ctx.view = new DataView(ctx.buffer);
                 ctx.bytes = new Uint8Array(ctx.buffer);
@@ -96,6 +97,7 @@ export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOpt
         throwSerializationError(err, path);
     }
 
+    // console.log(`initial=${initialSize} actual=${ctx.offset}`);
     if (ctx.buffer.byteLength === ctx.offset) {
         return ctx.buffer;
     } else {
