@@ -71,10 +71,10 @@ export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOpt
         view: new DataView(initialBuffer),
 
         pushPath: options?.disableErrorReporting
-            ? (Function.prototype as () => void) //
+            ? () => {} //
             : (key) => path.push(key),
         popPath: options?.disableErrorReporting
-            ? (Function.prototype as () => void) //
+            ? () => {} //
             : () => path.pop(),
 
         reserve: (length: number) => {
