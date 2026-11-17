@@ -5,7 +5,7 @@ import type { Serializer } from "../types.ts";
  *
  * - checks `serializer.size`
  * - checks `serializer.estimateSize(value)`
- * - otherwise 0
+ * - otherwise `0`
  */
 export function estimateSize<T>(serializer: Serializer<T>, value: T): number {
     if (serializer.size !== undefined) return serializer.size;
