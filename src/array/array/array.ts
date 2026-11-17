@@ -19,12 +19,17 @@ export function array<T>(
     return {
         estimateSize: (value) => {
             if (type.size) {
-                return length.size ?? 0 + value.length * type.size;
+                const lengthSize = length.size ?? 0;
+                const contentSize = value.length * type.size;
+                return lengthSize + contentSize;
             }
 
             if (type.estimateSize) {
-                return value //
-                    .reduce((total, v) => total + type.estimateSize!(v), 0);
+                let total = 0;
+                for (const element of value) {
+                    total += type.estimateSize(element);
+                }
+                return total;
             }
 
             return length.size ?? 0;

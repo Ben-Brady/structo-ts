@@ -25,8 +25,7 @@ export function object<T extends Record<string, st.Serializer<any>>>(
         estimateSize: (value) => {
             let total = 0;
             for (const key in definition) {
-                const serializer = definition[key];
-                total += serializer.size ?? serializer.estimateSize?.(value[key]) ?? 0;
+                total += st.estimateSize(definition[key], value[key]);
             }
             return total;
         },
