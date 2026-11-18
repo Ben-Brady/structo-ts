@@ -60,4 +60,11 @@ describe("st.writeInto", () => {
             }).toThrow();
         }
     });
+
+    // Allow proper inferance
+    () => {
+        const serializer = st.object({ literal: st.literal(st.u8(), 1) });
+        const buffer = new ArrayBuffer();
+        st.writeInto(buffer, 0, serializer, { literal: 1 });
+    };
 });

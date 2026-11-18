@@ -90,4 +90,10 @@ describe("st.write", () => {
             ],
         });
     });
+
+    // Allow proper inferance
+    () => {
+        const serializer = st.object({ literal: st.literal(st.u8(), 1) });
+        st.write(serializer, { literal: 1 });
+    };
 });

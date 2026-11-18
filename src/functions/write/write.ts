@@ -47,7 +47,11 @@ export interface WriteOptions {
  *
  * @group Functions
  */
-export function write<T>(serializer: Serializer<T>, value: T, options?: WriteOptions): ArrayBuffer {
+export function write<T>(
+    serializer: Serializer<T>,
+    value: NoInfer<T>,
+    options?: WriteOptions,
+): ArrayBuffer {
     let initialSize = options?.initialSize ?? serializer.size ?? serializer.estimateSize?.(value);
     if (Number.isNaN(initialSize)) {
         console.error("Got NaN from initialSize/serializer.size/serializer.estimateSize");

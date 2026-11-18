@@ -46,7 +46,7 @@ export function writeInto<T>(
     buffer: ArrayBuffer | SharedArrayBuffer,
     offset: number,
     serializer: Serializer<T>,
-    value: T,
+    value: NoInfer<T>,
     options?: WriteIntoOptions,
 ): number {
     const path: (string | number)[] = [];
