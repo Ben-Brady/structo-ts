@@ -1,12 +1,23 @@
-import { st } from "../src/index.ts";
+import { st } from "../../src/index.ts";
 import { benchmark } from "./utils.ts";
 import { faker } from "@faker-js/faker";
+
+function st_toTimestamp(type: st.Serializer<number>): st.Serializer<Date> {
+    return {
+        size: type.size,
+        estimateSize: !type.estimateSize //
+            ? undefined
+            : (value) => type.estimateSize!(Math.floor(value.getTime() / 1000)),
+        read: (ctx) => new Date(type.read(ctx) * 1000),
+        write: (ctx, value) => type.write(ctx, Math.floor(value.getTime() / 1000)),
+    };
+}
 
 type User = st.Infer<typeof User>;
 const User = st.fastObject({
     id: st.fastString(st.u16()),
     name: st.fastString(st.u16()),
-    createdAt: st.asDate(st.u32(), "seconds"),
+    createdAt: st_toTimestamp(st.u32()),
 });
 
 export function generateUserData(size: number): User[] {
@@ -17,7 +28,7 @@ export function generateUserData(size: number): User[] {
             name: faker.person.fullName(),
             createdAt: faker.date.anytime(),
         };
-    }).map((v) => ({ ...v })); // force shape loss
+    }); // force shape loss
 }
 
 export function serializeUsingLibrary(users: User[]) {

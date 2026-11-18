@@ -1,4 +1,4 @@
-import { st } from "../src/index.ts";
+import { st } from "../../src/index.ts";
 import { benchmark } from "./utils.ts";
 
 export function generateEntityData(size: number): Entity[] {
