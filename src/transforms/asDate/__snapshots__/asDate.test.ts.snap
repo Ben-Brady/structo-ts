@@ -38,34 +38,3 @@ ArrayBuffer [
   0,
 ]
 `;
-
-exports[`st.asDate('seconds') > matches snapshots 1`] = `
-ArrayBuffer [
-  -128,
-  59,
-  40,
-  58,
-  0,
-  0,
-  0,
-  0,
-]
-`;
-
-exports[`st.asDate('seconds') > matches snapshots 2`] = `
-ArrayBuffer [
-  -128,
-  -114,
-  -113,
-  67,
-]
-`;
-
-exports[`st.asDate('seconds') > matches snapshots 3`] = `
-ArrayBuffer [
-  -16,
-  30,
-  50,
-  55,
-]
-`;

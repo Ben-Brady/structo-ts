@@ -1,0 +1,86 @@
+import { st } from "../../../index.ts";
+
+/**
+ * The amount of characters a string can be when using the scratch buffer
+ * This is exported for testing, shouldn't be made public
+ */
+export const SCATCH_SIZE = 1024 * 32;
+
+// use a scratch buffer to avoid creating garbage
+// Note: update tests when modifying scratch length
+const scratch = new Uint8Array(SCATCH_SIZE);
+
+/**
+ * `st.string` stores string data by writing/reading the length and then reading that many bytes
+ *
+ *  used to store it's length
+ *
+ * Note: The length stored is the byte length, not string length
+ *
+ * ---
+ * ```ts
+ * const User = st.object({
+ *     username: st.string(st.u32())
+ * })
+ * ```
+ *
+ *
+ * @group String / Bytes
+ */
+export function string(length: st.Serializer<number>): st.Serializer<string> {
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
+
+    return {
+        estimateSize: (value) => value.length + st.estimateSize(length, value.length),
+        write: (ctx, value) => {
+            if (typeof value !== "string") throw new Error("Expected String");
+
+            let bytes: Uint8Array;
+            if (value.length * 2 > SCATCH_SIZE) {
+                bytes = encoder.encode(value);
+            } else {
+                const written = encoder.encodeInto(value, scratch).written;
+                bytes = scratch.subarray(0, written);
+            }
+
+            const size = bytes.byteLength;
+
+            length.write(ctx, size);
+            ctx.reserve(size);
+            ctx.bytes.set(bytes, ctx.offset);
+            ctx.offset += size;
+        },
+        read: (ctx) => {
+            const size = length.read(ctx);
+
+            const section = new Uint8Array(ctx.buffer, ctx.offset, size);
+            ctx.offset += size;
+            return decoder.decode(section);
+        },
+    };
+}
+
+/*
+Implementation Note: Why not use encoder.encodeInto always?
+
+It would be nice to be able to use encoder.encodeInto for large
+values as it avoid having to make a copy of the data. But supporting
+variable width encoded lengths and UTF-16 makes this hard.
+
+enocdeInto doesn't allow you to know how much space the output will
+used before you encode it. This means you need to allocate the upper
+bound possible, which is 2 * length (since string.length represents
+the UTF-16 size). This means in most cases, your allocating more data
+than is needed before you encode the data since you need to assume it's
+all 2 byte characters.
+
+Additionally, since you need to write the data before you have the length,
+you have to know how much space to leave for length. This means you cannot
+support variable width encoded lengths, since you have no knowledge of the
+space they need to store the final length.
+
+Finally, `benchmark/string` shows that the benefits of using encodeInto vs
+the scratch buffer implementation. There is a large benefit to large strings,
+but not much benefit when working with small strings.
+*/

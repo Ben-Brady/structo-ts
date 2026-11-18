@@ -11,7 +11,7 @@ Lets you generate an encoder transform by providing a encode and decode function
 
 ```ts
 export function asHex(type: st.Serializer<Uint8Array>) {
-    return encode(type, {
+    return st.encodeAs(type, {
         encode: (v) => Uint8Array.fromHex(v),
         decode: (v) => v.toHex().toUpperCase(),
     });
@@ -32,7 +32,9 @@ export function encodeAs<TIn, TOut>(
     const { encode, decode } = options;
     return {
         size: type.size,
-        estimateSize: type.estimateSize,
+        estimateSize: type.estimateSize //
+            ? (value) => type.estimateSize!(encode(value))
+            : undefined, //
         read: (ctx) => decode(type.read(ctx)),
         write: (ctx, value) => type.write(ctx, encode(value)),
     };

@@ -1,4 +1,4 @@
-import type { st } from "../../index.ts";
+import { st } from "../../index.js";
 
 /**
  * A readonly modification function, useful for sizes or offsets.
@@ -14,15 +14,13 @@ import type { st } from "../../index.ts";
  * const Header = st.bytes(HeaderSize)
  * ```
  *
- * @group Utilities
+ * @deprecated use `st.encodeAs` instead with an error on `encode`
  */
 export function modify<T>(type: st.Serializer<T>, callback: (value: T) => T): st.Serializer<T> {
-    return {
-        size: type.size,
-        estimateSize: type.estimateSize,
-        read: (ctx) => callback(type.read(ctx)),
-        write: () => {
-            throw new Error("Cannot write an encoded value");
+    return st.encodeAs(type, {
+        decode: callback,
+        encode() {
+            throw new Error("Cannot write encoded value");
         },
-    };
+    });
 }
