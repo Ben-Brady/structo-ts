@@ -9,7 +9,7 @@
     "node"
   ],
   "license": "ISC",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "author": "Ben Brady",
   "private": false,
   "publishConfig": {
@@ -42,7 +42,8 @@
     "README.md",
     "./dist/**/*.d.ts",
     "./dist/**/*.js.map",
-    "./dist/**/*.js"
+    "./dist/**/*.js",
+    "./src/**/*.ts"
   ],
   "scripts": {
     "build": "tsc",
