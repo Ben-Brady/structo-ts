@@ -6,21 +6,21 @@ const { assertEncodesAndDecodes, assertEncodeThrows, assertMatchesSnapshot } =
 describe("st.exhaustiveArray", () => {
     it("encode correctly", () => {
         assertEncodesAndDecodes({
-            serializer: st.exhuastiveArray(st.u32()),
+            serializer: st.exhaustiveArray(st.u32()),
             value: [1, 2, 3, 4],
         });
     });
 
     it("works on empty arrays", () => {
         assertEncodesAndDecodes({
-            serializer: st.exhuastiveArray(st.u32()),
+            serializer: st.exhaustiveArray(st.u32()),
             value: [],
         });
     });
 
     it("accepts large array", () => {
         assertEncodesAndDecodes({
-            serializer: st.exhuastiveArray(st.u32()),
+            serializer: st.exhaustiveArray(st.u32()),
             value: Array.from({ length: 10000 }, (_, i) => i),
         });
     });
@@ -30,7 +30,7 @@ describe("st.exhaustiveArray", () => {
             serializer: st.object({
                 a: st.u32(),
                 b: st.u8(),
-                c: st.exhuastiveArray(st.u32()),
+                c: st.exhaustiveArray(st.u32()),
             }),
             value: { a: 1, b: 2, c: [3, 4, 5, 6, 7] },
         });
@@ -38,7 +38,7 @@ describe("st.exhaustiveArray", () => {
 
     it("throws error on invalid value", () => {
         assertEncodeThrows({
-            serializer: st.exhuastiveArray(st.u16()),
+            serializer: st.exhaustiveArray(st.u16()),
             value: [-1],
         });
     });

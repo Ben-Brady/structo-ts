@@ -16,7 +16,7 @@ export { createTestingUtils } from "./testing-utils.ts";
 export * as helpers from "./helpers.ts";
 
 export { array, list } from "./container/array/array.ts";
-export { exhaustiveArray } from "./container/exhuastiveArray/exhaustiveArray.ts";
+export { exhaustiveArray, exhuastiveArray } from "./container/exhuastiveArray/exhaustiveArray.ts";
 export { fixedArray } from "./container/fixedArray/fixedArray.ts";
 
 export { object } from "./container/object/object.ts";

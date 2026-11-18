@@ -1,4 +1,4 @@
-import type { ReaderContext } from "../types.ts";
+import type { st } from "../../index.ts";
 
 /**
  * Created a ReaderContext for use with `Serializer.read`
@@ -22,7 +22,7 @@ import type { ReaderContext } from "../types.ts";
 export function createReaderContext(
     buffer: ArrayBuffer | SharedArrayBuffer,
     offset?: number,
-): ReaderContext {
+): st.ReaderContext {
     return {
         buffer: buffer,
         view: new DataView(buffer),
